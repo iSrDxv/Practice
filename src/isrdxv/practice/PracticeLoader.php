@@ -56,7 +56,7 @@ class PracticeLoader extends PluginBase
         $this->getLogger()->notice("Database connected");
 
         //AGGREGATES
-        $this->deleteCommand(["pardon", "kick", "plugins", "version", "pardon-ip", "me", "ban", "ban-ip", "banlist", "list"]);
+        $this->deleteCommand(["pardon", "kick", "plugins", "version", "pardon-ip", "me", "ban", "ban-ip", "banlist"]);
         $this->addCommand([new MaintenanceCommand($this, "maintenance", TextFormat::DARK_AQUA . "Enable or disable the server under maintenance")]);
         $this->addDirectory(["arenas", "cosmetics", "capes"]);
         
