@@ -56,6 +56,7 @@ class PracticeLoader extends PluginBase
         $this->getLogger()->notice("Database connected");
 
         //AGGREGATES
+        $this->deleteCommand(["pardon", "kick", "plugins", "version", "pardon-ip", "me", "ban", "ban-ip", "banlist"]);
         $this->addCommand([new MaintenanceCommand($this, "maintenance", TextFormat::DARK_AQUA . "Enable or disable the server under maintenance")]);
         $this->addDirectory(["arenas", "cosmetics", "capes"]);
         
@@ -109,4 +110,12 @@ class PracticeLoader extends PluginBase
     {
     	$this->getScheduler()->scheduleRepeatingTask($task, $tick);
     }
+    
+    function deleteCommand(array $value): void
+    {
+      foreach($value as $cmd) {
+        $this->getServer()->getCommandMap()->unregister($this->getServer()->getCommandMap()->getCommand($cmd));
+      }
+    }
+    
 }

@@ -22,7 +22,7 @@ class Practice
 
     const SERVER_MAX_PLAYERS = 2; //100
 
-    const SERVER_PREFIX = TextFormat::BLACK . "[" . self::SERVER_NAME . TextFormat::BLACK . "]" . TextFormat::BOLD . TextFormat::GRAY . "» ";
+    const SERVER_PREFIX = TextFormat::BLACK . "[" . self::SERVER_NAME . TextFormat::BLACK . "]" . TextFormat::BOLD . TextFormat::GRAY . "» " . TextFormat::RESET;
     
     const BROADCAST_LIST = [
          TextFormat::RESET . TextFormat::GRAY . "Don't forget to enter our store to see the benefits: strommc.tebex.io",
