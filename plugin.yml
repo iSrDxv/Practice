@@ -1,0 +1,11 @@
+name: Practice
+api: 5.0.0
+version: 1.0.0+dev
+main: isrdxv\practice\PracticeLoader
+author: "iSrDxv"
+prefix: "Practice-StromMC"
+depend: ["StaffMode"]
+permissions:
+ practice.command.maintenance:
+    default: false
+    description: Add maintenance server
