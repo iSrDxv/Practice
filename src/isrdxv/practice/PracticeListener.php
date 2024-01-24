@@ -71,7 +71,7 @@ class PracticeListener implements Listener
     $session = SessionRank::getInstance()->get($name);
     $rank = $session->getHighestRank();
     if ($rank !== null) {
-      if (in_array($rank, Practice::RANK_SUPERIORS, true)) {
+      if (in_array($rank->getName(), Practice::RANK_SUPERIORS, true)) {
         self::$bypass[$name] = true;
       }
     }
@@ -93,10 +93,10 @@ class PracticeListener implements Listener
     $event->setJoinMessage(TextFormat::colorize("&0[&a+&0] &a" . $player->getName()));
     $player->sendMessage(TextFormat::GRAY . "NOW Loading your data & cosmetics...");
     $information = [
-          "§f⸻⸻⸻",
-          "§7Discord: §fdiscord.gg/strommc",
-          "§4Store: §fstrommc.tebex.io",
-          "§f⸻⸻⸻"
+          "§f⸻⸻⸻" . TextFormat::EOL,
+          "§7Discord: §fdiscord.gg/strommc" . TextFormat::EOL,
+          "§4Store: §fstrommc.tebex.io" . TextFormat::EOL,
+          "§f⸻⸻⸻" . TextFormat::EOL
         ];
     $player->sendMessage("\n", $information);
     $session = SessionManager::getInstance()->get($player);
