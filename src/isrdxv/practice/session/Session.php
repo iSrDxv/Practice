@@ -64,6 +64,16 @@ class Session
     	return $this->clientData;
     }
     
+    function setSetting(string $adjustment, bool $value): void
+    {
+      $this->settings[$adjustment] = $value;
+    }
+    
+    function getSetting(string $value): bool
+    {
+      return $this->settings[$value];
+    }
+    
     function init($database, string $rank): void
     {
     	$player = $this->getPlayer();
@@ -112,5 +122,10 @@ class Session
       $control = $this->clientData->setTouch($this->clientData->getExtraData());
     	$database = PracticeLoader::getInstance()->getDatabase();
     	$database->executeImplRaw([0 => "INSERT INTO data_user(xuid, name, custom_name, rank, language, coin, firstplayed, lastplayed, kills, wins, deaths, address, device, control) VALUES ({$this->xuid}, {$this->name}, {$this->customName}, {$this->rank}, {$this->language}, {$this->coin}, {$this->firstPlayed}, {$lastPlayed}, {$this->kills}, {$this->wins}, {$this->deaths}, {$this->address}, {$device}, {$control}) ON DUPLICATE KEY UPDATE custom_name = {$this->customName}, rank = {$this->rank}, language = {$this->language}, coin = {$this->coin}, lastPlayed = {$lastPlayed}, kills = {$this->kills}, wins = {$this->wins}, deaths = {$this->deaths}, address = {$this->address}, device = {$device}, control = {$control}"], [0 => []], [0 => SqlThread::MODE_INSERT], function(array $rows): void {}, null);
+    	$scoreboard = $this->getSetting("scoreboard");
+    	$queue = $this->getSetting("queue");
+    	$cps = $this->getSetting("cps");
+    	$autoJoin = $this->getSetting("auto_join");
+    	$database->executeImplRaw([0 => "INSERT INTO settings(xuid, scoreboard, queue, cps, auto_join) VALUES ({$this->xuid}, {$scoreboard}, {$queue}, {$cps}, {$autoJoin}) ON DUPLICATE KEY UPDATE scoreboard = {$scoreboard}, queue = {$queue}, cps = {$cps}, auto_join = {$autoJoin}"], [0 => []], [0 => SqlThread::MODE_INSERT], function(array $rows): void {}, null);
     }
 }
