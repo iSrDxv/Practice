@@ -90,6 +90,8 @@ class PracticeListener implements Listener
   function onJoin(PlayerJoinEvent $event): void
   {
     $player = $event->getPlayer();
+    $event->setJoinMessage(TextFormat::colorize("&0[&a+&0] &a" . $player->getName()));
+    $player->sendMessage(TextFormat::GRAY . "NOW Loading your data & cosmetics...");
     $information = [
           "§f⸻⸻⸻",
           "§7Discord: §fdiscord.gg/strommc",
@@ -97,8 +99,6 @@ class PracticeListener implements Listener
           "§f⸻⸻⸻"
         ];
     $player->sendMessage("\n", $information);
-    $event->setJoinMessage(TextFormat::colorize("&0[&a+&0] &a" . $player->getName()));
-    $player->sendMessage(TextFormat::GRAY . "NOW Loading your data & cosmetics...");
     $session = SessionManager::getInstance()->get($player);
     $sessionRank = SessionRank::getInstance()->get($player);
     $database = PracticeLoader::getInstance()->getDatabase();
