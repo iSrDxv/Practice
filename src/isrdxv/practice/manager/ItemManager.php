@@ -15,6 +15,7 @@ use pocketmine\block\{
   utils\ModHeadType,
   utils\DyeColor
 };
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
 final class ItemManager
@@ -65,6 +66,9 @@ final class ItemManager
     }
   }
   
-  //static function spawnLobbyItems
+  static function spawnLobbyItems(Player $player): void
+  {
+    
+  }
   
 }

@@ -94,10 +94,10 @@ class PracticeListener implements Listener
     $player->sendMessage(TextFormat::GRAY . "NOW Loading your data & cosmetics...");
     $information = [
       TextFormat::GRAY . "Welcome to " . Practice::SERVER_COLOR . "StromMC" . TextFormat::EOL,
-      "§f⸻⸻⸻" . TextFormat::EOL,
-      "§7Discord: §fdiscord.gg/strommc" . TextFormat::EOL,
-      "§4Store: §fstrommc.tebex.io" . TextFormat::EOL,
-      "§f⸻⸻⸻" . TextFormat::EOL
+      TextFormat::WHITE . "——————" . TextFormat::EOL,
+      TextFormat::GRAYC. "Discord: " . TextFormat::WHITE . "discord.gg/strommc" . TextFormat::EOL,
+      TextFormat::DARK_RED . "Store: " . TextFormat::WHITE . "strommc.tebex.io" . TextFormat::EOL,
+      TextFormat::WHITE . "——————" . TextFormat::EOL
     ];
     $player->sendMessage("\n", $information);
     $session = SessionManager::getInstance()->get($player);
