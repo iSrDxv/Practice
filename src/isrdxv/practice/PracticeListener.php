@@ -90,6 +90,13 @@ class PracticeListener implements Listener
   function onJoin(PlayerJoinEvent $event): void
   {
     $player = $event->getPlayer();
+    $information = [
+          "§f⸻⸻⸻",
+          "§7Discord: §fdiscord.gg/strommc",
+          "§4Store: §fstrommc.tebex.io",
+          "§f⸻⸻⸻"
+        ];
+    $player->sendMessage("\n", $information);
     $event->setJoinMessage(TextFormat::colorize("&0[&a+&0] &a" . $player->getName()));
     $player->sendMessage(TextFormat::GRAY . "NOW Loading your data & cosmetics...");
     $session = SessionManager::getInstance()->get($player);
@@ -109,13 +116,6 @@ class PracticeListener implements Listener
           $player->kick("not xuid");
         }
     }, null);
-    $information = [
-      "§f⸻⸻⸻",
-      "§7Discord: §fdiscord.gg/strommc",
-      "§4Store: §fstrommc.tebex.io",
-      "§f⸻⸻⸻"
-    ];
-    $player->sendMessage("\n", $information);
   }
 
   function onQuit(PlayerQuitEvent $event): void
