@@ -93,11 +93,12 @@ class PracticeListener implements Listener
     $event->setJoinMessage(TextFormat::colorize("&0[&a+&0] &a" . $player->getName()));
     $player->sendMessage(TextFormat::GRAY . "NOW Loading your data & cosmetics...");
     $information = [
-          "§f⸻⸻⸻" . TextFormat::EOL,
-          "§7Discord: §fdiscord.gg/strommc" . TextFormat::EOL,
-          "§4Store: §fstrommc.tebex.io" . TextFormat::EOL,
-          "§f⸻⸻⸻" . TextFormat::EOL
-        ];
+      TextFormat::GRAY . "Welcome to " . Practice::SERVER_COLOR . "StromMC" . TextFormat::EOL,
+      "§f⸻⸻⸻" . TextFormat::EOL,
+      "§7Discord: §fdiscord.gg/strommc" . TextFormat::EOL,
+      "§4Store: §fstrommc.tebex.io" . TextFormat::EOL,
+      "§f⸻⸻⸻" . TextFormat::EOL
+    ];
     $player->sendMessage("\n", $information);
     $session = SessionManager::getInstance()->get($player);
     $sessionRank = SessionRank::getInstance()->get($player);

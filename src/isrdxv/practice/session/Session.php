@@ -5,11 +5,15 @@ namespace isrdxv\practice\session;
 use isrdxv\practice\session\misc\{
 	ClientDataInfo
 };
-use isrdxv\practice\PracticeLoader;
+use isrdxv\practice\{
+  Practice,
+  PracticeLoader
+};
 
 use pocketmine\Server;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
+use pocketmine\world\sound\AnvilFallSound;
 
 use poggit\libasynql\SqlThread;
 
@@ -111,7 +115,9 @@ class Session
       $player = $this->getPlayer();
       $device = $this->clientData->getDevice();
       $control = $this->clientData->getTouch();
-      $player->setScoreTag(TextFormat::colorize("&f". $device . " &0| &f" . $control));
+      $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "Your account details uploaded correctly!!");
+      $player->setScoreTag(TextFormat::WHITE . $device . TextFormat::DARK_GRAY . " | " . Practice::SERVER_COLOR . $control);
+      $player->broadcastSound(new AnvilFallSound(), [$player]);
     }
 
     function save(): void
