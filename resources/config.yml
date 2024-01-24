@@ -1,5 +1,12 @@
+# Server IP
+server-address: ""
+
 # Set maintenance mode
 maintenance: false
+
+###### WORLD OF PRACTICE ######
+lobby-name: "hub"
+lobby-spawn: "-13:84:9" #coords by defect
 
 # Database config
 database:

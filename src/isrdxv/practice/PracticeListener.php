@@ -44,12 +44,9 @@ class PracticeListener implements Listener
   
   function onPreLogin(PlayerPreLoginEvent $event): void
   {
-    $serverPro = new Config(Server::getInstance()->getDataPath() . "server.properties", Config::PROPERTIES);
-    $players = $serverPro->getNested("max-players");
-    $serverPro->setNested("max-players", $players);
-    $serverPro->save();
     if (Server::getInstance()->hasWhitelist()) {
       $event->setKickFlag(PlayerPreLoginEvent::KICK_FLAG_SERVER_WHITELISTED, TextFormat::colorize("&8[&l&c!&r&8]" . Practice::SERVER_NAME . "&8[&l&c!]" . TextFormat::EOL . " " . TextFormat::GRAY . "Whitelist enabled!!" . TextFormat::EOL . TextFormat::RED . "The server is whitelisted." . DIRECTORY_SEPARATOR . "please look at our discord announcements"));
+      return;
     }
     if (Practice::getMaintenance()) {
       $event->setKickFlag(PlayerPreLoginEvent::KICK_FLAG_PLUGIN, TextFormat::BOLD . TextFormat::RED . "Network Maintenance" . TextFormat::EOL . TextFormat::EOL . TextFormat::RESET . TextFormat::GRAY . "Server is currently in maintenance, for" . TextFormat::EOL . "more information join " . Practice::SERVER_COLOR . "discord.gg/strommc");
@@ -69,18 +66,25 @@ class PracticeListener implements Listener
         $reason .= TextFormat::RED . "Kicked by " . TextFormat::GRAY . "StromMC Network";
         $event->setKickFlag(PlayerPreLoginEvent::KICK_FLAG_PLUGIN, $reason);
       }
-      $name = $info->getUsername();
-      $session = SessionRank::getInstance()->get($name);
-      if ($session->getHighestRank() !== null) {
-      	self::$bypass[$name] = true;
-      }
-      if ($event->isKickFlagSet(PlayerPreLoginEvent::KICK_FLAG_PLUGIN)) {
-        if (!self::ignore($name)) {
-          return;
-        }
-        $event->isKickFlagSet(PlayerPreLoginEvent::KICK_FLAG_PLUGIN);
+    }
+    $name = $info->getUsername();
+    $session = SessionRank::getInstance()->get($name);
+    $rank = $session->getHighestRank();
+    if ($rank !== null) {
+      if (in_array($rank, Practice::RANK_SUPERIORS, true)) {
+        self::$bypass[$name] = true;
       }
     }
+    if ($event->isKickFlagSet(PlayerPreLoginEvent::KICK_FLAG_SERVER_FULL)) {
+      if (!self::ignore($name)) {
+        return;
+      }
+      $event->clearKickFlag(PlayerPreLoginEvent::KICK_FLAG_SERVER_FULL);
+    }
+    $serverPro = new Config(Server::getInstance()->getDataPath() . "server.properties", Config::PROPERTIES);
+    $players = $serverPro->getNested("max-players");
+    $serverPro->setNested("max-players", $players);
+    $serverPro->save();
   }
   
   function onJoin(PlayerJoinEvent $event): void
@@ -101,8 +105,17 @@ class PracticeListener implements Listener
     	if (isset($rows[0], $rows[0]->getRows()[0]) && $xuid !== null) {
     	   $session->load($rows[0]->getRows()[0]);
            return;
+        } else {
+          $player->kick("not xuid");
         }
-     }, null);
+    }, null);
+    $information = [
+      "§f⸻⸻⸻",
+      "§7Discord: §fdiscord.gg/strommc",
+      "§4Store: §fstrommc.tebex.io",
+      "§f⸻⸻⸻"
+    ];
+    $player->sendMessage("\n", $information);
   }
 
   function onQuit(PlayerQuitEvent $event): void

@@ -6,6 +6,9 @@ author: "iSrDxv"
 prefix: "Practice-StromMC"
 depend: ["StaffMode"]
 permissions:
- practice.command.maintenance:
+  practice.command.maintenance:
     default: false
     description: Add maintenance server
+  practice.command.hub:
+    default: true
+    description: Back to hub
