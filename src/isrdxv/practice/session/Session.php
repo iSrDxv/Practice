@@ -123,6 +123,7 @@ class Session
       $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "Your account details uploaded correctly!!");
       $player->setScoreTag(TextFormat::WHITE . $device . TextFormat::DARK_GRAY . " | " . Practice::SERVER_COLOR . $control);
       $player->broadcastSound(new AnvilFallSound(), [$player]);
+      ItemManager::spawnLobbyItems($player);
     }
 
     function save(): void
