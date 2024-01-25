@@ -1,5 +1,5 @@
 # Server IP
-server-address: ""
+server-address: "StromMC.ddns.net"
 
 # Set maintenance mode
 maintenance: false
