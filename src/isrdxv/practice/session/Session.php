@@ -147,10 +147,10 @@ class Session
       $customName = $this->customName ?? "null";
     	$database = PracticeLoader::getInstance()->getDatabase();
     	$database->executeImplRaw([0 => "INSERT INTO data_user(name, custom_name, rank, language, coin, firstplayed, lastplayed, kills, wins, deaths, address, device, control) VALUES (`$this->name`, `$customName`, `$this->rank`, `$this->language`, `$this->coin`, `$this->firstPlayed`, `$lastPlayed`, `$this->kills`, `$this->wins`, `$this->deaths`, `$address`, `$device`, `$control`) WHERE xuid = `$this->xuid`"], [0 => []], [0 => SqlThread::MODE_INSERT], function(array $rows): void {}, null);
-    	$scoreboard = $this->getSetting("scoreboard");
-    	$queue = $this->getSetting("queue");
-    	$cps = $this->getSetting("cps");
-    	$autoJoin = $this->getSetting("auto_join");
+    	$scoreboard = (bool)$this->getSetting("scoreboard");
+    	$queue = (bool)$this->getSetting("queue");
+    	$cps = (bool)$this->getSetting("cps");
+    	$autoJoin = (bool)$this->getSetting("auto_join");
     	$database->executeImplRaw([0 => "UPDATE settings SET scoreboard = `$scoreboard`, queue = `$queue`, cps = `$cps`, auto_join = `$autoJoin` WHERE xuid = `$this->xuid`"], [0 => []], [0 => SqlThread::MODE_INSERT], function(array $rows): void {}, null);
     }
 }
