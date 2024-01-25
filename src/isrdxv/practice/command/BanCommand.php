@@ -13,6 +13,7 @@ use pocketmine\utils\TextFormat;
 use pocketmine\command\CommandSender;
 
 use CortexPE\Commando\BaseCommand;
+use CortexPE\Commando\args\RawStringArgument;
 
 use DateTime;
 use DateTimeZone;
@@ -29,7 +30,11 @@ class BanCommand extends BaseCommand
   }
 
   protected function prepare(): void
-  {}
+  {
+    $this->registerArgument(0, new RawStringArgument("name", true));
+    $this->registerArgument(1, new TextArgument("duration", true));
+    $this->registerArgument(2, new RawStringArgument("reason", true));
+  }
   
   function onRun(CommandSender $sender, string $aliasUsed, array $args): void
   {
@@ -37,18 +42,18 @@ class BanCommand extends BaseCommand
       $player->sendForm(new BanForm(["name" => ""]));
       return;
     }
-    if ($sender instanceof Player && count($args) === 1) {
+    if ($sender instanceof Player && isset($args["name"])) {
       $player->sendForm(new BanForm(["name" => array_shift($args)]));
       return;
     }
     if (count($args) >= 3) {
-      $name = array_shift($args);
-      $duration = array_shift($args);
-      $reason = trim(implode(" ", $args));
+      $name = $args["name"];
+      $duration = $args["duration"];
+      $reason = trim(implode(" ", $args["reason"]));
       
       $matches = []; //php, i love you
       if (!preg_match("/^([0-9]+d)?([0-9]+h)?([0-9]+m)?$/", $duration, $matches)) {
-        //usage message :v
+        $this->sendUsage();
         return;
       }
       $day = 0;
