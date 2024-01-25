@@ -25,7 +25,12 @@ use pocketmine\event\player\{
     PlayerJoinEvent,
     PlayerRespawnEvent,
     PlayerPreLoginEvent,
-    PlayerQuitEvent
+    PlayerQuitEvent,
+    PlayerItemUseEvent
+};
+use pocketmine\event\block\{
+  BlockPlaceEvent,
+  BlockBreakEvent
 };
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\server\QueryRegenerateEvent;
@@ -139,9 +144,48 @@ class PracticeListener implements Listener
     $event->setQuitMessage(TextFormat::colorize("&0[&c-&0] &c" . $player->getName()));
   }
   
-  function onInteract(PlayerInteractEvent $event): void
+  function onItemUse(PlayerItemUseEvent $event): void
   {
-    
+    if (($session = SessionManager::getInstance()->get(($player = $event->getPlayer()))) !== null) {
+      $item = $event->getItem();
+      if (($tag = $item->getNamedTag()->getTag("Practice")) !== null) {
+        switch($tag?->getValue()){
+          case ItemManager::DUEL:
+            if ($session->inTheLobby()) {
+              $player->sendMessage("hi");
+            }
+          break;
+        }
+      }
+    }
+    $event->cancel();
+  }
+  
+  function onBreak(BlockBreakEvent $event): void
+  {
+    if (($session = SessionManager::getInstance()->get($event->getPlayer())) !== null) {
+      if ($session->inTheLobby()) {
+        $event->cancel();
+      }
+    }
+  }
+  
+  function onPlace(BlockPlaceEvent $event): void
+  {
+    if (($session = SessionManager::getInstance()->get($event->getPlayer())) !== null) {
+      if ($session->inTheLobby()) {
+        $event->cancel();
+      }
+    }
+  }
+  
+  function onDrop(PlayerDropItemEvent $event): void
+  {
+    if (($session = SessionManager::getInstance()->get($event->getPlayer())) !== null) {
+      if ($session->inTheLobby()) {
+        $event->cancel();
+      }
+    }
   }
   
   function onDamageEntity(EntityDamageByEntityEvent $event): void
@@ -153,7 +197,9 @@ class PracticeListener implements Listener
       if ($kicker->getWorld() === $defaultWorld && $damager->getWorld() === $defaultWorld) {
         if ($damager->getInventory()->getItemInHand()->getNamedTag()->getTag("Practice")?->getValue() === ItemManager::DUEL) {
           $damager->sendMessage("lol");
-        }
+        }/*elseif ($event->getCause() === EntityDamageByEntityEvent::CAUSE_FALL) {
+          $event->cancel();
+        }*/
         $event->cancel();
         return;
       }

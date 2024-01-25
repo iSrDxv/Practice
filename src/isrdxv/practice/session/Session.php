@@ -64,6 +64,11 @@ class Session
         return Server::getInstance()->getPlayerExact($this->name) ?? null;
     }
     
+    function inTheLobby(): bool
+    {
+        return $this->getPlayer()?->getWorld() === Server::getInstance()->getWorldManager()->getDefaultWorld();
+    }
+    
     function getClientData(): ClientDataInfo
     {
     	return $this->clientData;
