@@ -144,12 +144,13 @@ class Session
       $address = (string)$this->getPlayer()?->getNetworkSession()->getIp() ?? "127.0.0.1";
       $device = $this->clientData->getDevice();
       $control = $this->clientData->getTouch();
+      $customName = $this->customName ?? "null";
     	$database = PracticeLoader::getInstance()->getDatabase();
-    	$database->executeImplRaw([0 => "UPDATE data_user SET name = {$this->name}, custom_name = {$this->customName}, rank = {$this->rank}, language = {$this->language}, coin = {$this->coin}, firstplayed = {$this->firstPlayed}, lastplayed = {$lastPlayed}, kills = {$this->kills}, wins = {$this->wins}, deaths = {$this->deaths}, address = {$address}, device = {$device}, control = {$control} WHERE xuid = {$this->xuid}"], [0 => []], [0 => SqlThread::MODE_CHANGE], function(array $rows): void {}, null);
+    	$database->executeImplRaw([0 => "INSERT INTO data_user(name, custom_name, rank, language, coin, firstplayed, lastplayed, kills, wins, deaths, address, device, control) VALUES (`$this->name`, `$customName`, `$this->rank`, `$this->language`, `$this->coin`, `$this->firstPlayed`, `$lastPlayed`, `$this->kills`, `$this->wins`, `$this->deaths`, `$address`, `$device`, `$control`) WHERE xuid = `$this->xuid`"], [0 => []], [0 => SqlThread::MODE_INSERT], function(array $rows): void {}, null);
     	$scoreboard = $this->getSetting("scoreboard");
     	$queue = $this->getSetting("queue");
     	$cps = $this->getSetting("cps");
     	$autoJoin = $this->getSetting("auto_join");
-    	$database->executeImplRaw([0 => "UPDATE settings SET scoreboard = {$scoreboard}, queue = {$queue}, cps = {$cps}, auto_join = {$autoJoin} WHERE xuid = {$this->xuid}"], [0 => []], [0 => SqlThread::MODE_CHANGE], function(array $rows): void {}, null);
+    	$database->executeImplRaw([0 => "UPDATE settings SET scoreboard = `$scoreboard`, queue = `$queue`, cps = `$cps`, auto_join = `$autoJoin` WHERE xuid = `$this->xuid`"], [0 => []], [0 => SqlThread::MODE_INSERT], function(array $rows): void {}, null);
     }
 }
