@@ -39,11 +39,11 @@ class BanCommand extends BaseCommand
   function onRun(CommandSender $sender, string $aliasUsed, array $args): void
   {
     if ($sender instanceof Player && count($args) === 0) {
-      $player->sendForm(new BanForm(["name" => ""]));
+      $sender->sendForm(new BanForm(["name" => ""]));
       return;
     }
     if ($sender instanceof Player && isset($args["name"])) {
-      $player->sendForm(new BanForm(["name" => array_shift($args)]));
+      $sender->sendForm(new BanForm(["name" => array_shift($args)]));
       return;
     }
     if (count($args) >= 3) {
