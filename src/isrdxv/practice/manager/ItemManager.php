@@ -12,7 +12,7 @@ use pocketmine\item\{
 };
 use pocketmine\block\{
   VanillaBlocks,
-  utils\ModHeadType,
+  utils\MobHeadType,
   utils\DyeColor
 };
 use pocketmine\player\Player;
