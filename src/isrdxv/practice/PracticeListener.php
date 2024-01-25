@@ -165,8 +165,8 @@ class PracticeListener implements Listener
   
   function onBreak(BlockBreakEvent $event): void
   {
-    if (($session = SessionManager::getInstance()->get($event->getPlayer())) !== null) {
-      if ($session->inTheLobby()) {
+    if (($session = SessionManager::getInstance()->get(($player =$event->getPlayer()))) !== null) {
+      if ($session->isInLobby() && !Server::getInstance()->isOp($player->getName()) || $player->hasPermission("practice.break.blocks")) {
         $event->cancel();
       }
     }
@@ -174,8 +174,8 @@ class PracticeListener implements Listener
   
   function onPlace(BlockPlaceEvent $event): void
   {
-    if (($session = SessionManager::getInstance()->get($event->getPlayer())) !== null) {
-      if ($session->inTheLobby()) {
+    if (($session = SessionManager::getInstance()->get(($player = $event->getPlayer()))) !== null) {
+      if ($session->isInLobby() && !Server::getInstance()->isOp($player->getName()) || $player->hasPermission("practice.place.blocks")) {
         $event->cancel();
       }
     }
@@ -183,8 +183,8 @@ class PracticeListener implements Listener
   
   function onDrop(PlayerDropItemEvent $event): void
   {
-    if (($session = SessionManager::getInstance()->get($event->getPlayer())) !== null) {
-      if ($session->inTheLobby()) {
+    if (($session = SessionManager::getInstance()->get(($event->getPlayer()))) !== null) {
+      if ($session->isInLobby() && $event->getItem()->getNamedTag()->getTG("Practice") !== null) {
         $event->cancel();
       }
     }
