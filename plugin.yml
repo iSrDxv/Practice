@@ -14,4 +14,4 @@ permissions:
     description: Back to hub
   practice.command.ban:
     default: false
-    description: Ban command
+    description: Punish a server user
