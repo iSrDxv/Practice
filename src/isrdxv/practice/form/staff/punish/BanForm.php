@@ -73,7 +73,7 @@ final class BanForm extends CustomForm
           $player = $session->getPlayer();
           $player?->sendMessage($announcement);
         }
-        if ($player->isOnline()) {
+        if ($player->isOnline() !== null && $player->isOnline()) {
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . $cheating->getName() . " banned");
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "Thanks for banning a cheater");
         }
