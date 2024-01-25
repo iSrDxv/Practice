@@ -56,7 +56,7 @@ class Session
     function __construct(string $name)
     {
         $this->name = $name;
-        $this->clientData = new ClientDataInfo($this->getPlayer()->getPlayerInfo()->getExtraData());
+        $this->clientData = new ClientDataInfo($this->getPlayer()?->getPlayerInfo()->getExtraData());
     }
 
     function getPlayer(): ?Player
