@@ -128,7 +128,7 @@ class Session
       $control = $this->clientData->getTouch();
       $this->oldDevice = (string)$data["device"];
       $this->oldTouch = (string)$data["control"];
-      $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . implode("\n", ["Last time you entered with: " . TextFormat::WHITE . $this->oldDevice, "And the last time you were: " . TextFormat::WHITE . $this->oldTouch, TextFormat::GRAY . "Hopefully it's you, but on another device"]));
+      $player->sendMessage(implode("\n", [Practice::SERVER_PREFIX . TextFormat::RED . "Last time you entered with: " . TextFormat::WHITE . $this->oldDevice, Practice::SERVER_PREFIX . TextFormat::RED . "And the last time you were: " . TextFormat::WHITE . $this->oldTouch, Practice::SERVER_PREFIX . TextFormat::GRAY . "Hopefully it's you, but on another device"]));
       $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
       $defaultWorld->loadChunk($defaultWorld->getSpawnLocation()->getX(), $defaultWorld->getSpawnLocation()->getZ());
       $player->teleport($defaultWorld->getSpawnLocation());
