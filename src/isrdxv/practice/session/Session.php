@@ -61,7 +61,7 @@ class Session
 
     function getPlayer(): ?Player
     {
-        return Server::getInstance()->getPlayerExact($this->name) ?? null;
+        return Server::getInstance()->getPlayerPrefix($this->name) ?? null;
     }
     
     function getClientData(): ClientDataInfo
