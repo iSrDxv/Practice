@@ -6,7 +6,7 @@ use isrdxv\practice\{
   Practice,
   PracticeLoader
 };
-use isrdx\practice\manager\{
+use isrdxv\practice\manager\{
   ItemManager,
   SessionManager
 };

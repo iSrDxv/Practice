@@ -151,7 +151,7 @@ class PracticeListener implements Listener
     $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
     if ($kicker instanceof Player && $damager instanceof Player) {
       if ($kicker->getWorld() === $defaultWorld && $damager->getWorld() === $defaultWorld) {
-        if ($damager->getInventory()->getItemInHand()->getNamedTag()->getTag("Practice")?->getValue() === ItemManager::DUELS) {
+        if ($damager->getInventory()->getItemInHand()->getNamedTag()->getTag("Practice")?->getValue() === ItemManager::DUEL) {
           $damager->sendMessage("lol");
         }
         $event->cancel();
