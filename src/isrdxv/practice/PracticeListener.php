@@ -153,8 +153,8 @@ class PracticeListener implements Listener
       if (($tag = $item->getNamedTag()->getTag("Practice")) !== null) {
         switch($tag?->getValue()){
           case ItemManager::DUEL:
-            if ($session->inTheLobby()) {
-              $player->sendMessage("hi");
+            if ($session->isInLobby()) {
+              $player->sendForm();
             }
           break;
         }
