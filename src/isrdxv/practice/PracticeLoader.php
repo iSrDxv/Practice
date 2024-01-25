@@ -7,6 +7,8 @@ use isrdxv\practice\{
   PracticeListener
 };
 use isrdxv\practice\command\{
+  HubCommand,
+  BanCommand,
 	MaintenanceCommand
 };
 use isrdxv\practice\task\BroadcastTask;
@@ -58,7 +60,7 @@ class PracticeLoader extends PluginBase
 
         //AGGREGATES
         $this->deleteCommand(["pardon", "kick", "plugins", "version", "pardon-ip", "me", "ban", "ban-ip", "banlist"]);
-        $this->addCommand([new MaintenanceCommand($this, "maintenance", TextFormat::DARK_AQUA . "Enable or disable the server under maintenance")]);
+        $this->addCommand([new MaintenanceCommand($this), new HubCommand($this), new BanCommand($this)]);
         $this->addDirectory(["arenas", "cosmetics", "capes"]);
         
         //INITIALIZERS
