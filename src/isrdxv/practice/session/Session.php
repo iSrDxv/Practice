@@ -9,6 +9,7 @@ use isrdxv\practice\{
   Practice,
   PracticeLoader
 };
+use isrdxv\practice\manager\ItemManager;
 
 use pocketmine\Server;
 use pocketmine\player\Player;

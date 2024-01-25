@@ -95,7 +95,7 @@ class PracticeListener implements Listener
     $information = [
       TextFormat::GRAY . "Welcome to " . Practice::SERVER_COLOR . "StromMC" . TextFormat::EOL,
       TextFormat::WHITE . "——————" . TextFormat::EOL,
-      TextFormat::GRAYC. "Discord: " . TextFormat::WHITE . "discord.gg/strommc" . TextFormat::EOL,
+      TextFormat::GRAY . "Discord: " . TextFormat::WHITE . "discord.gg/strommc" . TextFormat::EOL,
       TextFormat::DARK_RED . "Store: " . TextFormat::WHITE . "strommc.tebex.io" . TextFormat::EOL,
       TextFormat::WHITE . "——————" . TextFormat::EOL
     ];
