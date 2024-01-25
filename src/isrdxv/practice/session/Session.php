@@ -43,6 +43,10 @@ class Session
     
     private ClientDataInfo $clientData;
     
+    private string $oldDevice;
+    
+    private string $oldTouch;
+    
     private int $kills = 0;
     
     private int $wins = 0;
@@ -56,7 +60,6 @@ class Session
     function __construct(string $name)
     {
         $this->name = $name;
-        $this->clientData = new ClientDataInfo($this->getPlayer()?->getPlayerInfo()->getExtraData());
     }
 
     function getPlayer(): ?Player
@@ -87,11 +90,12 @@ class Session
     function init($database, string $rank): void
     {
     	$player = $this->getPlayer();
-        $xuid = $player->getXuid();
-        var_dump($xuid);
-        $session = $this;
-        $time = new DateTime("NOW", new DateTimeZone("America/Mexico_City"));
-        $address = $player instanceof FakePlayerNetworkSession ? $player->getNetworkSession()->getIp() : $player->getNetworkSession()->getIp();
+      $xuid = $player->getXuid();
+      var_dump($xuid);
+      $session = $this;
+      $time = new DateTime("NOW", new DateTimeZone("America/Mexico_City"));
+      $address = $player instanceof FakePlayerNetworkSession ? $player->getNetworkSession()->getIp() : $player->getNetworkSession()->getIp();
+      $this->clientData = new ClientDataInfo($this->getPlayer()?->getPlayerInfo()->getExtraData());
     	$database->executeInsert("practice.data", ["xuid" => $xuid, "name" => $player->getName(), "custom_name" => "null", "rank" => $rank, "language" => "en_US", "coin" => 200, "firstplayed" => $time->format("Y-m-d H:i"), "lastplayed" => $time->format("Y-m-d H:i"), "kills" => 0, "wins" => 0, "deaths" => 0, "address" => $address, "device" => $this->clientData->getDevice(), "control" => $this->clientData->getTouch()]);
         $database->executeInsert("practice.settings", ["xuid" => $xuid, "scoreboard" => true, "queue" => true, "cps" => false, "auto_join" => false]);
         $database->executeImplRaw([0 => "SELECT * FROM data_user,settings WHERE data_user.xuid = $xuid AND settings.xuid = $xuid"], [0 => []], [0 => SqlThread::MODE_SELECT], function(array $rows) use($session, $player, $xuid): void {
@@ -119,8 +123,12 @@ class Session
     	$this->customName = ($data["custom_name"] === null || $data["custom_name"] === "null") ? null : $data["custom_name"];
     	$this->xuid = $data["xuid"];
       $player = $this->getPlayer();
+      $this->clientData = new ClientDataInfo($this->getPlayer()?->getPlayerInfo()->getExtraData());
       $device = $this->clientData->getDevice();
       $control = $this->clientData->getTouch();
+      $this->oldDevice = (string)$data["device"];
+      $this->oldTouch = (string)$data["control"];
+      $player->sendMessage(Practice::SERVE_PREFIX . TextFormat::RED . implode("\n", ["Last time you entered with: " . TextFormat::WHITE . $this->oldDevice, "And the last time you were: " . TextFormat::WHITE . $this->oldTouch, TextFormat::GRAY . "Hopefully it's you, but on another device"]));
       $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
       $defaultWorld->loadChunk($defaultWorld->getSpawnLocation()->getX(), $defaultWorld->getSpawnLocation()->getZ());
       $player->teleport($defaultWorld->getSpawnLocation());
@@ -133,15 +141,15 @@ class Session
     function save(): void
     {
       $lastPlayed = (new DateTime("NOW", new DateTimeZone("America/Mexico_City")))->format("Y-m-d H:i");
-      $address = $this->getPlayer()?->getNetworkSession()->getIp() ?? "127.0.0.1";
-      $device = $this->clientData->setDevice($this->clientData->getExtraData());
-      $control = $this->clientData->setDeviceTouch($this->clientData->getExtraData());
+      $address = (string)$this->getPlayer()?->getNetworkSession()->getIp() ?? "127.0.0.1";
+      $device = $this->clientData->getDevice();
+      $control = $this->clientData->getTouch();
     	$database = PracticeLoader::getInstance()->getDatabase();
-    	$database->executeImplRaw([0 => "INSERT INTO data_user(xuid, name, custom_name, rank, language, coin, firstplayed, lastplayed, kills, wins, deaths, address, device, control) VALUES ({$this->xuid}, {$this->name}, {$this->customName}, {$this->rank}, {$this->language}, {$this->coin}, {$this->firstPlayed}, {$lastPlayed}, {$this->kills}, {$this->wins}, {$this->deaths}, {$this->address}, {$device}, {$control}) ON DUPLICATE KEY UPDATE custom_name = {$this->customName}, rank = {$this->rank}, language = {$this->language}, coin = {$this->coin}, lastPlayed = {$lastPlayed}, kills = {$this->kills}, wins = {$this->wins}, deaths = {$this->deaths}, address = {$this->address}, device = {$device}, control = {$control}"], [0 => []], [0 => SqlThread::MODE_INSERT], function(array $rows): void {}, null);
+    	$database->executeImplRaw([0 => "UPDATE data_user SET name = {$this->name}, custom_name = {$this->customName}, rank = {$this->rank}, language = {$this->language}, coin = {$this->coin}, firstplayed = {$this->firstPlayed}, lastplayed = {$lastPlayed}, kills = {$this->kills}, wins = {$this->wins}, deaths = {$this->deaths}, address = {$address}, device = {$device}, control = {$control} WHERE xuid = {$this->xuid}"], [0 => []], [0 => SqlThread::MODE_CHANGE], function(array $rows): void {}, null);
     	$scoreboard = $this->getSetting("scoreboard");
     	$queue = $this->getSetting("queue");
     	$cps = $this->getSetting("cps");
     	$autoJoin = $this->getSetting("auto_join");
-    	$database->executeImplRaw([0 => "INSERT INTO settings(xuid, scoreboard, queue, cps, auto_join) VALUES ({$this->xuid}, {$scoreboard}, {$queue}, {$cps}, {$autoJoin}) ON DUPLICATE KEY UPDATE scoreboard = {$scoreboard}, queue = {$queue}, cps = {$cps}, auto_join = {$autoJoin}"], [0 => []], [0 => SqlThread::MODE_INSERT], function(array $rows): void {}, null);
+    	$database->executeImplRaw([0 => "UPDATE settings SET scoreboard = {$scoreboard}, queue = {$queue}, cps = {$cps}, auto_join = {$autoJoin} WHERE xuid = {$this->xuid}"], [0 => []], [0 => SqlThread::MODE_CHANGE], function(array $rows): void {}, null);
     }
 }
