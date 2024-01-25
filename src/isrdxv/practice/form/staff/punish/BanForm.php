@@ -57,6 +57,7 @@ final class BanForm extends CustomForm
         }
         $expires = $time === null ? "Forever" : "$day day(s), $hour hour(s), $minute minute(s)";
         $kicked = TextFormat::BOLD . TextFormat::RED . "You have been banned from the network" . TextFormat::EOL . TextFormat::EOL . TextFormat::RESET;
+        $kicked .= TextFormat::RED . "Banned on: " . TextFormat::DARK_AQUA . (new DateTime("NOW", new DateTimeZone("America/Mexico_City")))->format("Y-m-d") . TextFormat::EOL;
         $kicked .= TextFormat::RED . "Reason: " . TextFormat::DARK_AQUA . $reason . TextFormat::EOL;
         $kicked .= TextFormat::RED . "Duration: " . TextFormat::DARK_AQUA . $expires . TextFormat::EOL;
         $kicked .= TextFormat::GRAY . "Appeal at: " . Practice::SERVER_COLOR . "discord.gg/strommc";
