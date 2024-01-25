@@ -12,3 +12,6 @@ permissions:
   practice.command.hub:
     default: true
     description: Back to hub
+  practice.command.ban:
+    default: false
+    description: Ban command
