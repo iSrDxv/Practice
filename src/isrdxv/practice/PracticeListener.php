@@ -6,8 +6,12 @@ use isrdxv\practice\{
   Practice,
   PracticeLoader
 };
-use isrdxv\practice\manager\SessionManager;
+use isrdxv\practice\manager\{
+  ItemManager,
+  SessionManager
+};
 
+use pocketmine\Server;
 use pocketmine\player\{
   Player,
   XboxLivePlayerInfo
@@ -119,7 +123,14 @@ class PracticeListener implements Listener
         }
     }, null);
   }
-
+  
+  function onRespawn(PlayerRespawnEvent $event): void
+  {
+    $player = $event->getPlayer();
+    $event->setRespawnPosition(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
+    ItemManager::spawnLobbyItems($player);
+  }
+  
   function onQuit(PlayerQuitEvent $event): void
   {
     $player = $event->getPlayer();
