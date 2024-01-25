@@ -28,6 +28,7 @@ use pocketmine\event\player\{
     PlayerPreLoginEvent,
     PlayerQuitEvent
 };
+use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\server\QueryRegenerateEvent;
 use pocketmine\network\mcpe\protocol\types\DeviceOS;
 
@@ -138,7 +139,28 @@ class PracticeListener implements Listener
 
     $event->setQuitMessage(TextFormat::colorize("&0[&c-&0] &c" . $player->getName()));
   }
-
+  
+  function onInteract(PlayerInteractEvent $event): void
+  {
+    
+  }
+  
+  function onDamageEntity(EntityDamageByEntityEvent $event): void
+  {
+    $kicker = $event->getEntity();
+    $damager = $event->getDamager();
+    $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
+    if ($kicker instanceof Player && $damager instanceof Player) {
+      if ($kicker->getWorld() === $defaultWorld && $damager->getWorld() === $defaultWorld) {
+        if ($damager->getInventory()->getItemInHand()->getNamedTag()->getTag("Practice")?->getValue() === ItemManager::DUELS) {
+          $damager->sendMessage("lol");
+        }
+        $event->cancel();
+        return;
+      }
+    }
+  }
+  
   function onQuery(QueryRegenerateEvent $event): void
   {
     $queryInfo = $event->getQueryInfo();
