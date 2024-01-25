@@ -28,7 +28,7 @@ final class BanForm extends CustomForm
   function __construct(...$args)
   {
     parent::__construct("Ban form", [
-      new Input("name", "Enter name: ", "", $args["name"] ?? ""),
+      new Input("name", "Enter name: ", "", $args[0]["name"]),
       new Input("reason", "Reason:"),
       new Label("text_lol", "Leave everything at 0 to permanently ban"),
       new Slider("day", "Day/s", 0, 30, 1),
@@ -63,21 +63,26 @@ final class BanForm extends CustomForm
         $kicked .= TextFormat::RED . "Duration: " . TextFormat::DARK_AQUA . $expires . TextFormat::EOL;
         $kicked .= TextFormat::GRAY . "Appeal at: " . Practice::SERVER_COLOR . "discord.gg/strommc";
         $staff = $player->getName();
-        $name = Server::getInstance()->getPlayerByPrefix($name)?->getName();
-        $cheating = SessionManager::getInstance()->get($name)?->getPlayer();
+        
+        if (($cheating = Server::getInstance()->getPlayerByPrefix($name)) !== null) {
+          $name = $cheating->getName();
+        }elseif (($cheating = Server::getInstance()->getPlayerExact($name)) !== null) {
+          $name = $cheating->getName();
+        }
+        
         if ($cheating instanceof Player) {
           $cheating->kick($kicked);
         }
         $cheaterName = strtolower($cheating->getName()); //para sql
         $duration = ($time === null) ? "-1" : $time->format("Y-m-d H:i");
         //agregar a la tabla de bans de SQL
-        $announcement = TextFormat::RED . $staff . " banned " . $cheating->getName() . TextFormat::EOL . "Reason: " . TextFormat::WHITE . $reason;
+        $announcement = TextFormat::RED . $staff . " banned " . $name . TextFormat::EOL . "Reason: " . TextFormat::WHITE . $reason;
         foreach(SessionManager::getInstance()->all() as $session) {
           $player = $session->getPlayer();
           $player?->sendMessage($announcement);
         }
         if ($player->isOnline() !== null && $player->isOnline()) {
-          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . $cheating->getName() . " banned");
+          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . $name . " banned");
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "Thanks for banning a cheater");
         }
         //agregar puntos por banear a un jugador (para el staff)

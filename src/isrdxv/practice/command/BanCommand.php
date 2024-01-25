@@ -7,6 +7,7 @@ use isrdxv\practice\{
   PracticeLoader
 };
 use isrdxv\practice\manager\SessionManager;
+use isrdxv\practice\form\staff\punish\BanForm;
 
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
