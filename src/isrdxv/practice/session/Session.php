@@ -135,7 +135,7 @@ class Session
       $lastPlayed = (new DateTime("NOW", new DateTimeZone("America/Mexico_City")))->format("Y-m-d H:i");
       $address = $this->getPlayer()?->getNetworkSession()->getIp() ?? "127.0.0.1";
       $device = $this->clientData->setDevice($this->clientData->getExtraData());
-      $control = $this->clientData->setTouch($this->clientData->getExtraData());
+      $control = $this->clientData->setDeviceTouch($this->clientData->getExtraData());
     	$database = PracticeLoader::getInstance()->getDatabase();
     	$database->executeImplRaw([0 => "INSERT INTO data_user(xuid, name, custom_name, rank, language, coin, firstplayed, lastplayed, kills, wins, deaths, address, device, control) VALUES ({$this->xuid}, {$this->name}, {$this->customName}, {$this->rank}, {$this->language}, {$this->coin}, {$this->firstPlayed}, {$lastPlayed}, {$this->kills}, {$this->wins}, {$this->deaths}, {$this->address}, {$device}, {$control}) ON DUPLICATE KEY UPDATE custom_name = {$this->customName}, rank = {$this->rank}, language = {$this->language}, coin = {$this->coin}, lastPlayed = {$lastPlayed}, kills = {$this->kills}, wins = {$this->wins}, deaths = {$this->deaths}, address = {$this->address}, device = {$device}, control = {$control}"], [0 => []], [0 => SqlThread::MODE_INSERT], function(array $rows): void {}, null);
     	$scoreboard = $this->getSetting("scoreboard");
