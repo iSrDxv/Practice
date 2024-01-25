@@ -73,7 +73,7 @@ final class ItemManager
     $player->getArmorInventory()->clearAll();
     $items = array_keys(self::$lobby);
     foreach($items as $localName) {
-      if ($localName === self::PROFILE || $localName === self::LEAVE) {
+      if ($localName === self::PROFILE || $localName === self::LEAVE_QUEUE) {
         continue;
       }
       $item = self::$lobby[$localName];
