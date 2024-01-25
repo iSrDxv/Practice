@@ -31,8 +31,8 @@ class BanCommand extends BaseCommand
 
   protected function prepare(): void
   {
-    $this->registerArgument(0, new RawStringArgument("name", true));
-    $this->registerArgument(1, new TextArgument("duration", true));
+    $this->registerArgument(0, new RawStringArgument("name"));
+    $this->registerArgument(1, new TextArgument("duration"));
     $this->registerArgument(2, new RawStringArgument("reason", true));
   }
   
