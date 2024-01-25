@@ -20,7 +20,6 @@ use pocketmine\utils\{
   TextFormat,
   Config
 };
-use pocketmine\Server;
 use pocketmine\event\Listener;
 use pocketmine\event\player\{
     PlayerJoinEvent,
