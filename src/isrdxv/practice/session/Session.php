@@ -116,8 +116,6 @@ class Session
       $player = $this->getPlayer();
       $device = $this->clientData->getDevice();
       $control = $this->clientData->getTouch();
-      $player->getInventory()->clearAll();
-      $player->getArmorInventory()->clearAll();
       $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
       $defaultWorld->loadChunk($defaultWorld->getSpawnLocation()->getX(), $defaultWorld->getSpawnLocation()->getZ());
       $player->teleport($defaultWorld->getSpawnLocation());
