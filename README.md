@@ -8,8 +8,9 @@
 - [ ] Cosmetic System
 
 ## PENDIENTES
-- Items
+- Funcionalidad a los ITEMS
 
 ## Hechos
 - [x] Database System
 - [x] Broadcast
+- [x] Items
