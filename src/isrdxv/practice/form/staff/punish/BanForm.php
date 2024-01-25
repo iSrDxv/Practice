@@ -63,7 +63,7 @@ final class BanForm extends CustomForm
         $kicked .= TextFormat::RED . "Duration: " . TextFormat::DARK_AQUA . $expires . TextFormat::EOL;
         $kicked .= TextFormat::GRAY . "Appeal at: " . Practice::SERVER_COLOR . "discord.gg/strommc";
         $staff = $player->getName();
-        $name = Server::getInstance()->getPlayerByPrefix($name);
+        $name = Server::getInstance()->getPlayerByPrefix($name)?->getName();
         $cheating = SessionManager::getInstance()->get($name)?->getPlayer();
         if ($cheating instanceof Player) {
           $cheating->kick($kicked);
