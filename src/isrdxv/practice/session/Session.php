@@ -115,6 +115,11 @@ class Session
       $player = $this->getPlayer();
       $device = $this->clientData->getDevice();
       $control = $this->clientData->getTouch();
+      $player->getInventory()->clearAll();
+      $player->getArmorInventory()->clearAll();
+      $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
+      $defaultWorld->loadChunk($defaultWorld->getSpawnLocation()->getX(), $defaultWorld->getSpawnLocation()->getZ());
+      $player->teleport($defaultWorld->getSpawnLocation());
       $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "Your account details uploaded correctly!!");
       $player->setScoreTag(TextFormat::WHITE . $device . TextFormat::DARK_GRAY . " | " . Practice::SERVER_COLOR . $control);
       $player->broadcastSound(new AnvilFallSound(), [$player]);

@@ -11,6 +11,7 @@ use isrdxv\practice\command\{
 };
 use isrdxv\practice\task\BroadcastTask;
 use isrdxv\practice\utils\Time;
+use isrdxv\practice\manager\ItemManager;
 
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\{
@@ -62,6 +63,7 @@ class PracticeLoader extends PluginBase
         
         //INITIALIZERS
         PracticeListener::init();
+        ItemManager::init();
         
         //SERVER
         $this->getServer()->getConfigGroup()->setConfigInt("max-players", Practice::SERVER_MAX_PLAYERS);

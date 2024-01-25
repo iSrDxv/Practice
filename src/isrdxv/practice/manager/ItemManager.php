@@ -60,15 +60,25 @@ final class ItemManager
   {
     $item = new PluginItem($slot, $item->setNamedTag($item->getNamedTag()->setString("Practice", $localName)));
     if (str_contains($localName, "lobby_")) {
-      self::$lobby[] = $item;
+      self::$lobby[$localName] = $item;
     } elseif (str_contains($localName, "p_")) {
-      self::$party[] = $item;
+      self::$party[$localName] = $item;
     }
   }
   
   static function spawnLobbyItems(Player $player): void
   {
-    
+    $inventory = $player->getInventory();
+    $inventory->clearAll();
+    $player->getArmorInventory()->clearAll();
+    $items = array_keys(self::$lobby);
+    foreach($items as $localName) {
+      if ($localName === self::PROFILE || $localName === self::LEAVE) {
+        continue;
+      }
+      $item = self::$lobby[$localName];
+      $inventory->setItem($item->getSlot(), $item->getItem());
+    }
   }
   
 }
