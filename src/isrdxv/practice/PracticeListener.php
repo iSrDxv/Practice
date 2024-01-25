@@ -26,7 +26,8 @@ use pocketmine\event\player\{
     PlayerRespawnEvent,
     PlayerPreLoginEvent,
     PlayerQuitEvent,
-    PlayerItemUseEvent
+    PlayerItemUseEvent,
+    PlayerDropItemEvent
 };
 use pocketmine\event\block\{
   BlockPlaceEvent,
