@@ -27,7 +27,7 @@ final class BanForm extends CustomForm
   function __construct(...$args)
   {
     parent::__construct("Ban form", [
-      new Input("name", "Enter name: ", "", $args["name"]),
+      new Input("name", "Enter name: ", "", $args["name"] ?? ""),
       new Input("reason", "Reason:"),
       new Label("text_lol", "Leave everything at 0 to permanently ban"),
       new Slider("day", "Day/s", 0, 30, 1),
@@ -44,9 +44,9 @@ final class BanForm extends CustomForm
           return;
         }
         
-        $day = $response->getInt("day");
-        $hour = $response->getInt("hour");
-        $minute = $response->getInt("minute");
+        $day = $response->getFloat("day");
+        $hour = $response->getFloat("hour");
+        $minute = $response->getFloat("minute");
         
         $time = null;
         if ($day !== 0 && $hour !== 0 && $minute !== 0) {
