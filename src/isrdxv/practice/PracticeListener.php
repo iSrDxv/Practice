@@ -20,6 +20,7 @@ use pocketmine\Server;
 use pocketmine\event\Listener;
 use pocketmine\event\player\{
     PlayerJoinEvent,
+    PlayerRespawnEvent,
     PlayerPreLoginEvent,
     PlayerQuitEvent
 };
