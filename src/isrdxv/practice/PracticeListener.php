@@ -110,7 +110,7 @@ class PracticeListener implements Listener
       TextFormat::DARK_RED . "Store: " . TextFormat::WHITE . "strommc.tebex.io" . TextFormat::EOL,
       TextFormat::WHITE . "——————" . TextFormat::EOL
     ];
-    $player->sendMessage("\n", $information);
+    $player->sendMessage(implode("\n", $information));
     $session = SessionManager::getInstance()->get($player);
     $sessionRank = SessionRank::getInstance()->get($player);
     $database = PracticeLoader::getInstance()->getDatabase();
@@ -141,7 +141,8 @@ class PracticeListener implements Listener
   {
     $player = $event->getPlayer();
     $session = SessionManager::getInstance()->get($player);
-
+    $session->save();
+    
     $event->setQuitMessage(TextFormat::colorize("&0[&c-&0] &c" . $player->getName()));
   }
   
