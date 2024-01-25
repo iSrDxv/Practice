@@ -44,8 +44,8 @@ final class ItemManager
     self::register(4, self::PARTY, VanillaItems::NETHER_STAR()->setCustomName(TextFormat::BOLD . TextFormat::DARK_GRAY . "» " . TextFormat::RESET . Practice::SERVER_COLOR . "Party" . TextFormat::RESET . TextFormat::BOLD . TextFormat::DARK_GRAY . " «"));
     self::register(5, self::SPECTATE, VanillaItems::COMPASS()->setCustomName(TextFormat::BOLD . TextFormat::DARK_GRAY . "» " . TextFormat::RESET . Practice::SERVER_COLOR . "Spectator Menu" . TextFormat::RESET . TextFormat::BOLD . TextFormat::DARK_GRAY . " «"));
     self::register(6, self::SHOP, VanillaItems::BOOK()->setCustomName(TextFormat::BOLD . TextFormat::DARK_GRAY . "» " . TextFormat::RESET . Practice::SERVER_COLOR . "Shop Menu" . TextFormat::RESET . TextFormat::BOLD . TextFormat::DARK_GRAY . " «"));
-    self::register(9, self::PROFILE, VanillaBlocks::MOB_HEAD()->setMobHeadType(MobHeadType::PLAYER())->asItem()->setCustomName(TextFormat::BOLD . TextFormat::DARK_GRAY . "» " . TextFormat::RESET . Practice::SERVER_COLOR . "Profile Menu" . TextFormat::RESET . TextFormat::BOLD . TextFormat::DARK_GRAY . " «"));
     self::register(7, self::LEAVE_QUEUE, VanillaItems::DYE()->setColor(DyeColor::RED())->setCustomName(TextFormat::BOLD . TextFormat::DARK_GRAY . "» " . TextFormat::RESET . Practice::SERVER_COLOR . "Leave Queue" . TextFormat::RESET . TextFormat::BOLD . TextFormat::DARK_GRAY . " «"));
+    self::register(9, self::PROFILE, VanillaBlocks::MOB_HEAD()->setMobHeadType(MobHeadType::PLAYER())->asItem()->setCustomName(TextFormat::BOLD . TextFormat::DARK_GRAY . "» " . TextFormat::RESET . Practice::SERVER_COLOR . "Profile Menu" . TextFormat::RESET . TextFormat::BOLD . TextFormat::DARK_GRAY . " «"));
   }
   
   /**
