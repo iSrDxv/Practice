@@ -9,6 +9,7 @@ use isrdxv\practice\{
 use isrdxv\practice\command\{
   HubCommand,
   BanCommand,
+  InfoCommand,
 	MaintenanceCommand
 };
 use isrdxv\practice\task\BroadcastTask;
@@ -60,7 +61,7 @@ class PracticeLoader extends PluginBase
 
         //AGGREGATES
         $this->deleteCommand(["pardon", "kick", "plugins", "version", "pardon-ip", "me", "ban", "ban-ip", "banlist"]);
-        $this->addCommand([new MaintenanceCommand($this), new HubCommand($this), new BanCommand($this)]);
+        $this->addCommand([new MaintenanceCommand($this), new HubCommand($this), new BanCommand($this), new InfoCommand($this)]);
         $this->addDirectory(["arenas", "cosmetics", "capes"]);
         
         //INITIALIZERS
