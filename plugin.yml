@@ -15,6 +15,12 @@ permissions:
   practice.command.ban:
     default: false
     description: Punish a server user
+  practice.command.kick:
+      default: false
+      description: Punish a server user
+  practice.command.mute:
+      default: false
+      description: Punish a server user
   practice.command.info:
     default: true
     description: View a user's information
