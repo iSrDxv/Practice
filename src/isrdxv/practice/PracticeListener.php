@@ -120,8 +120,8 @@ class PracticeListener implements Listener
     $session = SessionManager::getInstance()->get($player);
     $sessionRank = SessionRank::getInstance()->get($player);
     $database = PracticeLoader::getInstance()->getDatabase();
+    var_dump($sessionRank->getHighestRank());
     if (!$player->hasPlayedBefore()) {
-    	var_dump($sessionRank->getHighestRank());
     	$session->init($database, $sessionRank->getHighestRank()->getName());
         return;
     }
@@ -160,7 +160,7 @@ class PracticeListener implements Listener
         switch($tag?->getValue()){
           case ItemManager::DUEL:
             if ($session->isInLobby()) {
-              $player->sendForm();
+              //$player->sendForm();
             }
           break;
         }
@@ -205,9 +205,9 @@ class PracticeListener implements Listener
       if ($kicker->getWorld() === $defaultWorld && $damager->getWorld() === $defaultWorld) {
         if ($damager->getInventory()->getItemInHand()->getNamedTag()->getTag("Practice")?->getValue() === ItemManager::DUEL) {
           $damager->sendMessage("lol");
-        }/*elseif ($event->getCause() === EntityDamageByEntityEvent::CAUSE_FALL) {
-          $event->cancel();
-        }*/
+        }elseif ($event->getCause() === EntityDamageByEntityEvent::CAUSE_FALL) {
+          $entity->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
+        }
         $event->cancel();
         return;
       }
