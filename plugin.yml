@@ -24,3 +24,6 @@ permissions:
   practice.command.info:
     default: true
     description: View a user's information
+  practice.command.arena:
+    default: true
+    description: Command for the sands

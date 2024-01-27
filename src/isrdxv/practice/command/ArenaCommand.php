@@ -17,7 +17,7 @@ class ArenaCommand extends BaseCommand
   
   function __construct(PracticeLoader $loader)
   {
-      parent::__construct($loader, "arena", TextFormat::DARK_AQUA . "Punish a server user");
+      parent::__construct($loader, "arena", TextFormat::DARK_AQUA . "Command for the sands");
       //$this->setAliases(["a"]);
       $this->setPermission("practice.command.arena");
   }
