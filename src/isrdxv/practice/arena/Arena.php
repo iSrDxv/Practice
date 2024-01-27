@@ -5,6 +5,9 @@ namespace isrdxv\practice\arena;
 
 use pocketmine\world\World;
 
+/**
+ * These are the functions that should be present when extending the class
+ */
 abstract class Arena
 {
   
