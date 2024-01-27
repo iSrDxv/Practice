@@ -11,6 +11,7 @@ use isrdxv\practice\manager\{
   SessionManager
 };
 
+use pocketmine\Server;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\command\CommandSender;
@@ -34,6 +35,9 @@ class HubCommand extends BaseCommand
   {
     if ($sender instanceof Player && ($session = SessionManager::getInstance()->get($sender)) !== null) {
       $sender->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "You have been teleported to the hub");
+      $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
+      $defaultWorld->loadChunk($defaultWorld->getSpawnLocation()->getX(), $defaultWorld->getSpawnLocation()->getZ());
+      $sender->teleport($defaultWorld->getSpawnLocation());
       ItemManager::spawnLobbyItems($sender);
     }
   }
