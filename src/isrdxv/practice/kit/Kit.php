@@ -2,9 +2,11 @@
 
 namespace isrdxv\practice\kit;
 
+use pocketmine\player\Player;
+
 interface Kit
 {
-  function giveTo(): bool;
+  function giveTo(Player $player): bool;
   
   function getName(): string;
   

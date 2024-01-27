@@ -39,4 +39,9 @@ class Practice
       return self::$maintenance;
     }
     
+    static function itemToArray(Item $item): array
+    {
+      
+    }
+    
 }
