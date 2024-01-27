@@ -72,9 +72,54 @@ class Session
         return $this->getPlayer()?->getWorld() === Server::getInstance()->getWorldManager()->getDefaultWorld();
     }
     
+    function getCustomName(): ?string
+    {
+      return $this->customName;
+    }
+    
+    function getRank(): string
+    {
+      return $this->rank;
+    }
+    
+    function getLanguage(): string
+    {
+      return $this->language;
+    }
+    
+    function getCoin(): int
+    {
+      return $this->coin;
+    }
+    
+    function getFirstPlayed(): string
+    {
+      return $this->firstPlayed;
+    }
+    
+    function getLastPlayed(): string
+    {
+      return $this->lastPlayed;
+    }
+    
     function getClientData(): ClientDataInfo
     {
     	return $this->clientData;
+    }
+    
+    function getKills(): int
+    {
+      return $this->kills;
+    }
+    
+    function getWins(): int
+    {
+      return $this->wins;
+    }
+    
+    function getDeaths(): int
+    {
+      return $this->deaths;
     }
     
     function setSetting(string $adjustment, bool $value): void
@@ -85,6 +130,11 @@ class Session
     function getSetting(string $value): bool
     {
       return $this->settings[$value];
+    }
+    
+    function getSettings(): array
+    {
+      return $this->settings;
     }
     
     function init($database, string $rank): void
