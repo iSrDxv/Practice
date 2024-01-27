@@ -4,10 +4,13 @@ namespace isrdxv\practice\kit;
 
 use isrdxv\practice\kit\misc\{
   KitDataInfo,
-  KnockbackInfo
+  KnockbackInfo,
+  EffectsData
 };
 use isrdxv\practice\Practice;
+use isrdxv\practice\utils\Time;
 
+use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 
 use function strtolower;
@@ -28,7 +31,9 @@ final class DefaultKit implements Kit
   
   protected KnockbackInfo $kbInfo;
   
-  function __construct(string $name, array $inventory, array $armor, KitDataInfo $dataInfo, KnockbackInfo $kbInfo)
+  protected EffectsData $effects;
+  
+  function __construct(string $name, array $inventory, array $armor, KitDataInfo $dataInfo, KnockbackInfo $kbInfo, EffectsData $effects)
   {
     $this->name = $name;
     $this->mainName = strtolower($name);
@@ -36,12 +41,17 @@ final class DefaultKit implements Kit
     $this->armor = $armor;
     $this->dataInfo = $dataInfo;
     $this->kbInfo = $kbInfo;
+    $this->effects = $effects;
   }
   
   function giveTo(Player $player): bool
   {
     $player->getInventory()->setContents($this->inventory);
     $player->getArmorInventory()->setContents($this->armor);
+    $effectManager = $player->getEffects();
+    foreach($this->effects->all() as $effect) {
+      $effectManager->add($effect->setDuration(Time::minutesToTicks(60))->setVisible(false));
+    }
     return true;
   }
   
@@ -75,6 +85,11 @@ final class DefaultKit implements Kit
     return $this->kitInfo;
   }
   
+  function getEffectsData(): EffectsData
+  {
+    return $this->effects;
+  }
+  
   function setInventory(array $items): array
   {
     $this->inventory = $items;
@@ -97,7 +112,13 @@ final class DefaultKit implements Kit
   {
     $items = [];
     $armor = [];
-    return ["name" => $this->name, "inventory" => $items, "armor" => $armor, "data" => $this->dataInfo->export(), "kb" => $this->kbInfo->export()];
+    foreach($this->inventory as $slot => $item) {
+      if ($item === VanillaItems::AIR()) {
+        continue;
+      }
+      $items[$slot] = Practice::itemToArray($item);
+    }
+    return ["name" => $this->name, "inventory" => $items, "armor" => $armor, "data" => $this->dataInfo->export(), "kb" => $this->kbInfo->export(), "effects" => $this->effects->export()];
   }
   
 }

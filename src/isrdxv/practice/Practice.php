@@ -4,7 +4,20 @@ namespace isrdxv\practice;
 
 use isrdxv\practice\PracticeLoader;
 
+use pocketmine\nbt\LittleEndianNbtSerializer;
+use pocketmine\item\{
+  Item,
+  enchantment\EnchantmentInstance
+};
+use pocketmine\entity\effect\EffectInstance;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\TreeRoot;
 use pocketmine\utils\TextFormat;
+pocketmine\world\format\io\GlobalItemDataHandlers;
+use pocketmine\data\bedrock\{
+  EffectIdMap,
+  EnchantmentIdMap
+};
 
 class Practice
 {
@@ -41,7 +54,92 @@ class Practice
     
     static function itemToArray(Item $item): array
     {
-      
+      $data = [];
+      /**
+       * @var SavedItemStackData
+       */
+      $itemData = GlobalItemDataHandlers::itemSerializer()->serializeStack($item);
+      $data['id'] = $item->getTypeId();
+      $data["damage"] = $itemData->getTypeData()->getMeta();
+      $data['count'] = $itemData->getCount();
+      $data["nbt"] = ($item->hasNamedTag() ? "0x" . base64_encode((new LittleEndianNbtSerializer())->write(new TreeRoot($item->getNamedTag()))) : "");
+      $enchantments = [];
+      if ($item->hasEnchantments()) {
+        foreach($item->getEnchantments() as $enchantment) {
+          $enchantments[] = ["id" => EnchantmentIdMap::getInstance()->toId($enchantment->getType()), "level" => $enchantment->getLevel()];
+        }
+        $data["enchants"] = $enchantments;
+      }
+      return $data;
+    }
+    
+    static function arrayToItem(array $data): ?Item
+    {
+      if (empty($data['id']) && empty($data['damage']) && empty($data['count']))
+      {
+        return null;
+      }
+      $item = Item::legacyJsonDeserialize($data);
+      var_dump($item);
+      if (empty($item)) {
+        return null;
+      }
+      if (isset($data["enchants"])) {
+        foreach($data["enchants"] as $enchantment) {
+          if (empty($enchantment["id"]) && empty($enchantment["level"])) {
+            continue;
+          }
+          $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId($enchantment["id"]), $enchantment["level"]));
+        }
+      }
+      return $item;
+    }
+    
+    static function effectToArray(EffectInstance $effectInstance, ?int $duration = null): array
+    {
+      return ["id" => EffectIdMap::getInstance()->toId($effectInstance->getType()), "amplifier" => $effectInstance->getAmplifier(), "duration" => $duration ?? $effectInstance->getDuration()];
+    }
+    
+    static function arrayToEffect(array $data): ?EffectInstance
+    {
+      if (empty($data["id"]) && empty($data["amplifier"]) && empty($data["duration"])) {
+        return null;
+      }
+      return new EffectInstance(EffectIdMap::getInstance()->fromId($data["id"]), $data["amplifier"], $data["duration"]);
+    }
+    
+    static function convertArmorSlot(int|string $slot): int|string
+    {
+      if (is_string($slot)) {
+        return match(strtolower($slot)) {
+				  "helmet" => 0,
+			  	"chestplate", "chest" => 1,
+		  		"leggings" => 2,				
+          "boots" => 3,
+			  };
+      }
+      $int = $slot % 4;
+      var_dump($int);
+      return match($int) {
+        0 => "helmet",
+        1 => "chestplate",
+        2 => "leggings",
+        3 => "boots",
+        default => 0
+      };
+    }
+    
+    static function positionToArray(Vector3 $position): array
+    {
+      return ["x" => round($position->x, 2), "y" => round($position->y, 2), "z" => round($position->z, 2)];
+    }
+    
+    /**
+     * en mis otros games lo tenia pq no ahora?
+     */
+    static function maxAndMin(float $first, float $second): array
+    {
+      return $first > $second ? [$first, $second] : [$second, $first]; //sirve para horizontal
     }
     
 }
