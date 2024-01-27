@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace isrdxv\practice\arena;
 
+use isrdxv\kit\DefaultKit;
+
 use pocketmine\world\World;
 
 /**
@@ -16,8 +18,6 @@ abstract class Arena
   abstract function getWorld(): ?World;
   
   abstract function getKit(): ?DefaultKit;
-  
-  abstract function getGameModeIcon(): string;
   
   abstract function extract(): array;
 }

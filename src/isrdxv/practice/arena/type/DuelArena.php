@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace isrdxv\practice\arena;
 
+use isrdxv\kit\DefaultKit;
+
+use pocketmine\math\Vector3;
 use pocketmine\world\World;
 
 final class DuelArena
@@ -13,8 +16,15 @@ final class DuelArena
   
   private DefaultKit $kit;
   
-  private string $gameIcon;
-
+  private Vector3 $spawn1;
+  
+  private Vector3 $spawn2;
+  
+  /**
+   * At what maximum height can you build?
+   */
+  private int $maxHeight;
+  
   function getName(): string
   {
     return $this->name;
@@ -30,9 +40,24 @@ final class DuelArena
     return $this->kit;
   }
   
-  function getGameModeIcon(): string
+  function getSpawn1(): Vector3
   {
-    return $this->gameIcon;
+    return $this->spawn1;
+  }
+  
+  function getSpawn2(): Vector3
+  {
+    return $this->spawn2;
+  }
+  
+  function getMaxHeight(): int
+  {
+    return $this->maxHeight;
+  }
+  
+  function canBuild(): bool
+  {
+    return true;
   }
   
   function extract(): array
