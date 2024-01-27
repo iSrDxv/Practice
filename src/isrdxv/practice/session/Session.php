@@ -25,7 +25,7 @@ use DateTimeZone;
 
 class Session
 {
-	private int $xuid;
+	  private int $xuid;
 	
     private string $name;
     
@@ -72,6 +72,57 @@ class Session
         return $this->getPlayer()?->getWorld() === Server::getInstance()->getWorldManager()->getDefaultWorld();
     }
     
+    function init($database, string $rank): void
+    {
+    	$player = $this->getPlayer();
+      $xuid = $player->getXuid();
+      var_dump($xuid);
+      $session = $this;
+      $time = new DateTime("NOW", new DateTimeZone("America/Mexico_City"));
+      $address = $player instanceof FakePlayerNetworkSession ? $player->getNetworkSession()->getIp() : $player->getNetworkSession()->getIp();
+      $this->clientData = new ClientDataInfo($this->getPlayer()?->getPlayerInfo()->getExtraData());
+    	$database->executeInsert("practice.data", ["xuid" => $xuid, "name" => $player->getName(), "custom_name" => "null", "rank" => $rank, "language" => "en_US", "coin" => 200, "firstplayed" => $time->format("Y-m-d H:i"), "lastplayed" => $time->format("Y-m-d H:i"), "kills" => 0, "wins" => 0, "deaths" => 0, "address" => $address, "device" => $this->clientData->getDevice(), "control" => $this->clientData->getTouch()]);
+        $database->executeInsert("practice.settings", ["xuid" => $xuid, "scoreboard" => true, "queue" => true, "cps" => false, "auto_join" => false]);
+        $database->executeImplRaw([0 => "SELECT * FROM data_user,settings WHERE data_user.xuid = $xuid AND settings.xuid = $xuid"], [0 => []], [0 => SqlThread::MODE_SELECT], function(array $rows) use($session, $player, $xuid): void {
+        	if ($player instanceof Player) {
+        	  var_dump($rows[0]->getRows());
+        	   if (isset($rows[0], $rows[0]->getRows()[0]) && $xuid !== null) {
+        	      $session->load($rows[0]->getRows()[0]);
+        	   }
+        	}
+        }, null);
+    }
+    
+    function load(array $data): void
+    {
+    	$this->settings = ["scoreboard" => boolval($data["scoreboard"]), "queue" => boolval($data["queue"]), "cps" => boolval($data["cps"]), "auto_join" => boolval($data["auto_join"])];
+    	$this->address = intval($data["address"]);
+    	$this->deaths = $data["deaths"];
+    	$this->wins = $data["wins"];
+    	$this->kills = $data["kills"];
+    	$this->firstPlayed = $data["firstplayed"];
+    	$this->lastPlayed = $data["lastplayed"];
+    	$this->coin = $data["coin"];
+    	$this->language = $data["language"];
+    	$this->rank = $data["rank"];
+    	$this->customName = ($data["custom_name"] === null || $data["custom_name"] === "null") ? null : $data["custom_name"] ?? "";
+    	$this->xuid = $data["xuid"];
+      $player = $this->getPlayer();
+      $this->clientData = new ClientDataInfo($this->getPlayer()?->getPlayerInfo()->getExtraData());
+      $device = $this->clientData->getDevice();
+      $control = $this->clientData->getTouch();
+      $this->oldDevice = (string)$data["device"];
+      $this->oldTouch = (string)$data["control"];
+      $player->sendMessage(implode("\n", [Practice::SERVER_PREFIX . TextFormat::RED . "Last time you entered with: " . TextFormat::WHITE . $this->oldDevice, Practice::SERVER_PREFIX . TextFormat::RED . "And the last time you were: " . TextFormat::WHITE . $this->oldTouch, Practice::SERVER_PREFIX . TextFormat::GRAY . "Hopefully it's you, but on another device"]));
+      $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
+      $defaultWorld->loadChunk($defaultWorld->getSpawnLocation()->getX(), $defaultWorld->getSpawnLocation()->getZ());
+      $player->teleport($defaultWorld->getSpawnLocation());
+      $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "Your account details uploaded correctly!!");
+      $player->setScoreTag(TextFormat::WHITE . $device . TextFormat::DARK_GRAY . " | " . Practice::SERVER_COLOR . $control);
+      $player->broadcastSound(new AnvilFallSound(), [$player]);
+      ItemManager::spawnLobbyItems($player);
+    }
+
     function getCustomName(): ?string
     {
       return $this->customName;
@@ -137,57 +188,6 @@ class Session
       return $this->settings;
     }
     
-    function init($database, string $rank): void
-    {
-    	$player = $this->getPlayer();
-      $xuid = $player->getXuid();
-      var_dump($xuid);
-      $session = $this;
-      $time = new DateTime("NOW", new DateTimeZone("America/Mexico_City"));
-      $address = $player instanceof FakePlayerNetworkSession ? $player->getNetworkSession()->getIp() : $player->getNetworkSession()->getIp();
-      $this->clientData = new ClientDataInfo($this->getPlayer()?->getPlayerInfo()->getExtraData());
-    	$database->executeInsert("practice.data", ["xuid" => $xuid, "name" => $player->getName(), "custom_name" => "null", "rank" => $rank, "language" => "en_US", "coin" => 200, "firstplayed" => $time->format("Y-m-d H:i"), "lastplayed" => $time->format("Y-m-d H:i"), "kills" => 0, "wins" => 0, "deaths" => 0, "address" => $address, "device" => $this->clientData->getDevice(), "control" => $this->clientData->getTouch()]);
-        $database->executeInsert("practice.settings", ["xuid" => $xuid, "scoreboard" => true, "queue" => true, "cps" => false, "auto_join" => false]);
-        $database->executeImplRaw([0 => "SELECT * FROM data_user,settings WHERE data_user.xuid = $xuid AND settings.xuid = $xuid"], [0 => []], [0 => SqlThread::MODE_SELECT], function(array $rows) use($session, $player, $xuid): void {
-        	if ($player instanceof Player) {
-        	  var_dump($rows[0]->getRows());
-        	   if (isset($rows[0], $rows[0]->getRows()[0]) && $xuid !== null) {
-        	      $session->load($rows[0]->getRows()[0]);
-        	   }
-        	}
-        }, null);
-    }
-    
-    function load(array $data): void
-    {
-    	$this->settings = ["scoreboard" => boolval($data["scoreboard"]), "queue" => boolval($data["queue"]), "cps" => boolval($data["cps"]), "auto_join" => boolval($data["auto_join"])];
-    	$this->address = intval($data["address"]);
-    	$this->deaths = $data["deaths"];
-    	$this->wins = $data["wins"];
-    	$this->kills = $data["kills"];
-    	$this->firstPlayed = $data["firstplayed"];
-    	$this->lastPlayed = $data["lastplayed"];
-    	$this->coin = $data["coin"];
-    	$this->language = $data["language"];
-    	$this->rank = $data["rank"];
-    	$this->customName = ($data["custom_name"] === null || $data["custom_name"] === "null") ? null : $data["custom_name"];
-    	$this->xuid = $data["xuid"];
-      $player = $this->getPlayer();
-      $this->clientData = new ClientDataInfo($this->getPlayer()?->getPlayerInfo()->getExtraData());
-      $device = $this->clientData->getDevice();
-      $control = $this->clientData->getTouch();
-      $this->oldDevice = (string)$data["device"];
-      $this->oldTouch = (string)$data["control"];
-      $player->sendMessage(implode("\n", [Practice::SERVER_PREFIX . TextFormat::RED . "Last time you entered with: " . TextFormat::WHITE . $this->oldDevice, Practice::SERVER_PREFIX . TextFormat::RED . "And the last time you were: " . TextFormat::WHITE . $this->oldTouch, Practice::SERVER_PREFIX . TextFormat::GRAY . "Hopefully it's you, but on another device"]));
-      $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
-      $defaultWorld->loadChunk($defaultWorld->getSpawnLocation()->getX(), $defaultWorld->getSpawnLocation()->getZ());
-      $player->teleport($defaultWorld->getSpawnLocation());
-      $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "Your account details uploaded correctly!!");
-      $player->setScoreTag(TextFormat::WHITE . $device . TextFormat::DARK_GRAY . " | " . Practice::SERVER_COLOR . $control);
-      $player->broadcastSound(new AnvilFallSound(), [$player]);
-      ItemManager::spawnLobbyItems($player);
-    }
-
     function save(): void
     {
       $xuid = $this->xuid;

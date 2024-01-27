@@ -13,13 +13,14 @@ final class SessionManager
     
     private array $sessions = [];
 
-    function set(Player|string $value): void
+    function set(Player|string $value): bool
     {
-    	$pkayer = ($value instanceof Player) ? $value->getName() : $value;
+    	$player = ($value instanceof Player) ? $value->getName() : $value;
     	if (isset($this->sessions[$player])) {
-           return;
+           return false;
     	}
        $this->sessions[$player] = new Session($player);
+       return true;
     }
 
     function get(Player|string $value): Session

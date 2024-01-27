@@ -7,7 +7,7 @@ use isrdxv\practice\{
   PracticeLoader
 };
 use isrdxv\practice\manager\SessionManager;
-use isrdxv\practice\form\staff\punish\BanForm;
+use isrdxv\practice\form\user\InfoForm;
 
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
@@ -41,7 +41,7 @@ class InfoCommand extends BaseCommand
       $sender->sendForm(new InfoForm(["name" => $args["name"]]));
       return;
     } else {
-      $sender->sendForm(new InfoForm(["name" => ""]));
+      $sender->sendForm(new InfoForm(["name" => (string)$sender->getName()]));
       return;
     }
     $this->sendUsage();
