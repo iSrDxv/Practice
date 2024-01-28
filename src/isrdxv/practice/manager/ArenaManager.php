@@ -7,6 +7,11 @@ use isrdxv\practice\{
   PracticeLoader
 };
 use isrdxv\practice\arena\Arena;
+use isrdxv\practice\arena\type\{
+  FFArena,
+  DuelArena
+};
+
 use isrdxv\practice\kit\DefaultKit;
 
 use pocketmine\world\World;
@@ -61,7 +66,14 @@ final class ArenaManager
   
   function create(string $name, string $type, World $world, DefaultKit $kit): bool
   {
-    
+    if (!isset($this->duels[$name], $this->ffa[$name]) && empty($this->get($name))) {
+      if ($type === Arena::FFA) {
+        $arena = ($this->ffa[$name] = new FFArena($name, $kit, $world, [1 => $world->getSpawnLocation()]));
+        $this->save($arena);
+        return true;
+      }
+    }
+    return false;
   }
   
   function get(string $name): ?Arena
@@ -74,4 +86,12 @@ final class ArenaManager
     return array_merge($this->duels, $this->ffa);
   }
   
+  function save(Arena $arena): void
+	{
+		if(!file_exists($filePath = $this->defaultPath . "{$arena->getName()}.json")){
+			fclose(fopen($filePath, "w"));
+		}
+		file_put_contents($filePath, json_encode($kit->export()));
+	}
+	
 }
