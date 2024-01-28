@@ -12,6 +12,13 @@ use pocketmine\world\World;
  */
 abstract class Arena
 {
+  const TYPE_FFA = "FFA";
+  
+  const TYPE_DUEL = "DUEL";
+  
+  const TYPE_EVENT = "EVENT";
+  
+  const TYPE_BOT = "BOT";
   
   abstract function getName(): string;
   
