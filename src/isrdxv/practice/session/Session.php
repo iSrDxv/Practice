@@ -115,6 +115,8 @@ class Session
       $this->oldTouch = (string)$data["control"];
       $player->sendMessage(implode("\n", [Practice::SERVER_PREFIX . TextFormat::RED . "Last time you entered with: " . TextFormat::WHITE . $this->oldDevice, Practice::SERVER_PREFIX . TextFormat::RED . "And the last time you were: " . TextFormat::WHITE . $this->oldTouch, Practice::SERVER_PREFIX . TextFormat::GRAY . "Hopefully it's you, but on another device"]));
       $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
+      $defaultWorld->setTime(0);
+	  	$defaultWorld->stopTime();
       $defaultWorld->loadChunk($defaultWorld->getSpawnLocation()->getX(), $defaultWorld->getSpawnLocation()->getZ());
       $player->teleport($defaultWorld->getSpawnLocation());
       $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "Your account details uploaded correctly!!");

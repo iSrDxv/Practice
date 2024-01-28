@@ -46,12 +46,12 @@ final class KitManager
 			if(str_ends_with($file, ".json") === false){
 				continue;
 			}
-			$kitsData[basename($file, ".json")] = json_decode(file_get_contents($this->defaultPath, $file), true);
+			$kitsData[basename($file, ".json")] = json_decode(file_get_contents($file), true);
 		}
-	  $this->create($kitsData);
+	  $this->load($kitsData);
 	}
 
-	private function create(array $kitsData): void
+	private function load(array $kitsData): void
 	{
 		foreach($kitsData as $data){
 			if(isset($data["name"], $data["inventory"], $data["armor"], $data["data"], $data["kb"], $data["effects"])){

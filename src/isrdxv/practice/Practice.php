@@ -61,7 +61,7 @@ class Practice
     {
       $data = [];
       /**
-       * @var SavedItemStackData
+       * @var SavedItemStackData $itemData
        */
       $itemData = GlobalItemDataHandlers::itemSerializer()->serializeStack($item);
       $data['id'] = $item->getTypeId();
