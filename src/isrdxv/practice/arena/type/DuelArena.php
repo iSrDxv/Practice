@@ -85,6 +85,14 @@ final class DuelArena extends Arena
   
   function extract(): array
   {
-    return ["type" => Arena::DUEL, "world" => $this->worldName, "kit" => $this->kit?->getName()];
+    $spawns = [];
+    $num = 0;
+    $num++;
+    if ($num === 1) {
+      $spawns[$num] = Practice::positionToArray($this->spawn1);
+    }else{
+      $spawns[$num] = Practice::positionToArray($this->spawn2);
+    }
+    return ["type" => Arena::DUEL, "world" => $this->worldName, "kit" => $this->kit?->getName(), "spawns" => $spawns, "maxHeight" => $this->maxHeight];
   }
 }
