@@ -14,7 +14,10 @@ use isrdxv\practice\command\{
 };
 use isrdxv\practice\task\BroadcastTask;
 use isrdxv\practice\utils\Time;
-use isrdxv\practice\manager\ItemManager;
+use isrdxv\practice\manager\{
+  TaskManager,
+  ItemManager
+};
 
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\{
@@ -65,6 +68,7 @@ class PracticeLoader extends PluginBase
         $this->addDirectory(["arenas", "cosmetics", "capes"]);
         
         //INITIALIZERS
+        new TaskManager($this);
         PracticeListener::init();
         ItemManager::init();
         

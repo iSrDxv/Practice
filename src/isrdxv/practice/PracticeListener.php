@@ -14,6 +14,7 @@ use isrdxv\practice\manager\{
 use pocketmine\Server;
 use pocketmine\player\{
   Player,
+  GameMode,
   XboxLivePlayerInfo
 };
 use pocketmine\utils\{
@@ -111,6 +112,7 @@ class PracticeListener implements Listener
       TextFormat::WHITE . "——————" . TextFormat::EOL
     ];
     $player->sendMessage(implode("\n", $information));
+    $player->setGamemode(GameMode::ADVENTURE());
     if (!SessionManager::getInstance()->set($player)) {
       $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GOLD . "Loading your session...");
       sleep(1500);
@@ -140,6 +142,7 @@ class PracticeListener implements Listener
   {
     $player = $event->getPlayer();
     $event->setRespawnPosition(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
+    $player->setGamemode(GameMode::ADVENTURE());
     ItemManager::spawnLobbyItems($player);
   }
   

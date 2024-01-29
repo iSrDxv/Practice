@@ -19,7 +19,7 @@ final class SessionManager
     	if (isset($this->sessions[$player])) {
            return false;
     	}
-       $this->sessions[$player] = new Session($player);
+      $this->sessions[$player] = new Session($player);
        return true;
     }
 

@@ -12,7 +12,10 @@ use isrdxv\practice\manager\{
 };
 
 use pocketmine\Server;
-use pocketmine\player\Player;
+use pocketmine\player\{
+  GameMode,
+  Player
+};
 use pocketmine\utils\TextFormat;
 use pocketmine\command\CommandSender;
 
@@ -38,6 +41,8 @@ class HubCommand extends BaseCommand
       $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
       $defaultWorld->loadChunk($defaultWorld->getSpawnLocation()->getX(), $defaultWorld->getSpawnLocation()->getZ());
       $sender->teleport($defaultWorld->getSpawnLocation());
+      $sender->setGamemode(GameMode::ADVENTURE());
+      $sender->setHealth($sender->getMaxHealth());
       ItemManager::spawnLobbyItems($sender);
     }
   }
