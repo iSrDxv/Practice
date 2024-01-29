@@ -8,8 +8,11 @@ use pocketmine\player\Player;
 class DuelInvite{
 
 	private string $from;
+	
 	private string $to;
+	
 	private string $kit;
+	
 	private bool $ranked;
 
 	public function __construct(Player $from, Player $to, string $kit, bool $ranked){
