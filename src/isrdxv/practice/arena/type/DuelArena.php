@@ -85,6 +85,6 @@ final class DuelArena extends Arena
   
   function extract(): array
   {
-    return [];
+    return ["type" => Arena::DUEL, "world" => $this->worldName, "kit" => $this->kit?->getName()];
   }
 }
