@@ -1,6 +1,6 @@
 name: Practice
 api: 5.0.0
-version: 1.0.5+dev
+version: 1.1.0+dev
 main: isrdxv\practice\PracticeLoader
 author: "iSrDxv"
 prefix: "Practice-StromMC"
@@ -27,3 +27,6 @@ permissions:
   practice.command.arena:
     default: true
     description: Command for the sands
+  practice.command.duel:
+    default: true
+    description: Send PvP Request

@@ -22,7 +22,7 @@ use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\TreeRoot;
 use pocketmine\utils\TextFormat;
-pocketmine\world\format\io\GlobalItemDataHandlers;
+use pocketmine\world\format\io\GlobalItemDataHandlers;
 use pocketmine\data\bedrock\{
   EffectIdMap,
   EnchantmentIdMap

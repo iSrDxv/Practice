@@ -19,6 +19,7 @@ use isrdxv\practice\form\{
 use pocketmine\Server;
 use pocketmine\player\{
   Player,
+  GameMode,
   XboxLivePlayerInfo
 };
 use pocketmine\utils\{
@@ -238,6 +239,7 @@ class PracticeListener implements Listener
           $kits = array_keys(KitManager::getInstance()->all());
           $damager->sendForm(new DuelRequestForm($kicker, $kits));
         }elseif ($event->getCause() === EntityDamageByEntityEvent::CAUSE_VOID) {
+          $event->cancel();
           $entity->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
         }elseif ($event->getCause() === EntityDamageByEntityEvent::CAUSE_SUFFOCATION) {
           $entity->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());

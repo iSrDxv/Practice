@@ -22,7 +22,7 @@ class TaskManager
   
   function __construct(PracticeLoader $loader)
   {
-    self::setInstance($loader);
+    self::setInstance($this);
     $this->loader = $loader;
   }
   
@@ -49,7 +49,7 @@ class TaskManager
     return $id;
   }
   
-  public function get(string $id): Task|AsyncTask
+  public function get(string $id): Task|AsyncTask|null
   {
     return $this->tasks[$id] ?? null;
   }

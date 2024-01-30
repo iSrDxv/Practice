@@ -3,7 +3,8 @@
 namespace isrdxv\practice\session;
 
 use isrdxv\practice\session\misc\{
-	ClientDataInfo
+	ClientDataInfo,
+	ScoreboardHandler
 };
 use isrdxv\practice\{
   Practice,
@@ -45,6 +46,8 @@ class Session
     private string $lastPlayed;
     
     private ClientDataInfo $clientData;
+    
+    private ScoreboardHandler $scoreboardHandler;
     
     private string $oldDevice;
     
@@ -88,6 +91,7 @@ class Session
         $database->executeInsert("practice.settings", ["xuid" => $xuid, "scoreboard" => true, "queue" => true, "cps" => false, "auto_join" => false]);
         $database->executeImplRaw([0 => "SELECT * FROM data_user,settings WHERE data_user.xuid = $xuid AND settings.xuid = $xuid"], [0 => []], [0 => SqlThread::MODE_SELECT], function(array $rows) use($session, $player, $xuid): void {
         	if ($player instanceof Player) {
+        	  var_dump("init");
         	  var_dump($rows[0]->getRows());
         	   if (isset($rows[0], $rows[0]->getRows()[0]) && $xuid !== null) {
         	      $session->load($rows[0]->getRows()[0]);
@@ -122,6 +126,8 @@ class Session
 	  	$defaultWorld->stopTime();
       $defaultWorld->loadChunk($defaultWorld->getSpawnLocation()->getX(), $defaultWorld->getSpawnLocation()->getZ());
       $player->teleport($defaultWorld->getSpawnLocation());
+      $this->scoreboardHandler = new ScoreboardHandler($player);
+      $this->scoreboardHandler->setScoreboard(ScoreboardHandler::TYPE_LOBBY);
       $player->setGamemode(GameMode::ADVENTURE());
       $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "Your account details uploaded correctly!!");
       $player->setScoreTag(TextFormat::WHITE . $device . TextFormat::DARK_GRAY . " | " . Practice::SERVER_COLOR . $control);
@@ -162,6 +168,11 @@ class Session
     function getClientData(): ClientDataInfo
     {
     	return $this->clientData;
+    }
+    
+    function getScoreboardHandler(): ScoreboardHandler
+    {
+      return $this->scoreboardHandler;
     }
     
     function getKills(): int
