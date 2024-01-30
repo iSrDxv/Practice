@@ -82,8 +82,7 @@ final class BanForm extends CustomForm
           $player?->sendMessage($announcement);
         }
         if ($player->isOnline() !== null && $player->isOnline()) {
-          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . $name . " banned");
-          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "Thanks for banning a cheater");
+          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . $name . " banned, thanks for banning a cheater");
         }
         //agregar puntos por banear a un jugador (para el staff)
       }, function(Player $player): void {
