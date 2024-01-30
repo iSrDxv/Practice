@@ -17,15 +17,15 @@ permissions:
     description: Punish a server user
   practice.command.kick:
       default: false
-      description: Punish a server user
+      description: Kick a player
   practice.command.mute:
       default: false
-      description: Punish a server user
+      description: Mutes a chat user
   practice.command.info:
     default: true
     description: View a user's information
   practice.command.arena:
-    default: true
+    default: op
     description: Command for the sands
   practice.command.duel:
     default: true
