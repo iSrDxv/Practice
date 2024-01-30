@@ -35,7 +35,7 @@ class DuelWorld
     }catch(Exception $exception) {
       PracticeLoader::getInstance()->getLogger()->error($exception->getMessage());
     }
-    $this->worldId = (Server::getInstance()->getWorldManager()->getWorldByName($this->id))->getId();
+    $this->worldId = (Server::getInstance()->getWorldManager()->getWorldByName($this->id))?->getId();
   }
   
   /**

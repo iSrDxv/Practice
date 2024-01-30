@@ -7,14 +7,18 @@ use isrdxv\practice\{
   PracticeLoader
 };
 use isrdxv\practice\manager\{
+  KitManager,
   ItemManager,
   SessionManager
+};
+use isrdxv\practice\form\{
+  duel\DuelMenuForm,
+  duel\DuelRequestForm
 };
 
 use pocketmine\Server;
 use pocketmine\player\{
   Player,
-  GameMode,
   XboxLivePlayerInfo
 };
 use pocketmine\utils\{
@@ -57,7 +61,7 @@ class PracticeListener implements Listener
   function onPreLogin(PlayerPreLoginEvent $event): void
   {
     if (Server::getInstance()->hasWhitelist()) {
-      $event->setKickFlag(PlayerPreLoginEvent::KICK_FLAG_SERVER_WHITELISTED, TextFormat::colorize("&8[&l&c!&r&8]" . Practice::SERVER_NAME . "&8[&l&c!]" . TextFormat::EOL . " " . TextFormat::GRAY . "Whitelist enabled!!" . TextFormat::EOL . TextFormat::RED . "The server is whitelisted." . DIRECTORY_SEPARATOR . "please look at our discord announcements"));
+      $event->setKickFlag(PlayerPreLoginEvent::KICK_FLAG_SERVER_WHITELISTED, TextFormat::DARK_GRAY . "[" . TextFormat::BOLD . TextFormat::RED . "!" . TextFormat::RESET . TextFormat::DARK_GRAY . "]" . Practice::SERVER_NAME . TextFormat::DARK_GRAY . "[" . TextFormat::BOLD . TextFormat::RED . "!" . TextFormat::RESET . TextFormat::DARK_GRAY . "]" . TextFormat::EOL . " " . TextFormat::GRAY . "Whitelist enabled!!" . TextFormat::EOL . TextFormat::RED . "The server is whitelisted." . TextFormat::EOL . "please look at our discord announcements");
       return;
     }
     if (Practice::getMaintenance()) {
@@ -102,17 +106,15 @@ class PracticeListener implements Listener
   function onJoin(PlayerJoinEvent $event): void
   {
     $player = $event->getPlayer();
-    $event->setJoinMessage(TextFormat::colorize("&0[&a+&0] &a" . $player->getName()));
     $player->sendMessage(TextFormat::GRAY . "NOW Loading your data & cosmetics...");
     $information = [
       TextFormat::GRAY . "Welcome to " . Practice::SERVER_COLOR . "StromMC" . TextFormat::EOL,
-      TextFormat::WHITE . "——————" . TextFormat::EOL,
+      TextFormat::WHITE . " ----------------" . TextFormat::EOL,
       TextFormat::GRAY . "Discord: " . TextFormat::WHITE . "discord.gg/strommc" . TextFormat::EOL,
       TextFormat::DARK_RED . "Store: " . TextFormat::WHITE . "strommc.tebex.io" . TextFormat::EOL,
-      TextFormat::WHITE . "——————" . TextFormat::EOL
+      TextFormat::WHITE . " ----------------" . TextFormat::EOL
     ];
     $player->sendMessage(implode("\n", $information));
-    $player->setGamemode(GameMode::ADVENTURE());
     if (!SessionManager::getInstance()->set($player)) {
       $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GOLD . "Loading your session...");
       sleep(1500);
@@ -136,6 +138,32 @@ class PracticeListener implements Listener
           $player->kick("not xuid");
         }
     }, null);
+    switch($sessionRank->getHighestRank()->getName()) {
+      case "User":
+        $event->setJoinMessage(TextFormat::BLACK . "[" . TextFormat::GREEN . "+" . TextFormat::BLACK . "] " . TextFormat::GREEN . $player->getName());
+      break;
+      case "Admin":
+        $event->setJoinMessage(TextFormat::DARK_RED . "[" . TextFormat::WHITE . "+" . TextFormat::DARK_RED . "] " . TextFormat::WHITE . $player->getName());
+      break;
+      case "Owner":
+        $event->setJoinMessage(TextFormat::DARK_RED . "[" . TextFormat::BLUE . "+" . TextFormat::DARK_RED . "] " . TextFormat::BLUE . $player->getName());
+      break;
+      case "YouTube":
+        $event->setJoinMessage(TextFormat::RED . "[" . TextFormat::GOLD . "+" . TextFormat::WHITE . "] " . TextFormat::WHITE . $player->getName());
+      break;
+      case "Godex":
+        $event->setJoinMessage(TextFormat::GOLD . "[" . TextFormat::WHITE . "+" . TextFormat::GOLD . "] " . TextFormat::GOLD . $player->getName());
+      break;
+      case "Zodiac":
+        $event->setJoinMessage(TextFormat::DARK_BLUE . "[" . TextFormat::WHITE . "+" . TextFormat::DARK_BLUE . "] " . TextFormat::BLUE . $player->getName());
+      break;
+      case "Developer":
+        $event->setJoinMessage(TextFormat::BLUE . "[" . TextFormat::GOLD . "+" . TextFormat::BLUE . "] " . TextFormat::AQUA . $player->getName());
+      break;
+      case "Mod":
+        $event->setJoinMessage(TextFormat::DARK_PURPLE . "[" . TextFormat::GRAY . "+" . TextFormat::DARK_PURPLE . "] " . TextFormat::PURPLE . $player->getName());
+      break;
+    }
   }
   
   function onRespawn(PlayerRespawnEvent $event): void
@@ -163,7 +191,7 @@ class PracticeListener implements Listener
         switch($tag?->getValue()){
           case ItemManager::DUEL:
             if ($session->isInLobby()) {
-              //$player->sendForm();
+              $player->sendForm(new DuelMenuForm(["name" => $player->getName()]));
             }
           break;
         }
@@ -207,7 +235,8 @@ class PracticeListener implements Listener
     if ($kicker instanceof Player && $damager instanceof Player) {
       if ($kicker->getWorld() === $defaultWorld && $damager->getWorld() === $defaultWorld) {
         if ($damager->getInventory()->getItemInHand()->getNamedTag()->getTag("Practice")?->getValue() === ItemManager::DUEL) {
-          $damager->sendMessage("lol");
+          $kits = array_keys(KitManager::getInstance()->all());
+          $damager->sendForm(new DuelRequestForm($kicker, $kits));
         }elseif ($event->getCause() === EntityDamageByEntityEvent::CAUSE_VOID) {
           $entity->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
         }elseif ($event->getCause() === EntityDamageByEntityEvent::CAUSE_SUFFOCATION) {

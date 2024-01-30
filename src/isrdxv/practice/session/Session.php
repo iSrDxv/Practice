@@ -12,7 +12,10 @@ use isrdxv\practice\{
 use isrdxv\practice\manager\ItemManager;
 
 use pocketmine\Server;
-use pocketmine\player\Player;
+use pocketmine\player\{
+  GameMode,
+  Player
+};
 use pocketmine\utils\TextFormat;
 use pocketmine\world\sound\AnvilFallSound;
 
@@ -119,6 +122,7 @@ class Session
 	  	$defaultWorld->stopTime();
       $defaultWorld->loadChunk($defaultWorld->getSpawnLocation()->getX(), $defaultWorld->getSpawnLocation()->getZ());
       $player->teleport($defaultWorld->getSpawnLocation());
+      $player->setGamemode(GameMode::ADVENTURE());
       $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "Your account details uploaded correctly!!");
       $player->setScoreTag(TextFormat::WHITE . $device . TextFormat::DARK_GRAY . " | " . Practice::SERVER_COLOR . $control);
       $player->broadcastSound(new AnvilFallSound(), [$player]);

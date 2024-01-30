@@ -1,6 +1,6 @@
 <?php
 
-namespace isrdxv\practice\form\staff\punish;
+namespace isrdxv\practice\form\duel;
 
 use isrdxv\practice\Practice;
 use isrdxv\practice\manager\SessionManager;
@@ -18,7 +18,7 @@ use pocketmine\utils\TextFormat;
 use DateTime;
 use DateTimeZone;
 
-final class BanForm extends CustomForm
+final class DuelMenuForm extends MenuForm
 {
   
   function __construct(...$args)

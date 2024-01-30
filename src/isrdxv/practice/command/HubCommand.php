@@ -28,6 +28,7 @@ class HubCommand extends BaseCommand
   {
       parent::__construct($loader, "hub", TextFormat::DARK_AQUA . "Back to hub");
       $this->setAliases(["lobby", "spawn"]);
+      $this->setUsage("/hub");
       $this->setPermission("practice.command.hub");
   }
 

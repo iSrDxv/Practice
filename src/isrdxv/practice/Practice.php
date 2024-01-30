@@ -3,6 +3,7 @@
 namespace isrdxv\practice;
 
 use isrdxv\practice\PracticeLoader;
+use isrdxv\practice\kit\misc\KnockbackInfo;
 
 use pocketmine\nbt\LittleEndianNbtSerializer;
 use pocketmine\item\{
@@ -12,7 +13,10 @@ use pocketmine\item\{
 use pocketmine\entity\effect\EffectInstance;
 use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
 use pocketmine\network\mcpe\protocol\MovePlayerPacket;
-use pocketmine\entity\Entity;
+use pocketmine\entity\{
+  Attribute,
+  Entity
+};
 use pocketmine\player\Player;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
@@ -94,6 +98,43 @@ class Practice
     static function getRandomId(): string
     {
       return bin2hex(random_bytes(8));
+    }
+    
+    static function knockBack(Player $player, Entity $entity, KnockbackInfo $kbInfo): void
+    {
+      $horizontal = $kbInfo->horizontal;
+      $vertical = $kbInfo->vertical;
+      if (!$player->isOnGround() &&  ($maxHeight = $kbInfo->maxHeight) > 0) {
+        [$max, $min] = self::maxAndMin($player->getPosition()->y, $entity->getPosition()->y);
+        if ($max - $min >= $madHeight) {
+          $vertical *= 0.75;
+          if ($kbInfo->canRevert) {
+            $vertical *= -1;
+          }
+        }
+      }
+      $x = $player->getPosition()->x - $entity->getPosition()->x;
+      $y = $player->getPosition()->y - $entity->getPosition()->y;
+      $z = $player->getPosition()->z - $entity->getPosition()->z;
+      $f = sqrt($x * $x + $z * $z);
+      if ($f <= 0) {
+        return;
+      }
+      if (mt_rand() / mt_getrandmax() > $player->getAttributeMap()->get(Attribute::KNOCKBACK_RESISTANCE)?->getValue()) {
+        $f = 1 / $f;
+        $motion = clone $player->getMotion();
+        $motion->x /= 2;
+			  $motion->y /= 2;
+			  $motion->z /= 2;
+  			$motion->x += $x * $f * $horizontal;
+  			$motion->y += $vertical;
+  			$motion->z += $z * $f * $horizontal;
+  			
+  			if($motion->y > $vertical){
+  			  $motion->y = $vertical;
+  			}
+  			$player->setMotion($motion);
+      }
     }
     
     static function centerText(string $input, int $maxLength = 0, bool $addRightPadding = false): string
