@@ -46,7 +46,41 @@ class Practice
          TextFormat::RESET . TextFormat::GRAY . "Don't forget to enter our store to see the benefits: strommc.tebex.io",
          TextFormat::RESET . TextFormat::GREEN . "Don't forget to enjoy our server, and vote to get a rank for 1 month: link"
     ];
- 
+    
+    const charWidths = [
+    		" " => 4,
+    		"!" => 2,
+    		"'" => 5,
+    		"\'" => 3,
+    		"(" => 5,
+    		")" => 5,
+    		"*" => 5,
+    		"," => 2,
+    		"." => 2,
+    		":" => 2,
+    		";" => 2,
+    		"<" => 5,
+    		">" => 5,
+    		"@" => 7,
+    		"I" => 4,
+    		"[" => 4,
+    		"]" => 4,
+    		"f" => 5,
+    		"i" => 2,
+    		"k" => 5,
+    		"l" => 3,
+    		"t" => 4,
+    		"" => 5,
+    		"|" => 2,
+    		"~" => 7,
+    		"█" => 9,
+    		"░" => 8,
+    		"▒" => 9,
+    		"▓" => 9,
+    		"▌" => 5,
+    		"─" => 9
+    ];
+    	
     static function setMaintenance(): void
     {
       self::$maintenance = PracticeLoader::getInstance()->getConfig()->getNested("maintenance");
@@ -55,6 +89,48 @@ class Practice
     static function getMaintenance(): bool
     {
       return self::$maintenance;
+    }
+    
+    static function centerText(string $input, int $maxLength = 0, bool $addRightPadding = false): string
+    {
+      $lines = explode("\n", trim($input));
+		  $sortedLines = $lines;
+		  usort($sortedLines, static function(string $a, string $b){
+		    return self::getPixelLength($b) <=> self::getPixelLength($a);
+		  });
+		  $longest = $sortedLines[0];
+  		if($maxLength === 0){
+  		  $maxLength = self::getPixelLength($longest);
+	   	}
+		  $result = "";
+  		$spaceWidth = self::getCharWidth(" ");
+  		foreach($lines as $sortedLine){
+  		  $len = max($maxLength - self::getPixelLength($sortedLine), 0);
+			  $padding = (int) round($len / (2 * $spaceWidth));
+		  	$paddingRight = (int) floor($len / (2 * $spaceWidth));
+	  		$result .= str_pad(" ", $padding) . $sortedLine . ($addRightPadding ? str_pad(" ", $paddingRight) : "") . "\n";
+  		}
+	  	return rtrim($result, "\n");
+    }
+    
+    static function getPixelLength(string $pixel): int
+    {
+      $length = 0;
+      foreach(str_split(TextFormat::clean($pixel)) as $char) {
+        $length += self::getCharWidth($char);
+      }
+      $length += substr_count($pixel, TextFormat::BOLD);
+      return $length;
+    }
+    
+    private static function getCharWidth(string $char): int
+    {
+      return self::charWidths[$char] ?? 6;
+    }
+    
+    static function centerLine(string $line): string
+    {
+      return self::centerText($line, 30 * 6);
     }
     
     static function itemToArray(Item $item): array

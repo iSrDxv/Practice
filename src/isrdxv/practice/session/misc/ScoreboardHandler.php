@@ -71,7 +71,7 @@ class ScoreboardHandler
     $line = 0;
     $this->type = self::TYPE_LOBBY;
     $this->id = TaskManager::getInstance()->set(new ClosureTask(function() use($session, $line): void {
-      $this->scoreboard?->setLine($line++, $this->line);
+      $this->scoreboard?->setLine($line++, Practice::centerLine($this->line, Practice::getPixelLength($this->line)));
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| Online: " . TextFormat::WHITE . count(SessionManager::getInstance()->all()));
       $this->scoreboard?->setLine($line++, "");
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| Kills: " . TextFormat::WHITE . $session->getKills());
@@ -80,7 +80,7 @@ class ScoreboardHandler
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| Elo: " . TextFormat::WHITE . $session->getElo());
       $this->scoreboard?->setLine($line++, " ");
       //queue
-      $this->scoreboard?->setLine($line++, $this->line . TextFormat::RESET);
+      $this->scoreboard?->setLine($line++, Practice::centerLine($this->line . TextFormat::RESET, Practice::getPixelLength($this->line)));
       $this->scoreboard?->setLine($line++, Practice::centerText(TextFormat::GRAY . " test", 95, true));
     }), 20);
   }
