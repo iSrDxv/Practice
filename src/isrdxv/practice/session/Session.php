@@ -207,7 +207,7 @@ class Session
     
     function save(): void
     {
-      $xuid = $this->xuid;
+      $xuid = $this->getPlayer()?->getXuid();
       $lastPlayed = (new DateTime("NOW", new DateTimeZone("America/Mexico_City")))->format("Y-m-d H:i");
       $address = (string)$this->getPlayer()?->getNetworkSession()->getIp() ?? "127.0.0.1";
       $device = $this->clientData->getDevice();

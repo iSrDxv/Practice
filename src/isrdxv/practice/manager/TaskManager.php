@@ -12,12 +12,13 @@ use pocketmine\scheduler\{
 };
 use pocketmine\utils\SingletonTrait;
 
-class TaskManager
+final class TaskManager
 {
   use SingletonTrait;
   
   private $loader;
   
+  /** @var Task[] **/
   private array $tasks = [];
   
   function __construct(PracticeLoader $loader)
@@ -59,6 +60,8 @@ class TaskManager
     if (empty($this->tasks[$id])) {
       return;
     }
+    $task = $this->tasks[$id];
+    $task->getHandler()?->cancel();
     unset($this->tasks[$id]);
   }
   

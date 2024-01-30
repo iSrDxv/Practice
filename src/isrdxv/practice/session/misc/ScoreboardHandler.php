@@ -28,7 +28,7 @@ class ScoreboardHandler
   
   private ?string $type;
  
- private string $id = "";
+  private string $id = "";
  
   private string $line;
   
@@ -52,7 +52,7 @@ class ScoreboardHandler
       if (empty($type)) {
         $this->scoreboard->remove();
         $this->scoreboard = null;
-        $this->type = null;
+        TaskManager::getInstance()->delete($this->id);
         $this->id = "";
       }
       $this->scoreboard = $this->scoreboard ?? ScoreboardLib::create($this->player, TextFormat::BOLD . Practice::SERVER_COLOR . "PRACTICE");
@@ -68,7 +68,6 @@ class ScoreboardHandler
   function setLobby(Session $session): void
   {
     if (($task = TaskManager::getInstance()->get($this->id)) !== null) {
-      $task->getHandler()?->cancel();
       TaskManager::getInstance()->delete($this->id);
     }
     $line = 0;

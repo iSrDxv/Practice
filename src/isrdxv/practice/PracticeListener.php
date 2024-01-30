@@ -179,6 +179,7 @@ class PracticeListener implements Listener
   {
     $player = $event->getPlayer();
     $session = SessionManager::getInstance()->get($player);
+    $session->getScoreboardHandler()->setScoreboard(null);
     $session->save();
     
     $event->setQuitMessage(TextFormat::colorize("&0[&c-&0] &c" . $player->getName()));
@@ -235,14 +236,16 @@ class PracticeListener implements Listener
     $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
     if ($kicker instanceof Player && $damager instanceof Player) {
       if ($kicker->getWorld() === $defaultWorld && $damager->getWorld() === $defaultWorld) {
+        if ($event->getCause() === EntityDamageByEntityEvent::CAUSE_VOID) {
+          //$event->cancel();
+          $entity->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
+        }
+        if ($event->getCause() === EntityDamageByEntityEvent::CAUSE_SUFFOCATION) {
+          $entity->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
+        }
         if ($damager->getInventory()->getItemInHand()->getNamedTag()->getTag("Practice")?->getValue() === ItemManager::DUEL) {
           $kits = array_keys(KitManager::getInstance()->all());
           $damager->sendForm(new DuelRequestForm($kicker, $kits));
-        }elseif ($event->getCause() === EntityDamageByEntityEvent::CAUSE_VOID) {
-          $event->cancel();
-          $entity->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
-        }elseif ($event->getCause() === EntityDamageByEntityEvent::CAUSE_SUFFOCATION) {
-          $entity->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
         }
         $event->cancel();
         return;
