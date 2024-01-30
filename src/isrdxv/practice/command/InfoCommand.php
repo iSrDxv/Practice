@@ -9,6 +9,7 @@ use isrdxv\practice\{
 use isrdxv\practice\manager\SessionManager;
 use isrdxv\practice\form\user\InfoForm;
 
+use pocketmine\Server;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\command\CommandSender;
@@ -38,6 +39,10 @@ class InfoCommand extends BaseCommand
   function onRun(CommandSender $sender, string $aliasUsed, array $args): void
   {
     if ($sender instanceof Player && array_key_exists("name", $args) && $args["name"] !== "null") {
+      if (empty(Server::getInstance()->getPlayerByPrefix($args["name"])) || empty(Server::getInstance()->getPlayerExact($args["name"]))) {
+        $sender->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "The player is not connected right now.");
+        return;
+      }
       $sender->sendForm(new InfoForm(["name" => $args["name"]]));
       return;
     } else {

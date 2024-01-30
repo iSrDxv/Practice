@@ -39,9 +39,7 @@ final class InfoForm extends MenuForm
       TextFormat::GRAY . "Controller: " . TextFormat::WHITE . $session->getClientData()->getTouch(),
       TextFormat::GRAY . "Settings: " . TextFormat::WHITE . implode("\n", $session->getSettings()),
     ];
-    parent::__construct("Info Menu", implode("\n", $information), [
-      new MenuOption("Back")
-      ], function(Player $player, int $selectedOption): void {
+    parent::__construct("Info Menu", implode("\n", $information), [], function(Player $player, int $selectedOption): void {
         switch($selectedOption){
           case 0:
             //code
