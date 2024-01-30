@@ -28,10 +28,11 @@ final class DuelRequestForm extends CustomForm
   {
     $to = $args[0] ?? null;
     $kits = $args[1] ?? [];
+    $players = $args[2] ?? [];
     $buttons = [];
     if (empty($to)) {
-      if (count(SessionManager::getInstance()->all()) > 0) {
-        $buttons[] = new Dropdown("request", "Request to: ", array_keys(SessionManager::getInstance()->all()));
+      if (count($players) > 0) {
+        $buttons[] = new Dropdown("request", "Request to: ", $players);
         if (is_array($kits) && $kits !== []) {
           $buttons[] = new Dropdown("kit", "Select a Kit: ", $kits);
         } else {
@@ -49,6 +50,11 @@ final class DuelRequestForm extends CustomForm
       }
     }
     parent::__construct("Duel Request", $buttons, function(Player $player, CustomFormResponse $response): void {
+      if (($session = SessionManager::getInstance()->get($player)) !== null && $session->isInLobby()) {
+        if (isset($players) && isset($kits) && isset($to)) {
+          
+        }
+      }
       $player->sendMessage(print_r($response, true));
     }, function(Player $player): void {
         $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "Thank you for inviting a player to a match");

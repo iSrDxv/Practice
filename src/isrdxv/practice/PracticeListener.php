@@ -237,7 +237,7 @@ class PracticeListener implements Listener
     if ($kicker instanceof Player && $damager instanceof Player) {
       if ($kicker->getWorld() === $defaultWorld && $damager->getWorld() === $defaultWorld) {
         if ($event->getCause() === EntityDamageByEntityEvent::CAUSE_VOID) {
-          //$event->cancel();
+          $event->cancel();
           $entity->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
         }
         if ($event->getCause() === EntityDamageByEntityEvent::CAUSE_SUFFOCATION) {
@@ -245,7 +245,8 @@ class PracticeListener implements Listener
         }
         if ($damager->getInventory()->getItemInHand()->getNamedTag()->getTag("Practice")?->getValue() === ItemManager::DUEL) {
           $kits = array_keys(KitManager::getInstance()->all());
-          $damager->sendForm(new DuelRequestForm($kicker, $kits));
+          $players = array_keys(SessionManager::getInstance()->all());
+          $damager->sendForm(new DuelRequestForm($kicker, $kits, $players));
         }
         $event->cancel();
         return;

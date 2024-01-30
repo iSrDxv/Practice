@@ -26,7 +26,7 @@ final class InfoForm extends MenuForm
     $session = SessionManager::getInstance()->get($args[0]["name"]);
     $information = [
       TextFormat::DARK_AQUA . "Welcome to the information of: " . TextFormat::WHITE . $args[0]["name"],
-      TextFormat::GRAY . "Custom Name: " . TextFormat::WHITE . $session->getCustomName(),
+      TextFormat::GRAY . "Custom Name: " . TextFormat::WHITE . ($session->getCustomName() !== null ? $session->getCustomName() : "null"),
       TextFormat::GRAY . "Rank: " . TextFormat::WHITE . $session->getRank(),
       TextFormat::GRAY . "Language: " . TextFormat::WHITE . $session->getLanguage(),
       TextFormat::GRAY . "Coins: " . TextFormat::WHITE . $session->getCoin(),
