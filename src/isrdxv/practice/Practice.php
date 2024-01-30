@@ -91,6 +91,11 @@ class Practice
       return self::$maintenance;
     }
     
+    static function getRandomId(): string
+    {
+      return bin2hex(random_bytes(8));
+    }
+    
     static function centerText(string $input, int $maxLength = 0, bool $addRightPadding = false): string
     {
       $lines = explode("\n", trim($input));
