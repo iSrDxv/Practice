@@ -80,10 +80,9 @@ class ScoreboardHandler
       $this->scoreboard?->setLine($line++, Practice::centerLine($this->line, Practice::getPixelLength($this->line)));
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| Online: " . TextFormat::WHITE . count(SessionManager::getInstance()->all()));
       $this->scoreboard?->setLine($line++, "");
-      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| Kills: " . TextFormat::WHITE . $session->getKills());
-      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| Deaths: " . TextFormat::WHITE . $session->getDeaths());
-      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| KDR: " . TextFormat::WHITE . ($session->getKills() === 0 && $session->getDeaths() === 0 ? 0.0 : $session->getKills() / $session->getDeaths()));
-      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| Wins: " . TextFormat::WHITE . $session->getWins());
+      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| K: " . TextFormat::WHITE . $session->getKills() . Practice::SERVER_COLOR . "  D: " . TextFormat::WHITE . $session->getDeaths());
+      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| KDR: " . TextFormat::WHITE . ($session->getKills() === 0 && $session->getDeaths() === 0 ? (float)0.0 : ($session->getKills() / $session->getDeaths())) . Practice::SERVER_COLOR . "   Wins: " . TextFormat::WHITE . $session->getWins());
+      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| Elo: " . TextFormat::WHITE . $session->getElo());
       $this->scoreboard?->setLine($line++, " ");
       //queue
       $this->scoreboard?->setLine($line++, Practice::centerLine($this->line . TextFormat::RESET, Practice::getPixelLength($this->line)));

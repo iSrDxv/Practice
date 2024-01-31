@@ -36,9 +36,9 @@ class Practice
     
     const BYPASS = ["SrClauYT", "StyleMH"];
     
-    const SERVER_NAME = TextFormat::DARK_AQUA . "StromMC";
+    const SERVER_NAME = TextFormat::LIGHT_PURPLE . "StromMC";
     
-    const SERVER_COLOR = TextFormat::DARK_AQUA;
+    const SERVER_COLOR = TextFormat::LIGHT_PURPLE;
     
     const SERVER_MOTD = self::SERVER_NAME . ": " . TextFormat::BOLD . TextFormat::GOLD . "¡¡NEW RELEASE!!" . TextFormat::GRAY;
 
@@ -47,7 +47,7 @@ class Practice
     const SERVER_PREFIX = self::SERVER_NAME . TextFormat::BOLD . TextFormat::GRAY . " » " . TextFormat::RESET;
     
     const BROADCAST_LIST = [
-         TextFormat::RESET . TextFormat::GRAY . "Don't forget to enter our store to see the benefits: strommc.tebex.io",
+         TextFormat::RESET . TextFormat::GRAY . "Don't forget to enter our store to see the benefits: " . self::SERVER_COLOR . "strommc.tebex.io",
          TextFormat::RESET . TextFormat::GREEN . "Don't forget to enjoy our server, and vote to get a rank for 1 month: link"
     ];
     
