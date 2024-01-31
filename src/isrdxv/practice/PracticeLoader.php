@@ -62,6 +62,10 @@ class PracticeLoader extends PluginBase
         $this->database->executeGeneric("practice.init.user", [], function(): void {}, null);
         $this->database->waitAll(); $this->database->executeGeneric("practice.init.settings", [], function(): void {}, null);
         $this->database->waitAll();
+        $this->database->waitAll(); $this->database->executeGeneric("practice.init.ban", [], function(): void {}, null);
+        $this->database->waitAll();
+        $this->database->waitAll(); $this->database->executeGeneric("practice.init.staff", [], function(): void {}, null);
+                $this->database->waitAll();
         $this->getLogger()->notice("Database connected");
 
         //AGGREGATES
