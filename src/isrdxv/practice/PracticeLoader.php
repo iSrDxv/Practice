@@ -3,27 +3,28 @@
 namespace isrdxv\practice;
 
 use isrdxv\practice\{
-  Practice,
-  PracticeListener
+    Practice,
+    PracticeListener
 };
 use isrdxv\practice\command\{
-  HubCommand,
-  BanCommand,
-  InfoCommand,
-  ArenaCommand,
-  DuelCommand,
-	MaintenanceCommand
+    HubCommand,
+    BanCommand,
+    InfoCommand,
+    ArenaCommand,
+    DuelCommand,
+    KitManager,
+  	MaintenanceCommand
 };
 use isrdxv\practice\task\BroadcastTask;
 use isrdxv\practice\utils\Time;
 use isrdxv\practice\manager\{
-  TaskManager,
-  ItemManager
+    TaskManager,
+    ItemManager
 };
 
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\{
-	TextFormat,
+  	TextFormat,
     SingletonTrait
 };
 use pocketmine\world\World;
@@ -71,7 +72,7 @@ class PracticeLoader extends PluginBase
 
         //AGGREGATES
         $this->deleteCommand(["pardon", "kick", "plugins", "version", "pardon-ip", "me", "ban", "ban-ip", "banlist"]);
-        $this->addCommand([new MaintenanceCommand($this), new HubCommand($this), new BanCommand($this), new InfoCommand($this), new ArenaCommand($this), new DuelCommand($this)]);
+        $this->addCommand([new MaintenanceCommand($this), new HubCommand($this), new BanCommand($this), new InfoCommand($this), new ArenaCommand($this), new DuelCommand($this), new KitManager($this)]);
         $this->addDirectory(["arenas", "cosmetics", "capes", "kits"]);
         
         //INITIALIZERS
@@ -83,7 +84,7 @@ class PracticeLoader extends PluginBase
         $this->getServer()->getConfigGroup()->setConfigInt("max-players", Practice::SERVER_MAX_PLAYERS);
         $this->getServer()->getConfigGroup()->setConfigInt("view-distance", 16);
         $this->getServer()->getConfigGroup()->setConfigInt("difficulty", World::DIFFICULTY_PEACEFUL);
-        $this->getServer()->getConfigGroup()->setConfigString("server-name", Practice::SERVER_NAME);
+        $this->getServer()->getConfigGroup()->setConfigString("motd", Practice::SERVER_NAME);
         $this->getServer()->getConfigGroup()->save();
         
         //TASKS

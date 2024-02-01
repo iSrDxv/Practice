@@ -37,7 +37,7 @@ final class CreateCommand extends BaseSubCommand
 	  foreach(KitManager::getInstance()->all() as $kit){
 				$kits[] = $kit->getName();
 		}
-    $sender->sendForm(new ArenaCreateForm(["worlds" => $worlds, "types" => $types, "kits" => $kits]));
+    $sender->sendForm(new ArenaCreateForm([$worlds, $types, $kits]));
   }
   
 }
