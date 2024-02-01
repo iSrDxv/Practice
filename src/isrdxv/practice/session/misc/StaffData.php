@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace isrdxv\practice\session\misc;
 
+use isrdxv\practice\PracticeLoader;
+
 class StaffData
 {
   private int $bans;
@@ -59,6 +61,35 @@ class StaffData
   function addReport(): void
   {
     $this->reports++;
+  }
+  
+  function subtractBan(): void
+  {
+    $this->bans--;
+  }
+  
+  function subtractKick(): void
+  {
+    $this->kicks--;
+  }
+  
+  function subtractMute(): void
+  {
+    $this->mutes--;
+  }
+  
+  function subtractReport(): void
+  {
+    $this->reports--;
+  }
+  
+  /**
+    * NOTE: save the data of this class in a Database
+    */
+  function save(string $xuid, string $name): void
+  {
+    $database = PracticeLoader::getInstance()->getDatabase();
+    $database->executeInsert("practice.staff.stats", ["xuid" => $xuid, "name" => $name, "bans" => $this->bans, "kicks" => $this->kicks, "mutes" => $this->mutes, "reports" => $this->reports]);
   }
   
 }

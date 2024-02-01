@@ -255,5 +255,8 @@ class Session
     	$cps = (int)$this->getSetting("cps");
     	$autoJoin = (int)$this->getSetting("auto_join");
     	$database->executeImplRaw([0 => "UPDATE settings SET scoreboard='$scoreboard', queue='$queue', cps='$cps', auto_join='$autoJoin' WHERE xuid = $xuid"], [0 => []], [0 => SqlThread::MODE_CHANGE], function(array $rows): void {}, null);
+    	if (($staffData = $this->staffData) !== null) {
+    	  $staffData->save($xuid, $name);
+    	}
     }
 }
