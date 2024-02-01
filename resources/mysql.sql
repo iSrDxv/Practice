@@ -60,7 +60,7 @@ INSERT INTO bans(name, reason, duration, staff_name) VALUES (:name, :reason, :du
 -- # :kicks int
 -- # :mutes int
 -- # :reports int
-INSERT INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid :name, :bans, :kicks, :mutes, :reports) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name;
+INSERT INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid :name, :bans, :kicks, :mutes, :reports) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name, bans=:bans, kicks=:kicks, mutes=:mutes, reports=:reports;
 -- # }
 
 -- # }

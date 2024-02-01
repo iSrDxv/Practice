@@ -1,4 +1,4 @@
--- #! mysql
+-- #! sqlite
 -- #{ practice
 
 -- # { init.user
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS bans(name VARCHAR(30) NOT NULL UNIQUE PRIMARY KEY, re
 -- # }
 
 -- # { init.staff
-CREATE TABLE IF NOT EXISTS staff_stats(xuid VARCHAR(23), NOT NULL UNIQUE PRIMARY KEY, name VARCHAR(30), bans INT, kicks INT, mutes INT, reports INT);
+CREATE TABLE IF NOT EXISTS staff_stats(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY KEY, name VARCHAR(30), bans INT, kicks INT, mutes INT, reports INT);
 -- # }
 
 -- # { data
@@ -60,7 +60,7 @@ INSERT INTO bans(name, reason, duration, staff_name) VALUES (:name, :reason, :du
 -- # :kicks int
 -- # :mutes int
 -- # :reports int
-INSERT INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid :name, :bans, :kicks, :mutes, :reports) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name;
+INSERT INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid :name, :bans, :kicks, :mutes, :reports) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name, bans=:bans, kicks=:kicks, mutes=:mutes, reports=:reports;
 -- # }
 
 -- # }
