@@ -32,6 +32,8 @@ class Practice
 {
     static bool $maintenance = false;
     
+    const ADMINISTRATIVE_RANKS = ["Owner", "Admin", "Mod", "Developer", "Helper"];
+    
     const RANK_SUPERIORS = ["Owner", "Admin", "Mod", "Developer", "Strom", "Zodiac", "YouTuber", "Streamer"];
     
     const BYPASS = ["SrClauYT", "StyleMH"];

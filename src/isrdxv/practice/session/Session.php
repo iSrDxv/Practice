@@ -51,6 +51,8 @@ class Session
     
     private ScoreboardHandler $scoreboardHandler;
     
+    private ?StaffData $staffData;
+    
     private string $oldDevice;
     
     private string $oldTouch;
@@ -89,6 +91,9 @@ class Session
       $time = new DateTime("NOW", new DateTimeZone("America/Mexico_City"));
       $address = $player instanceof FakePlayerNetworkSession ? $player->getNetworkSession()->getIp() : $player->getNetworkSession()->getIp();
       $this->clientData = new ClientDataInfo($this->getPlayer()?->getPlayerInfo()->getExtraData());
+      if (in_array($rank, Practice::ADMINISTRATIVE_RANKS, true)) {
+        $database->executeInsert("practice.staff.stats", ["xuid" => $xuid, "name" => $player->getName(), "bans" => 0, "kicks" => 0, "mutes" => 0, "reports" => 0]);
+      }
     	$database->executeInsert("practice.data", ["xuid" => $xuid, "name" => $player->getName(), "custom_name" => "null", "rank" => $rank, "language" => "en_US", "coin" => 200, "elo" => 1000, "firstplayed" => $time->format("Y-m-d H:i"), "lastplayed" => $time->format("Y-m-d H:i"), "kills" => 0, "wins" => 0, "deaths" => 0, "address" => $address, "device" => $this->clientData->getDevice(), "control" => $this->clientData->getTouch()]);
         $database->executeInsert("practice.settings", ["xuid" => $xuid, "scoreboard" => true, "queue" => true, "cps" => false, "auto_join" => false]);
         $database->executeImplRaw([0 => "SELECT * FROM data_user,settings WHERE data_user.xuid = $xuid AND settings.xuid = $xuid"], [0 => []], [0 => SqlThread::MODE_SELECT], function(array $rows) use($session, $player, $xuid): void {
@@ -115,9 +120,19 @@ class Session
     	$this->elo = $data["elo"];
     	$this->language = $data["language"];
     	$this->rank = $data["rank"];
+    	$this->staffData = $staffData;
     	$this->customName = ($data["custom_name"] === null || $data["custom_name"] === "null") ? null : $data["custom_name"] ?? "";
     	$this->xuid = $data["xuid"];
       $player = $this->getPlayer();
+      $staffData = null;
+      if (in_array($this->rank, Practice::ADMINISTRATIVE_RANKS, true)) {
+        (PracticeLoader::getInstance()->getDatabase())->executeImplRaw([0 => "SELECT * FROM staff_stats WHERE xuid=`$this->xuid`"], [0 => []], function(array $rows) use($player, $staffData): void {
+          if (isset($rows[0], $rows[0]->getRows()[0])) {
+            $staffData = new StaffData($rows[0]->getRows()[0]);
+          }
+        }, null);
+      }
+      $this->staffData = $staffData;
       $this->clientData = new ClientDataInfo($this->getPlayer()?->getPlayerInfo()->getExtraData());
       $device = $this->clientData->getDevice();
       $control = $this->clientData->getTouch();
@@ -183,6 +198,11 @@ class Session
       return $this->scoreboardHandler;
     }
     
+    function getStaffData(): ?StaffData
+    {
+      return $this->staffData ?? null;
+    }
+    
     function getKills(): int
     {
       return $this->kills;
@@ -228,7 +248,7 @@ class Session
       $elo = $this->elo;
       $firstPlayed = $this->firstPlayed;
     	$database = PracticeLoader::getInstance()->getDatabase();
-    	$database->executeImplRaw([0 => "UPDATE data_user SET name='$name', custom_name='$customName', rank='$rank', language='$language', coin='$coin', firstplayed='$firstPlayed', lastplayed='$lastPlayed', kills='$this->kills', wins='$this->wins', deaths='$this->deaths', address='$address', device='$device', control='$control' WHERE xuid = '$xuid'"], [0 => []], [0 => SqlThread::MODE_CHANGE], function(array $rows): void {}, null);
+    	$database->executeImplRaw([0 => "UPDATE data_user SET name='$name', custom_name='$customName', rank='$rank', language='$language', coin='$coin', elo='$elo', firstplayed='$firstPlayed', lastplayed='$lastPlayed', kills='$this->kills', wins='$this->wins', deaths='$this->deaths', address='$address', device='$device', control='$control' WHERE xuid = '$xuid'"], [0 => []], [0 => SqlThread::MODE_CHANGE], function(array $rows): void {}, null);
     	var_dump($this->settings);
     	$scoreboard = (int)$this->getSetting("scoreboard");
     	$queue = (int)$this->getSetting("queue");

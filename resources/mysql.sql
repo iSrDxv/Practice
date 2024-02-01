@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS bans(name VARCHAR(30) NOT NULL UNIQUE PRIMARY KEY, re
 -- # }
 
 -- # { init.staff
-CREATE TABLE IF NOT EXISTS staff_stats(xuid VARCHAR(23), NOT NULL UNIQUE PRIMARY KEY, name VARCHAR(30), bans INT, kicks INT, mutes INT, reports INT);
+CREATE TABLE IF NOT EXISTS staff_stats(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY KEY, name VARCHAR(30), bans INT, kicks INT, mutes INT, reports INT);
 -- # }
 
 -- # { data

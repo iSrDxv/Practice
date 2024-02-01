@@ -18,6 +18,7 @@ use dktapps\pmforms\element\{
 use pocketmine\Server;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
+use pocketmine\world\sound\XpLevelUpSound;
 
 use DateTime;
 use DateTimeZone;
@@ -83,6 +84,8 @@ final class BanForm extends CustomForm
         }
         if ($player->isOnline() !== null && $player->isOnline()) {
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . $name . " banned, thanks for banning a cheater");
+          $player->broadcastSound(new XpLevelUpSound(10), [$player]);
+          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "+1 more ban...");
         }
         //agregar puntos por banear a un jugador (para el staff)
       }, function(Player $player): void {

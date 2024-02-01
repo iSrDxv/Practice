@@ -131,7 +131,7 @@ class PracticeListener implements Listener
         return;
     }
     $xuid = $player->getXuid() !== null ? $player->getXuid() : null;
-    $database->executeImplRaw([0 => "SELECT * FROM data_user,settings WHERE data_user.xuid = $xuid AND settings.xuid = $xuid"], [0 => []], [0 => SqlThread::MODE_SELECT], function(array $rows) use($session, $xuid): void {
+    $database->executeImplRaw([0 => "SELECT * FROM data_user,settings WHERE data_user.xuid = $xuid AND settings.xuid = $xuid"], [0 => []], [0 => SqlThread::MODE_SELECT], function(array $rows) use($player, $session, $xuid): void {
     	if (isset($rows[0], $rows[0]->getRows()[0]) && $xuid !== null) {
     	   $session->load($rows[0]->getRows()[0]);
            return;
