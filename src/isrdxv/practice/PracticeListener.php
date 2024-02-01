@@ -260,7 +260,7 @@ class PracticeListener implements Listener
     $queryInfo = $event->getQueryInfo();
 
     $queryInfo->setListPlugins(false);
-    $queryInfo->setServerName(TextFormat::colorize("&l&3StromMC"));
+    $queryInfo->setServerName(TextFormat::BOLD . Practice::SERVER_NAME);
     $queryInfo->setMaxPlayerCount(($queryInfo->getPlayerCount() + 1));
   }
 
