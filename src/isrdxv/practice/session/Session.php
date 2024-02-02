@@ -92,10 +92,10 @@ class Session
       $address = $player instanceof FakePlayerNetworkSession ? $player->getNetworkSession()->getIp() : $player->getNetworkSession()->getIp();
       $this->clientData = new ClientDataInfo($this->getPlayer()?->getPlayerInfo()->getExtraData());
       if (in_array($rank, Practice::ADMINISTRATIVE_RANKS, true)) {
-        $database->executeInsert("practice.staff.stats", ["xuid" => $xuid, "name" => $player->getName(), "bans" => 0, "kicks" => 0, "mutes" => 0, "reports" => 0]);
+        $database->executeInsert("practice.insert.staff.stats", ["xuid" => $xuid, "name" => $player->getName(), "bans" => 0, "kicks" => 0, "mutes" => 0, "reports" => 0]);
       }
-    	$database->executeInsert("practice.data", ["xuid" => $xuid, "name" => $player->getName(), "custom_name" => "null", "rank" => $rank, "language" => "en_US", "coin" => 200, "elo" => 1000, "firstplayed" => $time->format("Y-m-d H:i"), "lastplayed" => $time->format("Y-m-d H:i"), "kills" => 0, "wins" => 0, "deaths" => 0, "address" => $address, "device" => $this->clientData->getDevice(), "control" => $this->clientData->getTouch()]);
-        $database->executeInsert("practice.settings", ["xuid" => $xuid, "scoreboard" => true, "queue" => true, "cps" => false, "auto_join" => false]);
+    	$database->executeInsert("practice.insert.data", ["xuid" => $xuid, "name" => $player->getName(), "custom_name" => "null", "rank" => $rank, "language" => "en_US", "coin" => 200, "elo" => 1000, "firstplayed" => $time->format("Y-m-d H:i"), "lastplayed" => $time->format("Y-m-d H:i"), "kills" => 0, "wins" => 0, "deaths" => 0, "address" => $address, "device" => $this->clientData->getDevice(), "control" => $this->clientData->getTouch()]);
+        $database->executeInsert("practice.insert.settings", ["xuid" => $xuid, "scoreboard" => true, "queue" => true, "cps" => false, "auto_join" => false]);
         $database->executeImplRaw([0 => "SELECT * FROM data_user,settings WHERE data_user.xuid = $xuid AND settings.xuid = $xuid"], [0 => []], [0 => SqlThread::MODE_SELECT], function(array $rows) use($session, $player, $xuid): void {
         	if ($player instanceof Player) {
         	  var_dump("init");
