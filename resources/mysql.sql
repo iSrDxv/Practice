@@ -62,4 +62,16 @@ INSERT INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid 
 -- #   }
 -- # }
 
+-- # { leaderboard
+-- #   { kills
+SELECT * FROM data_user ORDER BY kills DESC LIMIT 10;
+-- #   }
+-- #   { deaths
+SELECT * FROM data_user ORDER BY deaths DESC LIMIT 10;
+-- #   }
+-- #   { wins
+SELECT * FROM data_user ORDER BY wins DESC LIMIT 10;
+-- #   }
+-- # }
+
 -- # }

@@ -17,50 +17,61 @@ CREATE TABLE IF NOT EXISTS bans(name VARCHAR(30) NOT NULL UNIQUE PRIMARY KEY, re
 CREATE TABLE IF NOT EXISTS staff_stats(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY KEY, name VARCHAR(30), bans INT, kicks INT, mutes INT, reports INT);
 -- # }
 
--- # { data
--- # :xuid string
--- # :name string
--- # :custom_name string
--- # :rank string
--- # :language string
--- # :coin int
--- # :elo int
--- # :firstplayed string
--- # :lastplayed string
--- # :kills int
--- # :wins int
--- # :deaths int
--- # :address string
--- # :device string
--- # :control string
+-- # { insert
+-- #   { data
+-- #     :xuid string
+-- #     :name string
+-- #     :custom_name string
+-- #     :rank string
+-- #     :language string
+-- #     :coin int
+-- #     :elo int
+-- #     :firstplayed string
+-- #     :lastplayed string
+-- #     :kills int
+-- #     :wins int
+-- #     :deaths int
+-- #     :address string
+-- #     :device string
+-- #     :control string
 INSERT INTO data_user(xuid, name, custom_name, rank, language, coin, elo, firstplayed, lastplayed, kills, wins, deaths, address, device, control) VALUES (:xuid, :name, :custom_name, :rank, :language, :coin, :elo, :firstplayed, :lastplayed, :kills, :wins, :deaths, :address, :device, :control) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name;
--- # }
-
--- # { settings
--- # :xuid string
--- # :scoreboard bool
--- # :queue bool
--- # :cps bool
--- # :auto_join bool
+-- #   }
+-- #   { settings
+-- #     :xuid string
+-- #     :scoreboard bool
+-- #     :queue bool
+-- #     :cps bool
+-- #     :auto_join bool
 INSERT INTO settings(xuid, scoreboard, queue, cps, auto_join) VALUES (:xuid, :scoreboard, :queue, :cps, :auto_join) ON DUPLICATE KEY UPDATE xuid=:xuid;
--- # }
-
--- # { staff.ban
--- # :name string
--- # :reason string
--- # :duration string
--- # :staff_name string
+-- #   }
+-- #   { staff.ban
+-- #     :name string
+-- #     :reason string
+-- #     :duration string
+-- #     :staff_name string
 INSERT INTO bans(name, reason, duration, staff_name) VALUES (:name, :reason, :duration, :staff_name) ON DUPLICATE KEY UPDATE name=:name;
+-- #   }
+-- #   { staff.stats
+-- #     :xuid string
+-- #     :name string
+-- #     :bans int
+-- #     :kicks int
+-- #     :mutes int
+-- #     :reports int
+INSERT INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid :name, :bans, :kicks, :mutes, :reports) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name, bans=:bans, kicks=:kicks, mutes=:mutes, reports=:reports;
+-- #   }
 -- # }
 
--- # { staff.stats
--- # :xuid string
--- # :name string
--- # :bans int
--- # :kicks int
--- # :mutes int
--- # :reports int
-INSERT INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid :name, :bans, :kicks, :mutes, :reports) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name, bans=:bans, kicks=:kicks, mutes=:mutes, reports=:reports;
+-- # { leaderboard
+-- #   { kills
+SELECT * FROM data_user ORDER BY kills DESC LIMIT 10;
+-- #   }
+-- #   { deaths
+SELECT * FROM data_user ORDER BY deaths DESC LIMIT 10;
+-- #   }
+-- #   { wins
+SELECT * FROM data_user ORDER BY wins DESC LIMIT 10;
+-- #   }
 -- # }
 
 -- # }
