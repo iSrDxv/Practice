@@ -125,7 +125,7 @@ class Session
       $player = $this->getPlayer();
       $staffData = null;
       if (in_array($this->rank, Practice::ADMINISTRATIVE_RANKS, true)) {
-        (PracticeLoader::getInstance()->getDatabase())->executeImplRaw([0 => "SELECT * FROM staff_stats WHERE xuid=`$this->xuid`"], [0 => []], function(array $rows) use($player, $staffData): void {
+        (PracticeLoader::getInstance()->getDatabase())->executeImplRaw([0 => "SELECT * FROM staff_stats WHERE xuid=$this->xuid"], [0 => []], [0 => SqlThread::MODE_SELECT], function(array $rows) use($player, $staffData): void {
           if (isset($rows[0], $rows[0]->getRows()[0])) {
             $staffData = new StaffData($rows[0]->getRows()[0]);
           }
