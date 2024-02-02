@@ -26,7 +26,7 @@ class KitCommand extends BaseCommand
   {
     //these are its subcommands
     //$this->registerSubCommand(new HelpCommand());
-    $this->registerSubCommand(new CreateCommand());
+    //$this->registerSubCommand(new CreateCommand());
   }
   
   function onRun(CommandSender $sender, string $aliasUsed, array $args): void

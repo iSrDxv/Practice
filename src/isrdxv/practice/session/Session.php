@@ -120,7 +120,6 @@ class Session
     	$this->elo = $data["elo"];
     	$this->language = $data["language"];
     	$this->rank = $data["rank"];
-    	$this->staffData = $staffData;
     	$this->customName = ($data["custom_name"] === null || $data["custom_name"] === "null") ? null : $data["custom_name"] ?? "";
     	$this->xuid = $data["xuid"];
       $player = $this->getPlayer();

@@ -12,7 +12,7 @@ use isrdxv\practice\command\{
     InfoCommand,
     ArenaCommand,
     DuelCommand,
-    KitManager,
+    KitCommand,
   	MaintenanceCommand
 };
 use isrdxv\practice\task\BroadcastTask;
@@ -72,7 +72,7 @@ class PracticeLoader extends PluginBase
 
         //AGGREGATES
         $this->deleteCommand(["pardon", "kick", "plugins", "version", "pardon-ip", "me", "ban", "ban-ip", "banlist"]);
-        $this->addCommand([new MaintenanceCommand($this), new HubCommand($this), new BanCommand($this), new InfoCommand($this), new ArenaCommand($this), new DuelCommand($this), new KitManager($this)]);
+        $this->addCommand([new MaintenanceCommand($this), new HubCommand($this), new BanCommand($this), new InfoCommand($this), new ArenaCommand($this), new DuelCommand($this), new KitCommand($this)]);
         $this->addDirectory(["arenas", "cosmetics", "capes", "kits"]);
         
         //INITIALIZERS

@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS staff_stats(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY 
 -- #     :address string
 -- #     :device string
 -- #     :control string
-INSERT INTO data_user(xuid, name, custom_name, rank, language, coin, elo, firstplayed, lastplayed, kills, wins, deaths, address, device, control) VALUES (:xuid, :name, :custom_name, :rank, :language, :coin, :elo, :firstplayed, :lastplayed, :kills, :wins, :deaths, :address, :device, :control) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name;
+REPLACE INTO data_user(xuid, name, custom_name, rank, language, coin, elo, firstplayed, lastplayed, kills, wins, deaths, address, device, control) VALUES (:xuid, :name, :custom_name, :rank, :language, :coin, :elo, :firstplayed, :lastplayed, :kills, :wins, :deaths, :address, :device, :control);
 -- #   }
 -- #   { settings
 -- #     :xuid string
@@ -42,14 +42,14 @@ INSERT INTO data_user(xuid, name, custom_name, rank, language, coin, elo, firstp
 -- #     :queue bool
 -- #     :cps bool
 -- #     :auto_join bool
-INSERT INTO settings(xuid, scoreboard, queue, cps, auto_join) VALUES (:xuid, :scoreboard, :queue, :cps, :auto_join) ON DUPLICATE KEY UPDATE xuid=:xuid;
+REPLACE INTO settings(xuid, scoreboard, queue, cps, auto_join) VALUES (:xuid, :scoreboard, :queue, :cps, :auto_join);
 -- #   }
 -- #   { staff.ban
 -- #     :name string
 -- #     :reason string
 -- #     :duration string
 -- #     :staff_name string
-INSERT INTO bans(name, reason, duration, staff_name) VALUES (:name, :reason, :duration, :staff_name) ON DUPLICATE KEY UPDATE name=:name;
+REPLACE INTO bans(name, reason, duration, staff_name) VALUES (:name, :reason, :duration, :staff_name);
 -- #   }
 -- #   { staff.stats
 -- #     :xuid string
@@ -58,7 +58,7 @@ INSERT INTO bans(name, reason, duration, staff_name) VALUES (:name, :reason, :du
 -- #     :kicks int
 -- #     :mutes int
 -- #     :reports int
-INSERT INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid :name, :bans, :kicks, :mutes, :reports) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name, bans=:bans, kicks=:kicks, mutes=:mutes, reports=:reports;
+REPLACE INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid :name, :bans, :kicks, :mutes, :reports);
 -- #   }
 -- #}
 
