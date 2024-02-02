@@ -1,23 +1,23 @@
 -- #! sqlite
 -- #{ practice
 
--- # { init.user
+-- #{ init.user
 CREATE TABLE IF NOT EXISTS data_user(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY KEY, name VARCHAR(30), custom_name VARCHAR(30) NULL, rank TEXT, language TEXT, coin INT, elo INT, firstplayed TEXT, lastplayed TEXT, kills INT, wins INT, deaths INT, address TEXT, device TEXT, control TEXT);
--- # }
+-- #}
 
--- # { init.settings
+-- #{ init.settings
 CREATE TABLE IF NOT EXISTS settings(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY KEY, scoreboard BOOLEAN, queue BOOLEAN, cps BOOLEAN, auto_join BOOLEAN);
--- # }
+-- #}
 
--- # { init.ban
+-- #{ init.ban
 CREATE TABLE IF NOT EXISTS bans(name VARCHAR(30) NOT NULL UNIQUE PRIMARY KEY, reason VARCHAR(20), duration TEXT, staff_name VARCHAR(30));
--- # }
+-- #}
 
--- # { init.staff
+-- #{ init.staff
 CREATE TABLE IF NOT EXISTS staff_stats(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY KEY, name VARCHAR(30), bans INT, kicks INT, mutes INT, reports INT);
--- # }
+-- #}
 
--- # { insert
+-- #{ insert
 -- #   { data
 -- #     :xuid string
 -- #     :name string
@@ -60,9 +60,9 @@ INSERT INTO bans(name, reason, duration, staff_name) VALUES (:name, :reason, :du
 -- #     :reports int
 INSERT INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid :name, :bans, :kicks, :mutes, :reports) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name, bans=:bans, kicks=:kicks, mutes=:mutes, reports=:reports;
 -- #   }
--- # }
+-- #}
 
--- # { leaderboard
+-- #{ leaderboard
 -- #   { kills
 SELECT * FROM data_user ORDER BY kills DESC LIMIT 10;
 -- #   }
@@ -72,6 +72,6 @@ SELECT * FROM data_user ORDER BY deaths DESC LIMIT 10;
 -- #   { wins
 SELECT * FROM data_user ORDER BY wins DESC LIMIT 10;
 -- #   }
--- # }
+-- #}
 
 -- # }
