@@ -42,7 +42,7 @@ class DuelCommand extends BaseCommand
   function onRun(CommandSender $sender, string $aliasUsed, array $args): void
   {
     if ($sender instanceof Player && ($session = SessionManager::getInstance()->get($sender)) !== null && $this->testPermissionSilent($sender)) {
-      if (array_key_exists($args["name"]) && ($player = Server::getInstance()->getPlayerExact(trim(implode(" ", $args)))) !== null && $player->getName() !== $sender->getName()) {
+      if (array_key_exists($args["name"], $args) && ($player = Server::getInstance()->getPlayerExact(trim(implode(" ", $args)))) !== null && $player->getName() !== $sender->getName()) {
         $kits = array_keys(KitManager::getInstance()->all());
         $sender->sendForm(new DuelRequestForm($player, $kits, []));
         return;
