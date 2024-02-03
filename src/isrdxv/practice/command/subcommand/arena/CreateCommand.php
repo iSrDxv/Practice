@@ -4,6 +4,7 @@ namespace isrdxv\practice\command\subcommand\arena;
 
 use isrdxv\practice\PracticeLoader;
 use isrdxv\practice\manager\KitManager;
+use isrdxv\practice\form\arena\ArenaCreateForm;
 
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;

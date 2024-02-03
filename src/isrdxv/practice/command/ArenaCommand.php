@@ -2,7 +2,10 @@
 
 namespace isrdxv\practice\command;
 
-use isrdxv\practice\PracticeLoader;
+use isrdxv\practice\{
+  Practice,
+  PracticeLoader
+};
 use isrdxv\practice\command\subcommand\arena\{
   HelpCommand,
   CreateCommand
@@ -18,7 +21,7 @@ class ArenaCommand extends BaseCommand
   
   function __construct(PracticeLoader $loader)
   {
-      parent::__construct($loader, "arena", TextFormat::DARK_AQUA . "Command for the sands");
+      parent::__construct($loader, "arena", Practice::SERVER_COLOR . "Command for the sands");
       //$this->setAliases(["a"]);
       $this->setPermission("practice.command.arena");
   }

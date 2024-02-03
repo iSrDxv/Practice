@@ -26,7 +26,7 @@ class HubCommand extends BaseCommand
   
   function __construct(PracticeLoader $loader)
   {
-      parent::__construct($loader, "hub", TextFormat::DARK_AQUA . "Back to hub");
+      parent::__construct($loader, "hub", Practice::SERVER_COLOR . "Back to hub");
       $this->setAliases(["lobby", "spawn"]);
       $this->setUsage("/hub");
       $this->setPermission("practice.command.hub");

@@ -2,7 +2,10 @@
 
 namespace isrdxv\practice\command;
 
-use isrdxv\practice\PracticeLoader;
+use isrdxv\practice\{
+  Practice,
+  PracticeLoader
+};
 use isrdxv\practice\command\subcommand\kit\{
   CreateCommand
 };
@@ -17,7 +20,7 @@ class KitCommand extends BaseCommand
   
   function __construct(PracticeLoader $loader)
   {
-      parent::__construct($loader, "kit", TextFormat::DARK_AQUA . "Commands for the kits");
+      parent::__construct($loader, "kit", Practice::SERVER_COLOR . "Commands for the kits");
       //$this->setAliases(["a"]);
       $this->setPermission("practice.command.kit");
   }
@@ -26,7 +29,7 @@ class KitCommand extends BaseCommand
   {
     //these are its subcommands
     //$this->registerSubCommand(new HelpCommand());
-    //$this->registerSubCommand(new CreateCommand());
+    $this->registerSubCommand(new CreateCommand());
   }
   
   function onRun(CommandSender $sender, string $aliasUsed, array $args): void

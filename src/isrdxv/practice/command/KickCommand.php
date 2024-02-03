@@ -17,7 +17,7 @@ class KickCommand extends BaseCommand
   
   function __construct(PracticeLoader $loader)
   {
-      parent::__construct($loader, "kick", TextFormat::DARK_AQUA . "kick the selected player");
+      parent::__construct($loader, "kick", Practice::SERVER_COLOR . "kick the selected player");
       $this->setAliases(["k"]);
       $this->setUsage("/kick <player> <reason>");
       $this->setPermission("practice.command.kick");

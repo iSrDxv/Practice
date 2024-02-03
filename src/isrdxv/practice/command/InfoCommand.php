@@ -25,7 +25,7 @@ class InfoCommand extends BaseCommand
   
   function __construct(PracticeLoader $loader)
   {
-      parent::__construct($loader, "info", TextFormat::DARK_AQUA . "View information about a user");
+      parent::__construct($loader, "info", Practice::SERVER_COLOR . "View information about a user");
       $this->setAliases(["player"]);
       $this->setUsage("/info <player>");
       $this->setPermission("practice.command.info");
