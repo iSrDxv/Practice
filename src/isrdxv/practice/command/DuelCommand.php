@@ -39,6 +39,10 @@ class DuelCommand extends BaseCommand
       if (isset($args["name"])) {
         $player = Server::getInstance()->getPlayerExact($args["name"]);
         $kits = array_keys(KitManager::getInstance()->all());
+        if (empty($player)) {
+          $sender->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "There is no player with that name");
+          return;
+        }
         if ($player->getName() === $sender->getName()) {
           $sender->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "You cannot send the request to yourself");
           return;
