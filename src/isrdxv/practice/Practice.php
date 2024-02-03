@@ -44,7 +44,7 @@ class Practice
     
     const SERVER_MOTD = self::SERVER_NAME . ": " . TextFormat::BOLD . TextFormat::WHITE . "¡¡NEW RELEASE!!" . TextFormat::GRAY;
 
-    const SERVER_MAX_PLAYERS = 2; //100
+    const SERVER_MAX_PLAYERS = 1; //100
 
     const SERVER_PREFIX = self::SERVER_NAME . TextFormat::BOLD . TextFormat::GRAY . " » " . TextFormat::RESET;
     
