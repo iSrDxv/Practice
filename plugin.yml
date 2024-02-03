@@ -30,3 +30,6 @@ permissions:
   practice.command.duel:
     default: true
     description: Send PvP Request
+  practice.command.kit:
+    default: op
+    description: Command for the Kits
