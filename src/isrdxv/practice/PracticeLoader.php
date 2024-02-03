@@ -95,6 +95,7 @@ class PracticeLoader extends PluginBase
         
         //ENABLED
         $this->getLogger()->info(TextFormat::GREEN . "has been activated successfully!!");
+        var_dump(bin2hex(random_bytes(3)));
     }
 
     function onDisable(): void
