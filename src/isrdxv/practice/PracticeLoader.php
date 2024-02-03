@@ -101,6 +101,7 @@ class PracticeLoader extends PluginBase
     {
     	//DATABASE
         if(isset($this->database)) {
+          $this->database->waitAll();
           $this->database->close();
           $this->getLogger()->warning("[Database] has been closed");
         }

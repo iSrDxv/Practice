@@ -86,9 +86,8 @@ class StaffData
   /**
     * NOTE: save the data of this class in a Database
     */
-  function save(string $xuid, string $name): void
+  function save($database, string $xuid, string $name): void
   {
-    $database = PracticeLoader::getInstance()->getDatabase();
     $database->executeInsert("practice.staff.stats", ["xuid" => $xuid, "name" => $name, "bans" => $this->bans, "kicks" => $this->kicks, "mutes" => $this->mutes, "reports" => $this->reports]);
   }
   
