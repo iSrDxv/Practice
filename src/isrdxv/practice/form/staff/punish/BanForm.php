@@ -87,7 +87,10 @@ final class BanForm extends CustomForm
           $player->broadcastSound(new XpLevelUpSound(10), [$player]);
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "+1 more ban...");
         }
-        //agregar puntos por banear a un jugador (para el staff)
+        $session = SessionManager::getInstance()->get($player);
+        if (isset($session) && isset($session->getStaffData())) {
+          $session->getStaffData()?->addBan();
+        }
       }, function(Player $player): void {
         $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "Thanks for banning a cheater");
       });
