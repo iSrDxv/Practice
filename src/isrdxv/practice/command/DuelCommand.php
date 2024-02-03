@@ -6,17 +6,11 @@ use isrdxv\practice\{
   Practice,
   PracticeLoader
 };
-use isrdxv\practice\manager\{
-  ItemManager,
-  KitManager,
-  SessionManager
-};
+use isrdxv\practice\manager\KitManager;
+use isrdxv\practice\form\duel\DuelRequestForm;
 
 use pocketmine\Server;
-use pocketmine\player\{
-  GameMode,
-  Player
-};
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\command\CommandSender;
 
@@ -41,13 +35,19 @@ class DuelCommand extends BaseCommand
   
   function onRun(CommandSender $sender, string $aliasUsed, array $args): void
   {
-    if ($sender instanceof Player && ($session = SessionManager::getInstance()->get($sender)) !== null && $this->testPermissionSilent($sender)) {
-      if (array_key_exists($args["name"], $args) && ($player = Server::getInstance()->getPlayerExact(trim(implode(" ", $args)))) !== null && $player->getName() !== $sender->getName()) {
+    if ($sender instanceof Player) {
+      if (isset($args["name"])) {
+        $player = Server::getInstance()->getPlayerExact($args["name"]);
         $kits = array_keys(KitManager::getInstance()->all());
+        if ($player->getName() === $sender->getName()) {
+          $sender->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "You cannot send the request to yourself");
+          return;
+        }
         $sender->sendForm(new DuelRequestForm($player, $kits, []));
         return;
       }
-      $sender->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "Can not find player " . $args["name"]);
+    } else {
+      $this->sendUsage();
     }
   }
 }
