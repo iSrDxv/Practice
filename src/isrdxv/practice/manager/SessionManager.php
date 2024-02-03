@@ -46,4 +46,14 @@ final class SessionManager
         }
         $this->sessions = $sessions;
     }
+    
+    function delete(Player|string $value): bool
+    {
+        $player = ($value instanceof Player) ? $value->getName() : $value;
+        if (isset($this->sessions[$player])) {
+          unset($this->sessions[$player]);
+          return true;
+        }
+        return false;
+    }
 }

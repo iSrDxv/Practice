@@ -182,6 +182,8 @@ class PracticeListener implements Listener
     $session->getScoreboardHandler()->setScoreboard(null);
     $session->save();
     
+    SessionManager::getInstance()->delete($player);
+    
     $event->setQuitMessage(TextFormat::colorize("&0[&c-&0] &c" . $player->getName()));
   }
   

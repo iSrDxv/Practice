@@ -89,4 +89,13 @@ class ScoreboardHandler
       $this->scoreboard?->setLine($line++, Practice::centerText(TextFormat::GRAY . " StromMC.ddns.net", 95, true));
     }), 20);
   }
+  
+  function __unset(): void
+  {
+    unset($this->type);
+    unset($this->id);
+    unset($this->line);
+    unset($this->scoreboard);
+  }
+  
 }
