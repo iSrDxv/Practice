@@ -44,9 +44,9 @@ class KitCreateForm extends CustomForm
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "Kit name contains spaces");
           return;
         }
-        $defaultKit = new DefaultKit($kit, $player->getInventory()->getContents(true), $player->getArmorInventory()->getContents(true), new KitDataInfo(), new KnockbackInfo(), new EffectsData());
+        $defaultKit = new DefaultKit($kit, $player->getInventory()->getContents(), $player->getArmorInventory()->getContents(), new KitDataInfo(), new KnockbackInfo(), new EffectsData());
         if (KitManager::getInstance()->add($defaultKit)) {
-          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "The Kit has been created successfully, enjoy.");
+          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "The kit has been created successfully, enjoy.");
         } else {
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "The kit named {$kit} already exists in our data");
         }

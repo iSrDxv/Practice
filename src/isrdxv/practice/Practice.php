@@ -187,7 +187,7 @@ class Practice
       /**
        * @var SavedItemStackData $itemData
        */
-      $itemData = GlobalItemDataHandlers::itemSerializer()->serializeStack($item);
+      $itemData = GlobalItemDataHandlers::getSerializer()->serializeStack($item);
       $data['id'] = $item->getTypeId();
       $data["damage"] = $itemData->getTypeData()->getMeta();
       $data['count'] = $itemData->getCount();
