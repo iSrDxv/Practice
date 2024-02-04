@@ -116,7 +116,13 @@ final class DefaultKit implements Kit
       if ($item === VanillaItems::AIR()) {
         continue;
       }
-      $items[$slot] = Practice::itemToArray($item);
+      $items[] = Practice::encodeItem($item);
+    }
+    foreach($this->armor as $slot => $item) {
+      if ($item === VanillaItems::AIR()) {
+        continue;
+      }
+      $armor[] = Practice::encodeItem($item);
     }
     return ["name" => $this->name, "inventory" => $items, "armor" => $armor, "data" => $this->dataInfo->export(), "kb" => $this->kbInfo->export(), "effects" => $this->effects->export()];
   }

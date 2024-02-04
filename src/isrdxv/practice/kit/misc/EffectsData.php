@@ -25,7 +25,7 @@ class EffectsData
       $effects = [];
       foreach($data as $effect) {
         if (($effect = Practice::arrayToEffect($effect)) !== null) {
-          $effects["d"] = $effect;
+          $effects[$effect->getType()->getName()->getText()] = $effect;
         }
       }
       return new self($effects);

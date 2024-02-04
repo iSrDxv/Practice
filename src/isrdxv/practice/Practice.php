@@ -5,7 +5,6 @@ namespace isrdxv\practice;
 use isrdxv\practice\PracticeLoader;
 use isrdxv\practice\kit\misc\KnockbackInfo;
 
-use pocketmine\nbt\LittleEndianNbtSerializer;
 use pocketmine\item\{
   Item,
   enchantment\EnchantmentInstance
@@ -21,12 +20,14 @@ use pocketmine\player\Player;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\TreeRoot;
+use pocketmine\nbt\LittleEndianNbtSerializer;
 use pocketmine\utils\TextFormat;
 use pocketmine\world\format\io\GlobalItemDataHandlers;
 use pocketmine\data\bedrock\{
   EffectIdMap,
   EnchantmentIdMap
 };
+use pocketmine\data\SavedDataLoadingException;
 
 class Practice
 {
@@ -181,45 +182,26 @@ class Practice
       return self::centerText($line, 30 * 6);
     }
     
-    static function itemToArray(Item $item): array
+    static function encodeItem(Item $item): string
     {
-      $data = [];
       /**
-       * @var SavedItemStackData $itemData
+       * @var LittleEndianNbtSerializer $nbt
        */
-      $itemData = GlobalItemDataHandlers::getSerializer()->serializeStack($item);
-      $data['id'] = $item->getTypeId();
-      $data["damage"] = $itemData->getTypeData()->getMeta();
-      $data['count'] = $itemData->getCount();
-      $data["nbt"] = ($item->hasNamedTag() ? "0x" . base64_encode((new LittleEndianNbtSerializer())->write(new TreeRoot($item->getNamedTag()))) : "");
-      $enchantments = [];
-      if ($item->hasEnchantments()) {
-        foreach($item->getEnchantments() as $enchantment) {
-          $enchantments[] = ["id" => EnchantmentIdMap::getInstance()->toId($enchantment->getType()), "level" => $enchantment->getLevel()];
-        }
-        $data["enchants"] = $enchantments;
-      }
-      return $data;
+      $nbt = new LittleEndianNbtSerializer();
+      return base64_encode($nbt->write(new TreeRoot($item->nbtSerialize())));
     }
     
-    static function arrayToItem(array $data): ?Item
+    static function decodeItem(string $value): ?Item
     {
-      if (empty($data['id']) && empty($data['damage']) && empty($data['count']))
-      {
+      /**
+       * @var LittleEndianNbtSerializer $nbt
+       */
+      $nbt = new LittleEndianNbtSerializer();
+      try {
+        $item = Item::nbtDeserialize($nbt->read(base64_decode($value))->mustGetCompoundTag());
+      }catch(SavedDataLoadingException|\Exception $ex) {
+        throw new \RuntimeException("Error during decoding of an item, incorrect item: " . $e->getMessage() . ", data: " . $value);
         return null;
-      }
-      $item = Item::legacyJsonDeserialize($data);
-      var_dump($item);
-      if (empty($item)) {
-        return null;
-      }
-      if (isset($data["enchants"])) {
-        foreach($data["enchants"] as $enchantment) {
-          if (empty($enchantment["id"]) && empty($enchantment["level"])) {
-            continue;
-          }
-          $item->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId($enchantment["id"]), $enchantment["level"]));
-        }
       }
       return $item;
     }

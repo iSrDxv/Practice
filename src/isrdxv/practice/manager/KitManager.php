@@ -39,14 +39,14 @@ final class KitManager
 	private string $defaultPath;
 
   function init(): void{
-		@mkdir($this->defaultPath = PracticeLoader::getInstance()->getDataFolder() . "kits");
+		@mkdir($this->defaultPath = PracticeLoader::getInstance()->getDataFolder() . "kits" . DIRECTORY_SEPARATOR);
 		$kitsData = [];
 		$files = scandir($this->defaultPath);
 		foreach($files as $file){
 			if(str_ends_with($file, ".json") === false){
 				continue;
 			}
-			$kitsData[basename($file, ".json")] = json_decode(file_get_contents($file), true);
+			$kitsData[basename($file, ".json")] = json_decode(file_get_contents($this->defaultPath . $file), true);
 		}
 	  $this->load($kitsData);
 	}
@@ -56,15 +56,15 @@ final class KitManager
 		foreach($kitsData as $data){
 			if(isset($data["name"], $data["inventory"], $data["armor"], $data["data"], $data["kb"], $data["effects"])){
 				$items = [];
-				foreach($data["items"] as $slot => $data){
-					if(($item = Practice::arrayToItem($data)) !== null){
-						$items[$slot] = $item;
+				foreach($data["inventory"] as $value){
+					if($value !== null){
+						$items[] = Practice::decodeItem($value);
 					}
 				}
 				$armors = [];
-				foreach($data["armor"] as $slot => $item){
-					if(($armor = Practice::arrayToItem($item)) !== null){
-						$armors[Practice::convertArmorSlot($slot)] = $armor;
+				foreach($data["armor"] as $value){
+					if($value !== null){
+						$armors[] = Practice::decodeItem($value);
 					}
 				}
 				$this->kits[strtolower($name = $data["name"])] = new DefaultKit($data["name"], $items, $armor, KitDataInfo::decode($data["data"]), KnockbackInfo::decode($data["kb"]), EffectsData::decode($data["effects"]));
