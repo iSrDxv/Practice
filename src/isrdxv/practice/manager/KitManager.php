@@ -120,7 +120,7 @@ final class KitManager
 		if(!file_exists($filePath = $this->defaultPath . "{$kit->getName()}.json")){
 			fclose(fopen($filePath, "w"));
 		}
-		file_put_contents($filePath, json_encode($kit->export()));
+		file_put_contents($filePath, json_encode($kit->extract()));
 	}
 	
 }
