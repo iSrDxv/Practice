@@ -21,15 +21,15 @@ class Party
   
   private array $blackList = [];
   
-  function __construct(string $owner, string $name, bool $open = true)
+  function __construct(string $owner, string $name, string $code, bool $open = true)
   {
     $this->owner = $owner;
     $this->name = $owner . "'s Party";
-    $this->open = $open;
-    
+    $this->code = $code;
+    //bin2hex(random_bytes(3))
     array_push($this->players, $owner);
     
-    $this->code = "";
+    $this->open = $open;
   }
   
   function getName(): string
@@ -86,10 +86,9 @@ class Party
     $this->open = $value;
   }
   
-  function __unset(): void
+  function __destruct(): void
   {
-    $this->players = [];
-    $this->blackList = [];
+    Server::getInstance()->getLogger()->warning("Data of this class is about to be destroyed: " . get_class($this));
   }
   
 }
