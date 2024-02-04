@@ -82,7 +82,7 @@ final class KitManager
 		if(isset($this->kits[$mainName = strtolower($kit->getMainName())])){
 			return false;
 		}
-		$this->kits[$localName] = $kit;
+		$this->kits[$mainName] = $kit;
 		$this->save($kit);
 		return true;
 	}
