@@ -90,12 +90,4 @@ class ScoreboardHandler
     }), 20);
   }
   
-  function __unset(): void
-  {
-    unset($this->type);
-    unset($this->id);
-    unset($this->line);
-    unset($this->scoreboard);
-  }
-  
 }

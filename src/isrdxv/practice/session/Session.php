@@ -259,10 +259,4 @@ class Session
     	}
     }
     
-    function __unset(): void
-    {
-      unset($this->clientData);
-      unset($this->scoreboardHandler);
-      unset($this->staffData);
-    }
 }
