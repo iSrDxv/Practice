@@ -36,12 +36,12 @@ final class ArenaManager
   
   function init(): void
   {
-    $this->defaultPath = PracticeLoader::getInstance()->getDataFolder() . "arenas";
+    $this->defaultPath = PracticeLoader::getInstance()->getDataFolder() . "arenas" . DIRECTORY_SEPARATOR;
     foreach(glob($this->defaultPath . DIRECTORY_SEPARATOR . "*.json")  as $file) {
       if (!is_file($file) || str_ends_with($file, ".json") === false) {
         continue;
       }
-      $arena = $this->load(basename($file, ".json"), json_decode(file_get_contents($file), true));
+      $arena = $this->load(basename($file, ".json"), json_decode(file_get_contents($this->defaultPath . $file), true));
       if ($arena instanceof FFAArena) {
         $this->ffa[$arena->getName()] = $arena;
       }elseif ($arena instanceof DuelArena) {

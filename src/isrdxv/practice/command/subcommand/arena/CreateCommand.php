@@ -6,6 +6,7 @@ use isrdxv\practice\PracticeLoader;
 use isrdxv\practice\manager\KitManager;
 use isrdxv\practice\form\arena\ArenaCreateForm;
 
+use pocketmine\Server;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\command\CommandSender;
@@ -38,7 +39,7 @@ final class CreateCommand extends BaseSubCommand
 	  foreach(KitManager::getInstance()->all() as $kit){
 				$kits[] = $kit->getName();
 		}
-    $sender->sendForm(new ArenaCreateForm([$worlds, $types, $kits]));
+    $sender->sendForm(new ArenaCreateForm($worlds, $types, $kits));
   }
   
 }

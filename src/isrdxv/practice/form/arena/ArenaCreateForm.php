@@ -2,10 +2,15 @@
 
 namespace isrdxv\practice\form\arena;
 
-use isrdxv\practice\manager\ArenaManager;
+use isrdxv\practice\Practice;
+use isrdxv\practice\manager\{
+  ArenaManager,
+  KitManager
+};
 
 use pocketmine\Server;
 use pocketmine\player\Player;
+use pocketmine\utils\TextFormat;
 
 use dktapps\pmforms\{
   CustomForm,
@@ -34,8 +39,41 @@ class ArenaCreateForm extends CustomForm
       new Dropdown("kit", "Please provide the kit of the arena:", $kits)
     ], function(Player $player, CustomFormResponse $response): void {
       var_dump($response);
-      if (isset($worlds, $types, $kits) && isset($worlds[$response->getString("world")], $types[$response->getString("type")], $kits[$response->getString("kit")])) {
+      if (isset($worlds, $types, $kits) && isset($worlds[$response->getInt("world")], $types[$response->getInt("type")], $kits[$response->getInt("kit")])) {
+        $world = Server::getInstance()->getWorldManager()->getWorldByName($worlds[$response->getInt("world")]);
+        if (empty($world)) {
+          $player->sendMessage(Practice::SERVER_PREFIX .TextFormat::RED . "There is no world called: " . $worlds[$response->getInt("world")]);
+          return;
+        }
+        $kitName = (string)$kits[$response->getInt("kit")];
+        $kit = KitManager::getInstance()->get($kitName);
+        if (empty($kit)) {
+          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . $kits[$response->getInt("kit")] . " does not exist");
+          return;
+        }
         
+        $type = $types[$response->getInt("type")];
+        if (!in_array($type, $types, true)) {
+          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "There is no such type of arena");
+          return;
+        }
+        
+        $name = trim(TextFormat::clean($responsw->getString("name")));
+        if (str_contains($name, " ")) {
+          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "The name cannot contain spaces");
+          return;
+        }
+        
+        $arena = ArenaManager::getInstance()->get($name);
+        if ($arena !== null) {
+          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "The arena already exists");
+          return;
+        }
+        if (ArenaManager::getInstance()->create($name, $type, $world, $kit)) {
+          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "The arena has been created successfully");
+        } else {
+          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "The arena could not be created, we are very sorry :c");
+        }
       }
     });
   }
