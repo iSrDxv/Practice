@@ -3,8 +3,8 @@
 namespace isrdxv\practice\form\kit;
 
 use isrdxv\practice\Practice;
-use isrdxv\kit\DefaultKit;
-use isrdxv\kit\misc\{
+use isrdxv\practice\kit\DefaultKit;
+use isrdxv\practice\kit\misc\{
   KitDataInfo,
   KnockbackInfo,
   EffectsData
@@ -44,7 +44,7 @@ class KitCreateForm extends CustomForm
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "Kit name contains spaces");
           return;
         }
-        $defaultKit = new DefaultKit($kit, $player->getInventory()->getContents(true), $player->getArmorInventory()->getContents(true), new KitDataInfo(), new KnockbackInfo(), new EffectsInfo());
+        $defaultKit = new DefaultKit($kit, $player->getInventory()->getContents(true), $player->getArmorInventory()->getContents(true), new KitDataInfo(), new KnockbackInfo(), new EffectsData());
         if (KitManager::getInstance()->add($defaultKit)) {
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "The Kit has been created successfully, enjoy.");
         } else {
