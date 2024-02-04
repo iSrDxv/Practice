@@ -67,7 +67,7 @@ final class KitManager
 						$armors[] = Practice::decodeItem($value);
 					}
 				}
-				$this->kits[strtolower($name = $data["name"])] = new DefaultKit($data["name"], $items, $armor, KitDataInfo::decode($data["data"]), KnockbackInfo::decode($data["kb"]), EffectsData::decode($data["effects"]));
+				$this->kits[strtolower($name = $data["name"])] = new DefaultKit($data["name"], $items, $armors, KitDataInfo::decode($data["data"]), KnockbackInfo::decode($data["kb"]), EffectsData::decode($data["effects"]));
 			}
 		}
 	}
