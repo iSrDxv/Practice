@@ -5,6 +5,8 @@ namespace isrdxv\practice\kit\misc;
 
 use isrdxv\practice\Practice;
 
+use pocketmine\entity\effect\EffectInstance;
+
 use function count;
 use function is_array;
 
@@ -31,9 +33,22 @@ class EffectsData
     return new self();
   }
   
-  function add(): void;
+  function add(EffectInstance $effectInstance): void
+  {
+    $this->effects[$effectInstance->getType()->getName()->getText()] = $effectInstance;
+  }
   
-  function remove(): void;
+  function remove(EffectInstance $effectInstance): void
+  {
+    if (isset($this->effects[$effectInstance->getType()->getName()->getText()])) {
+      unset($this->effects[$effectInstance->getType()->getName()->getText()]);
+    }
+  }
+  
+  function all(): array
+  {
+    return $this->effects;
+  }
   
   function export(): array
   {

@@ -67,7 +67,7 @@ final class KitManager
 						$armors[Practice::convertArmorSlot($slot)] = $armor;
 					}
 				}
-				$this->kits[strtolower($name = $data["name"])] = new DefaultKit($name, $items, $armor, KitDataInfo::decode($data["data"]), KnockbackInfo::decode($data["kb"]), EffectsData::decode($data["effects"]));
+				$this->kits[strtolower($name = $data["name"])] = new DefaultKit($data["name"], $items, $armor, KitDataInfo::decode($data["data"]), KnockbackInfo::decode($data["kb"]), EffectsData::decode($data["effects"]));
 			}
 		}
 	}
@@ -79,7 +79,7 @@ final class KitManager
 
 	function add(DefaultKit $kit): bool
 	{
-		if($this->kits[$localName = strtolower($kit->getName())] !== null){
+		if(isset($this->kits[$mainName = strtolower($kit->getMainName())])){
 			return false;
 		}
 		$this->kits[$localName] = $kit;
@@ -89,11 +89,11 @@ final class KitManager
 
   function delete(DefaultKit|string $kit): void
   {
-		$name = $kit instanceof DefaultKit ? $kit->getName() : $kit;
-		if($this->kits[$localName = strtolower($name)] !== null){
-			$kit = $this->kits[$localName];
+		$name = $kit instanceof DefaultKit ? $kit->getMainName() : $kit;
+		if($this->kits[$mainName = strtolower($name)] !== null){
+			$kit = $this->kits[$mainName];
 			@unlink($this->defaultPath . "{$kit->getName()}.json");
-			unset($this->kits[$localName]);
+			unset($this->kits[$mainName]);
 		}
 	}
 
@@ -108,7 +108,7 @@ final class KitManager
 			return $this->kits[$name];
 		}
 		foreach($this->kits as $kit){
-			if(strtolower($kit->getName()) === strtolower($name)){
+			if(strtolower($kit->getMainName()) === strtolower($name)){
 				return $kit;
 			}
 		}
