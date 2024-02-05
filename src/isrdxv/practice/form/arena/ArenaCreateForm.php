@@ -51,6 +51,7 @@ class ArenaCreateForm extends CustomForm
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . $kits[$response->getInt("kit")] . " does not exist");
           return;
         }
+        //lol
         
         $type = $types[$response->getInt("type")];
         if (!in_array($type, $types, true)) {
