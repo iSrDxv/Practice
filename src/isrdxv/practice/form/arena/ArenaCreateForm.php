@@ -51,7 +51,6 @@ class ArenaCreateForm extends CustomForm
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . $kits[$response->getInt("kit")] . " does not exist");
           return;
         }
-        //lol
         
         $type = $types[$response->getInt("type")];
         if (!in_array($type, $types, true)) {
@@ -59,6 +58,10 @@ class ArenaCreateForm extends CustomForm
           return;
         }
         
+        if ($kit->getDataInfo()->type === $type && !$kit->getDataInfo()->enabled) {
+          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "Kit disabled!!");
+          return;
+        }
         $name = trim(TextFormat::clean($responsw->getString("name")));
         if (str_contains($name, " ")) {
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "The name cannot contain spaces");
