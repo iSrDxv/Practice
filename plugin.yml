@@ -1,10 +1,10 @@
 name: Practice
 api: 5.0.0
-version: 1.1.0+dev
+version: 1.1.5+dev
 main: isrdxv\practice\PracticeLoader
 author: "iSrDxv"
 prefix: "Practice-StromMC"
-depend: ["StaffMode"]
+depend: ["StaffMode", "RankSystem"]
 permissions:
   practice.command.maintenance:
     default: false
