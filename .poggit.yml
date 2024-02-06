@@ -12,4 +12,8 @@ projects:
         version: ^2.0.0
       - src: ExodusDevs/WorldBackupLib
         version: ^2.0.0
+      - src: poggit/libasynql/libasynql
+        version: ^4.1.6
+      - src: dktapps-pm-pl/pmforms/pmforms
+        version: ^2.1.0
 ...
