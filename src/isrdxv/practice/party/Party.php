@@ -86,7 +86,7 @@ class Party
     $this->open = $value;
   }
   
-  function __destruct(): void
+  function __destruct()
   {
     Server::getInstance()->getLogger()->warning("Data of this class is about to be destroyed: " . get_class($this));
   }
