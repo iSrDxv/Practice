@@ -88,7 +88,7 @@ final class BanForm extends CustomForm
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "+1 more ban...");
         }
         $session = SessionManager::getInstance()->get($player);
-        if (isset($session) && isset($session->getStaffData())) {
+        if (isset($session) && $session->getStaffData() !== null) {
           $session->getStaffData()?->addBan();
         }
       }, function(Player $player): void {
