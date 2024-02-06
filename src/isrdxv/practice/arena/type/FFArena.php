@@ -70,7 +70,7 @@ final class FFArena extends Arena
     return ($num === 0) ? $this->spawns : [$this->spawns[$num] ?? []];
   }
   
-  function addSpawn(int $num = 0, Vector3 $spawn): void
+  function addSpawn(int $num, Vector3 $spawn): void
   {
     if (isset($this->spawns[$num])) {
       $this->spawns[$num] = $spawn;
@@ -132,7 +132,7 @@ final class FFArena extends Arena
     }
   }
   
-  function removeSpectator(string $name): void
+  function removeSpectator(string $name): bool
   {
     if (isset($this->spectators[$name])) {
       unset($this->spectators[$name]);
