@@ -6,7 +6,7 @@ projects:
   Practice-StromMC:
     path: ""
     libs:
-      - src: ExodusDevs/TrabslationAPI
+      - src: ExodusDevs/TranslationAPI
         version: ^2.0.0
       - src: ExodusDevs/WorldBackupLib
         version: ^2.0.0
