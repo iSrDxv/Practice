@@ -5,4 +5,11 @@ branches:
 projects:
   Practice-StromMC:
     path: ""
+    libs:
+      - src: isrdxv/ScoreboardLib
+        version: ^2.0.0
+      - src: ExodusDevs/TrabslationAPI
+        version: ^2.0.0
+      - src: ExodusDevs/WorldBackupLib
+        version: ^2.0.0
 ...
