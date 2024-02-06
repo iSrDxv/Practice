@@ -10,7 +10,8 @@ projects:
     libs:
       - src: ExodusDevs/Scoreboard/Scoreboard
         version: ^1.0.0
-      - src: ExodusDevs/Translation/Translation
+      - src: ExodusDevs/TranslationAPI/Translation
+        branch: master
         version: ^1.0.8
       - src: poggit/libasynql/libasynql
         version: ^4.1.6
