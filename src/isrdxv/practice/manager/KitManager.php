@@ -41,8 +41,7 @@ final class KitManager
   function init(): void{
 		@mkdir($this->defaultPath = PracticeLoader::getInstance()->getDataFolder() . "kits" . DIRECTORY_SEPARATOR);
 		$kitsData = [];
-		$files = scandir($this->defaultPath);
-		foreach($files as $file){
+		foreach(glob($this->defaultPath . "*.json") as $file){
 			if(str_ends_with($file, ".json") === false){
 				continue;
 			}

@@ -57,11 +57,11 @@ class ArenaCreateForm extends CustomForm
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "There is no such type of arena");
           return;
         }
-        
         if ($kit->getDataInfo()->type === $type && !$kit->getDataInfo()->enabled) {
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "Kit disabled!!");
           return;
         }
+        
         $name = trim(TextFormat::clean($responsw->getString("name")));
         if (str_contains($name, " ")) {
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "The name cannot contain spaces");

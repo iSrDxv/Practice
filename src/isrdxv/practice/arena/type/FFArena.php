@@ -57,7 +57,7 @@ final class FFArena extends Arena
   
   function getIcon(): string
   {
-    return $this->getKit()?->getDataInfo()->getIcon() ?? "";
+    return $this->getKit()?->getDataInfo()->icon ?? "";
   }
   
   function getWorld(): ?World
@@ -98,6 +98,11 @@ final class FFArena extends Arena
   {
     if (($world = $this->getWorld()) !== null && ($session = SessionManager::getInstance()->get($player)) !== null) {
       $position = Position::fromObject($this->spawns[array_rand($this->spawns)], $world);
+      if (($player = $session?->getPlayer()) !== null) {
+        $this->players[$player->getName()] = $player;
+        $player->teleport($position);
+        $this->getKit()?->giveTo($player);
+      }
     }
   }
   

@@ -11,10 +11,12 @@ use isrdxv\practice\arena\type\{
   FFArena,
   DuelArena
 };
-
+use isrdxv\practice\manager\KitManager;
 use isrdxv\practice\kit\DefaultKit;
 
+use pocketmine\Server;
 use pocketmine\world\World;
+use pocketmine\math\Vector3;
 use pocketmine\utils\SingletonTrait;
 
 use function glob;
@@ -37,12 +39,12 @@ final class ArenaManager
   function init(): void
   {
     $this->defaultPath = PracticeLoader::getInstance()->getDataFolder() . "arenas" . DIRECTORY_SEPARATOR;
-    foreach(glob($this->defaultPath . DIRECTORY_SEPARATOR . "*.json")  as $file) {
+    foreach(glob($this->defaultPath . "*.json")  as $file) {
       if (!is_file($file) || str_ends_with($file, ".json") === false) {
         continue;
       }
       $arena = $this->load(basename($file, ".json"), json_decode(file_get_contents($this->defaultPath . $file), true));
-      if ($arena instanceof FFAArena) {
+      if ($arena instanceof FFArena) {
         $this->ffa[$arena->getName()] = $arena;
       }elseif ($arena instanceof DuelArena) {
         $this->duels[$arena->getName()] = $arena;
@@ -55,7 +57,24 @@ final class ArenaManager
     if ($data["type"] !== null) {
       switch($data["type"]) {
         case Arena::FFA:
-          
+          if (isset($data["world"], $data["spawns"], $data["kit"])) {
+            if (($kit = KitManager::getInstance()->get($data["kit"])) !== null) {
+              $wm = Server::getInstance()->getWorldManager();
+              if (!$wm->isWorldLoaded($data["world"])) {
+                $wm->loadWorld($data["world"]);
+              }
+              if (($world = $wm->getWorldByName($data["world"])) !== null) {
+                $world->setTime(0);
+                $world->stopTime();
+                
+                $spawns = [];
+                foreach($data["spawns"] as $num => $value) {
+                  $spawns[$num] = new Vector3($value["x"], $value["y"], $value["z"]);
+                }
+                return new FFArena($name, $kit, $world, $spawns);
+              }
+            }
+          }
         break;
         case Arena::DUEL:
           
