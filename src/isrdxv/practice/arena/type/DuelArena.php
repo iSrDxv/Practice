@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace isrdxv\practice\arena;
+namespace isrdxv\practice\arena\type;
 
 use isrdxv\kit\DefaultKit;
 use isrdxv\practice\Practice;
