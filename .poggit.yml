@@ -6,7 +6,7 @@ projects:
   Practice-StromMC:
     path: ""
     libs:
-      - src: iSrDxv/ScoreboardLib
+      - src: ScoreboardLib
         version: ^2.0.0
       - src: ExodusDevs/TrabslationAPI
         version: ^2.0.0
