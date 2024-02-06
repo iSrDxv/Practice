@@ -6,9 +6,6 @@ projects:
   Practice-StromMC:
     path: ""
     libs:
-      - src: ScoreboardLib
-        branch: stable
-        version: ^2.0.0
       - src: ExodusDevs/TrabslationAPI
         version: ^2.0.0
       - src: ExodusDevs/WorldBackupLib
