@@ -7,8 +7,11 @@ use isrdxv\practice\{
   Practice,
   PracticeLoader
 };
+use isrdxv\practice\handler\DuelHandler;
+use isrdxv\practice\duel\queue\UserQueued;
 use isrdxv\practice\utils\Time;
 
+use pocketmine\Server;
 use pocketmine\player\Player;
 use pocketmine\utils\{
   TextFormat,
@@ -18,6 +21,8 @@ use pocketmine\scheduler\ClosureTask;
 
 final class QueueHandler
 {
+  use SingletonTrait;
+
   private array $queues = [];
   
   function __construct()
@@ -25,4 +30,41 @@ final class QueueHandler
     self::setInstance($this);
   }
   
+  function get(string $name): ?UserQueued
+  {
+    return $this->queues[$name] ?? null;
+  }
+
+  function all(): array
+  {
+    return $this->queues;
+  }
+
+  function add(Player $player, string $kit, bool $ranked = false): void
+  {
+    $this->remove($player->getName());
+    $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GRAY . "You have joined the queue for " . Practice::SERVER_COLOR . ($ranked ? "Ranked" : "UnRanked") . " " . $kit);
+    $this->queues[$name = $player->getName()] = new UserQueued($name, $kit, $ranked);
+    if (($opponent = $this->findOpponent($this->queues[$name]))) {
+      $this->remove($name);
+      $this->remove($opponentName = $opponent->getName());
+      DuelHandler::getInstance()->putInDuel($player, Server::getInstance()->getPlayerExact($opponentName), $kit, $ranked);
+    }
+  }
+
+  function findOpponent(): ?UserQueued
+  {
+    return null;
+  }
+
+  function remove(string $name, bool $message = false): void
+  {
+    if (($queue = $this->get($name)) !== null) {
+      unset($this->queues[$name]);
+      if ($message && ($player = Server::getInstance()->getPlayerExact($name)) !== null) {
+        $player?->sendMessage(Practice::SERVER_PREFIX . TextFormat::GRAY . "You have left the queue for " . Practice::SERVER_COLOR . ($queue->isRanked() ? "Ranked" : "UnRanked") . " " . $queue->getKit());
+      }
+    }
+  }
+
 }
