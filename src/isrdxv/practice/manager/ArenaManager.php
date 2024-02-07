@@ -91,6 +91,13 @@ final class ArenaManager
         $this->save($arena);
         return true;
       }
+      if ($type === Arena::DUEL) {
+        $worldName = $world->getFolderName();
+        $spawn = $world->getSpawnLocation();
+        $arena = ($this->duels[$name] = new DuelArena($name, $kit, $worldName, $spawn, $spawn, 255));
+        $this->save($arena);
+        return true;
+      }
     }
     return false;
   }

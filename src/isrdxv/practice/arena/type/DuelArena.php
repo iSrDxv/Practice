@@ -25,12 +25,14 @@ final class DuelArena extends Arena
   
   private Vector3 $spawn2;
   
+  private bool $enabled;
+  
   /**
    * At what maximum height can you build?
    */
   private int $maxHeight;
   
-  function __construct(string $name, string $world, Vector3 $spawn1, Vector3 $spawn2, int $maxHeight)
+  function __construct(string $name, string $world, Vector3 $spawn1, Vector3 $spawn2, int $maxHeight, bool $enabled = true)
   {
     $this->name = $name;
     $this->world = Server::getInstance()->getWorldManager()->getWorldByName($world)->getId() ?? 0;
@@ -38,6 +40,7 @@ final class DuelArena extends Arena
     $this->spawn1 = $spawn1;
     $this->spawn2 = $spawn2;
     $this->maxHeight = $maxHeight;
+    $this->enabled = $enabled;
   }
   
   function getName(): string
@@ -75,6 +78,11 @@ final class DuelArena extends Arena
     return $this->maxHeight;
   }
   
+  function isEnabled(): bool
+  {
+    return $this->enabled;
+  }
+  
   function canBuild(Vector3 $position): bool
   {
     if ($position->y >= $this->maxHeight) {
@@ -93,6 +101,7 @@ final class DuelArena extends Arena
     }else{
       $spawns[$num] = Practice::positionToArray($this->spawn2);
     }
-    return ["type" => Arena::DUEL, "world" => $this->worldName, "kit" => $this->kit?->getName(), "spawns" => $spawns, "maxHeight" => $this->maxHeight];
+    return ["type" => Arena::DUEL, "world" => $this->worldName, "kit" => $this->kit?->getName(), "spawns" => $spawns, "maxHeight" => $this->maxHeight, "enabled" => $this->enabled];
   }
+  
 }
