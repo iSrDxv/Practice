@@ -13,7 +13,8 @@ use isrdxv\practice\manager\{
 };
 use isrdxv\practice\form\{
   duel\DuelMenuForm,
-  duel\DuelRequestForm
+  duel\DuelRequestForm,
+  user\profile\ProfileMenuForm
 };
 
 use pocketmine\Server;
@@ -196,6 +197,11 @@ class PracticeListener implements Listener
           case ItemManager::DUEL:
             if ($session->isInLobby()) {
               $player->sendForm(new DuelMenuForm(["name" => $player->getName()]));
+            }
+          break;
+          case ItemManager::PROFILE:
+            if ($session->isInLobby()) {
+              $player->sendForm(new ProfileMenuForm());
             }
           break;
         }
