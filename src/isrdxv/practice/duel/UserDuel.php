@@ -11,13 +11,14 @@ use isrdxv\practice\manager\SessionManager;
 use isrdxv\practice\Practice;
 use isrdxv\practice\session\Session;
 use isrdxv\practice\utils\Time;
+use isrdxv\practice\handler\DuelHandler;
 
 use pocketmine\player\GameMode;
 use pocketmine\Server;
 use pocketmine\player\Player;
 
 use exodus\worldbackup\WorldBackup;
-use pocketmine\command\defaults\GamemodeCommand;
+
 use pocketmine\utils\TextFormat;
 use pocketmine\world\World;
 
@@ -232,6 +233,8 @@ final class UserDuel
 
         $directory = Server::getInstance()->getDataPath() . "worlds" . DIRECTORY_SEPARATOR . $this->world?->getIdCopy();
         WorldBackup::deleteBackup($directory);
+
+        DuelHandler::getInstance()->remove($this->world?->getIdCopy());
     }
 
 }

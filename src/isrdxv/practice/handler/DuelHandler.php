@@ -56,13 +56,18 @@ final class DuelHandler
             $opponent->getEffects()->clear();
             $arena = ArenaManager::getInstance()->getRandomArena($kit->getName());
             $duelWorld = new DuelWorld($arena->getWorld());
-            $this->duels[$duelWorld->getIdCopy()] = new UserDuel( $duelWorld->getIdCopy(), $arena, $duelWorld, $player, $opponent, $kit, $ranked);
+            $this->duels[$duelWorld->getIdCopy()] = ($duel = new UserDuel( $duelWorld->getIdCopy(), $arena, $duelWorld, $player, $opponent, $kit, $ranked));
+            $session->setDuel($duel);
+            $oSession->setDuel($duel);
         }
     }
     
-    function removeByID(): void
+    function remove(string $id): void
     {
-      
+      if (!isset($this->duels[$id])) {
+        return;
+      }
+      unset($this->duels[$id]);
     }
 
     function getPlayersInDuel(string $kit, bool $ranked): int
