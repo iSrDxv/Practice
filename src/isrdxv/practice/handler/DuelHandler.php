@@ -59,4 +59,21 @@ final class DuelHandler
             $this->duels[$duelWorld->getIdCopy()] = new UserDuel( $duelWorld->getIdCopy(), $arena, $duelWorld, $player, $opponent, $kit, $ranked);
         }
     }
+    
+    function getPlayersInDuel(string $kit, bool $ranked): int
+    {
+      $num = 0;
+      foreach($this->duels as $duel) {
+        if ($kit === $duel->getKit()?->getName() && $ranked === $duel->isRanked()) {
+          $num++;
+        }
+      }
+      return $num;
+    }
+    
+    function getDuelsCount(): int
+    {
+      return count($this->duels);
+    }
+    
 }
