@@ -7,8 +7,10 @@ use isrdxv\practice\{
   Practice,
   PracticeLoader
 };
+use isrdxv\practice\session\Session;
 use isrdxv\practice\handler\DuelHandler;
 use isrdxv\practice\duel\queue\UserQueued;
+use isrdxv\practice\manager\SessionManager;
 use isrdxv\practice\utils\Time;
 
 use pocketmine\Server;
@@ -52,8 +54,16 @@ final class QueueHandler
     }
   }
 
-  function findOpponent(): ?UserQueued
+  function findOpponent(UserQueued $queue): ?UserQueued
   {
+    foreach($this->queues as $name => $queued) {
+      if ($queued->getName() === $queue->getName()) {
+        continue;
+      }
+      if ($queue->dataEquals($queued)) {
+        return $queued;
+      }
+    }
     return null;
   }
 

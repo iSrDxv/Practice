@@ -32,4 +32,9 @@ final class UserQueued
     {
         return $this->ranked;
     }
+
+    function dataEquals(UserQueued $queue): bool
+    {
+        return $this->kit === $queue->getKit() && $this->ranked === $queue->isRanked();
+    }
 }

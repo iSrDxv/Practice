@@ -4,7 +4,8 @@ namespace isrdxv\practice\session;
 
 use isrdxv\practice\session\misc\{
 	ClientDataInfo,
-	ScoreboardHandler
+	ScoreboardHandler,
+  StaffData
 };
 use isrdxv\practice\{
   Practice,
@@ -77,6 +78,10 @@ class Session
         return Server::getInstance()->getPlayerExact($this->name) ?? null;
     }
     
+    function getPing(): int
+    {
+      return $this->getPlayer()?->getNetworkSession()->getPing();
+    }
     function isInLobby(): bool
     {
         return $this->getPlayer()?->getWorld() === Server::getInstance()->getWorldManager()->getDefaultWorld();
@@ -89,7 +94,7 @@ class Session
       var_dump($xuid);
       $session = $this;
       $time = new DateTime("NOW", new DateTimeZone("America/Mexico_City"));
-      $address = $player instanceof FakePlayerNetworkSession ? $player->getNetworkSession()->getIp() : $player->getNetworkSession()->getIp();
+      $address = $player->getNetworkSession()->getIp() ?? "127.0.0.1";
       $this->clientData = new ClientDataInfo($this->getPlayer()?->getPlayerInfo()->getExtraData());
       if (in_array($rank, Practice::ADMINISTRATIVE_RANKS, true)) {
         $database->executeInsert("practice.insert.staff.stats", ["xuid" => $xuid, "name" => $player->getName(), "bans" => 0, "kicks" => 0, "mutes" => 0, "reports" => 0]);

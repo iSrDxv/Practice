@@ -11,11 +11,13 @@ use pocketmine\item\{
 };
 use pocketmine\entity\effect\EffectInstance;
 use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
+use pocketmine\network\mcpe\NetworkBroadcastUtils;
 use pocketmine\network\mcpe\protocol\MovePlayerPacket;
 use pocketmine\entity\{
   Attribute,
-  Entity
+  Living
 };
+use pocketmine\Server;
 use pocketmine\player\Player;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
@@ -54,6 +56,14 @@ class Practice
          TextFormat::RESET . TextFormat::GREEN . "Don't forget to enjoy our server, and vote to get a rank for 1 month: link"
     ];
     
+    const NO_QUEUE_BE = [
+      "macOS",
+      "FireOS",
+      "Windows 10",
+      "Windows 7",
+      "FireOS"
+    ];
+
     const charWidths = [
     		" " => 4,
     		"!" => 2,
@@ -103,13 +113,13 @@ class Practice
       return bin2hex(random_bytes(8));
     }
     
-    static function knockBack(Player $player, Entity $entity, KnockbackInfo $kbInfo): void
+    static function knockBack(Player $player, Living $entity, KnockbackInfo $kbInfo): void
     {
       $horizontal = $kbInfo->horizontal;
       $vertical = $kbInfo->vertical;
       if (!$player->isOnGround() &&  ($maxHeight = $kbInfo->maxHeight) > 0) {
         [$max, $min] = self::maxAndMin($player->getPosition()->y, $entity->getPosition()->y);
-        if ($max - $min >= $madHeight) {
+        if ($max - $min >= $maxHeight) {
           $vertical *= 0.75;
           if ($kbInfo->canRevert) {
             $vertical *= -1;
@@ -200,7 +210,7 @@ class Practice
       try {
         $item = Item::nbtDeserialize($nbt->read(base64_decode($value))->mustGetCompoundTag());
       }catch(SavedDataLoadingException|\Exception $ex) {
-        throw new \RuntimeException("Error during decoding of an item, incorrect item: " . $e->getMessage() . ", data: " . $value);
+        throw new \RuntimeException("Error during decoding of an item, incorrect item: " . $ex->getMessage() . ", data: " . $value);
         return null;
       }
       return $item;
@@ -253,14 +263,14 @@ class Practice
       return $first > $second ? [$first, $second] : [$second, $first]; //sirve para horizontal
     }
     
-    static function fastTeleport(Entity $entity, Vector3 $position, ?Vector3 $lookAt = null): void
+    static function fastTeleport(Living $entity, Vector3 $position, ?Vector3 $lookAt = null): void
     {
       [$yaw, $pitch] = self::lookAt($entity, $position, $lookAt);
       $entity->teleport($position, $yaw, $pitch);
-      Server::getInstance()->broadcastPackets($entity->getViewers(), [MoveActorAbsolutePacket::create($entity->getId(), $entity->getOffsetPosition($location = $entity->getLocation()), $location->pitch, $location->yaw, $location->yaw, (MoveActorAbsolutePacket::FLAG_TELEPORT | ($entity->onGround ? MoveActorAbsolutePacket::FLAG_GROUND : 0)))]);
+      NetworkBroadcastUtils::broadcastPackets([$entity->getViewers()], [MoveActorAbsolutePacket::create($entity->getId(), $entity->getOffsetPosition($location = $entity->getLocation()), $location->pitch, $location->yaw, $location->yaw, (MoveActorAbsolutePacket::FLAG_TELEPORT | ($entity->onGround ? MoveActorAbsolutePacket::FLAG_GROUND : 0)))]);
     }
   
-    static function lookAt(Entity $entity, Vector3 $pos, ?Vector3 $lookAt = null): array
+    static function lookAt(Living $entity, Vector3 $pos, ?Vector3 $lookAt = null): array
     {
       if($lookAt === null){
         return [null, null];
@@ -290,5 +300,23 @@ class Practice
         }
       }
       return $players;
+    }
+
+    static function queueOnlyBE(string $device, string $touch): bool
+    {
+      return !isset(self::NO_QUEUE_BE[$device]) && $touch === "Touch";
+    }
+
+    static function calculateElo(int $winner, int $losser)
+    {
+      $scoreA = 1 / (1 + (pow(10, ($losser - $winner) / 408)));
+      $scoreB = abs(1 / (1 + pow(10, ($winner - $losser) / 408)));
+
+      $winnerElo = $winner + intval(32 * (1 - $scoreA));
+      $losserElo = $losser + intval(32 * (0 - $scoreB));
+      return [
+        $winnerElo - $winner,
+        abs($losser - $losserElo)
+      ];
     }
 }

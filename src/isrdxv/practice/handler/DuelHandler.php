@@ -19,4 +19,9 @@ final class DuelHandler
     {
         self::setInstance($this);
     }
+
+    function putInDuel(Player $player, Player $opponent, string $kit, bool $ranked): void
+    {
+
+    }
 }
