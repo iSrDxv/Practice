@@ -82,11 +82,26 @@ class Session
     {
       return $this->getPlayer()?->getNetworkSession()->getPing();
     }
+
     function isInLobby(): bool
     {
         return $this->getPlayer()?->getWorld() === Server::getInstance()->getWorldManager()->getDefaultWorld();
     }
     
+    function clear(): void
+    {
+      $player = $this->getPlayer();
+      $player?->getInventory()->clearAll();
+      $player?->getArmorInventory()->clearAll();
+      $player?->getHungerManager()->setFood($player->getHungerManager()->getMaxFood());
+      $player?->getXpManager()->setXpAndProgress(0, 0.0);
+      $player?->setGamemode(GameMode::ADVENTURE());
+      $player?->setHealth($player->getMaxHealth());
+      $player?->setFlying(false);
+      $player->setAllowFlight(false);
+      $player?->getEffects()->clear();
+    }
+
     function init($database, string $rank): void
     {
     	$player = $this->getPlayer();

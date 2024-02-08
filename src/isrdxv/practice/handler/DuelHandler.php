@@ -60,6 +60,11 @@ final class DuelHandler
         }
     }
     
+    function removeByID(): void
+    {
+      
+    }
+
     function getPlayersInDuel(string $kit, bool $ranked): int
     {
       $num = 0;
