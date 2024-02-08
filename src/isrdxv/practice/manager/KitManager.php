@@ -96,8 +96,8 @@ final class KitManager
 		}
 	}
 
-  function isKit(string $name): bool
-  {
+    function isKit(string $name): bool
+    {
 		return $this->get($name) !== null;
 	}
 

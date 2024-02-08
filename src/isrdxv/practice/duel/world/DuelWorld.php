@@ -51,4 +51,8 @@ class DuelWorld
     return Server::getInstance()->getWorldManager()->getWorld($this->worldId);
   }
   
+  function getIdCopy()
+  {
+    return $this->id;
+  }
 }

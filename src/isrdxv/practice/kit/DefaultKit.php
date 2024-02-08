@@ -10,7 +10,10 @@ use isrdxv\practice\kit\misc\{
 use isrdxv\practice\Practice;
 use isrdxv\practice\utils\Time;
 
-use pocketmine\item\VanillaItems;
+use pocketmine\item\{
+  Item,
+  VanillaItems
+};
 use pocketmine\player\Player;
 
 use function strtolower;
@@ -82,7 +85,7 @@ final class DefaultKit implements Kit
   
   function getKnockbackInfo(): KnockbackInfo
   {
-    return $this->kitInfo;
+    return $this->kbInfo;
   }
   
   function getEffectsData(): EffectsData
@@ -90,7 +93,7 @@ final class DefaultKit implements Kit
     return $this->effects;
   }
   
-  function setInventory(array $items): array
+  function setInventory(array $items): void
   {
     $this->inventory = $items;
   }

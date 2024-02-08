@@ -13,6 +13,7 @@ use isrdxv\practice\manager\{
 };
 
 use pocketmine\Server;
+use pocketmine\world\Position;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use pocketmine\world\World;
@@ -46,7 +47,7 @@ final class FFArena extends Arena
   
   function getKit(): ?DefaultKit
   {
-    return KitManager::getInstance()->getKit($this->kit);
+    return KitManager::getInstance()->getKit($this->kit) ?? null;
   }
   
   function setKit(DefaultKit $kit): void
@@ -75,7 +76,7 @@ final class FFArena extends Arena
     if (isset($this->spawns[$num])) {
       $this->spawns[$num] = $spawn;
     }elseif ($num === 0) {
-      $this->spawns[count($this->spaws) + 1] = $spawn;
+      $this->spawns[count($this->spawns) + 1] = $spawn;
     }
     ArenaManager::getInstance()->save($this);
   }
@@ -146,13 +147,13 @@ final class FFArena extends Arena
     return isset($this->spectators[$player instanceof Player ? $player->getName() : $player]);
   }
   
-  function export(): array
+  function extract(): array
   {
     $spawns = [];
     foreach($this->spawns as $num => $value) {
       $spawns[$num] = Practice::positionToArray($value);
     }
-    return ["type" => Arena::FFA, "kit" => $this->kit?->getName(), "world" -> $this->getWorld()?->getFolderName(), "spawns" => $spawns];
+    return ["type" => Arena::TYPE_FFA, "kit" => $this->kit, "world" => $this->getWorld()?->getFolderName(), "spawns" => $spawns];
   }
   
 }

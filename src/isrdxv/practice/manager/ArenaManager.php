@@ -56,7 +56,7 @@ final class ArenaManager
   {
     if ($data["type"] !== null) {
       switch($data["type"]) {
-        case Arena::FFA:
+        case Arena::TYPE_FFA:
           if (isset($data["world"], $data["spawns"], $data["kit"])) {
             if (($kit = KitManager::getInstance()->get($data["kit"])) !== null) {
               $wm = Server::getInstance()->getWorldManager();
@@ -76,7 +76,7 @@ final class ArenaManager
             }
           }
         break;
-        case Arena::DUEL:
+        case Arena::TYPE_DUEL:
           
         break;
       }
@@ -86,12 +86,12 @@ final class ArenaManager
   function create(string $name, string $type, World $world, DefaultKit $kit): bool
   {
     if (!isset($this->duels[$name], $this->ffa[$name]) && empty($this->get($name))) {
-      if ($type === Arena::FFA) {
+      if ($type === Arena::TYPE_FFA) {
         $arena = ($this->ffa[$name] = new FFArena($name, $kit, $world, [1 => $world->getSpawnLocation()]));
         $this->save($arena);
         return true;
       }
-      if ($type === Arena::DUEL) {
+      if ($type === Arena::TYPE_DUEL) {
         $worldName = $world->getFolderName();
         $spawn = $world->getSpawnLocation();
         $arena = ($this->duels[$name] = new DuelArena($name, $kit, $worldName, $spawn, $spawn, 255));
@@ -102,6 +102,20 @@ final class ArenaManager
     return false;
   }
   
+  function getRandomArena(string $kit): ?Arena
+  {
+    $result = [];
+    foreach($this->duels as $duel) {
+      if ($duel->getWorld() === null || !$duel->isEnabled()) {
+        continue;
+      }
+      if ($duel->getKit() !== null && $duel->getKit()?->getName() === $kit) {
+        $result[] = $duel;
+      }
+    }
+    return empty($result) ? null : $result[array_rand($result)];
+  }
+
   function get(string $name): ?Arena
   {
     return $this->ffa[$name] ?? $this->duels[$name] ?? null;
@@ -117,7 +131,7 @@ final class ArenaManager
 		if(!file_exists($filePath = $this->defaultPath . "{$arena->getName()}.json")){
 			fclose(fopen($filePath, "w"));
 		}
-		file_put_contents($filePath, json_encode($kit->export()));
+		file_put_contents($filePath, json_encode($arena->extract()));
 	}
 	
 }

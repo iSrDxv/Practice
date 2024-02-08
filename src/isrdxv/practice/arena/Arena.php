@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace isrdxv\practice\arena;
 
-use isrdxv\kit\DefaultKit;
+use isrdxv\practice\kit\DefaultKit;
 
 use pocketmine\world\World;
 
