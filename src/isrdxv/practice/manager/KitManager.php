@@ -14,7 +14,7 @@ use isrdxv\practice\{
   Practice,
   PracticeLoader
 };
-
+use pocketmine\utils\Filesystem;
 use pocketmine\utils\SingletonTrait;
 
 use function fclose;
@@ -45,7 +45,7 @@ final class KitManager
 			if(str_ends_with($file, ".json") === false){
 				continue;
 			}
-			$kitsData[basename($file, ".json")] = json_decode(file_get_contents($this->defaultPath . $file), true);
+			$kitsData[basename($file, ".json")] = json_decode(Filesystem::fileGetContents($this->defaultPath . $file), true, flags: JSON_THROW_ON_ERROR);
 		}
 	  $this->load($kitsData);
 	}
@@ -119,7 +119,7 @@ final class KitManager
 		if(!file_exists($filePath = $this->defaultPath . "{$kit->getName()}.json")){
 			fclose(fopen($filePath, "w"));
 		}
-		file_put_contents($filePath, json_encode($kit->extract()));
+		Filesystem::safeFilePutContents($filePath, json_encode($kit->extract(), JSON_PRETTY_PRINT | JSON_BIGINT_AS_STRING | JSON_THROW_ON_ERROR));
 	}
 	
 }
