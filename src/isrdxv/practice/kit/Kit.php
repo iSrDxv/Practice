@@ -13,6 +13,4 @@ interface Kit
   function getMainName(): string;
   
   function equals($kit): bool;
-  
-  function extract(): array;
 }

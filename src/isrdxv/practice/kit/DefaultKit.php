@@ -9,7 +9,7 @@ use isrdxv\practice\kit\misc\{
 };
 use isrdxv\practice\Practice;
 use isrdxv\practice\utils\Time;
-
+use JsonSerializable;
 use pocketmine\item\{
   Item,
   VanillaItems
@@ -18,7 +18,7 @@ use pocketmine\player\Player;
 
 use function strtolower;
 
-final class DefaultKit implements Kit
+final class DefaultKit implements Kit, JsonSerializable
 {
   private string $name;
   
@@ -111,7 +111,7 @@ final class DefaultKit implements Kit
     return false;
   }
   
-  function extract(): array
+  function jsonSerialize(): mixed
   {
     $items = [];
     $armor = [];

@@ -30,7 +30,7 @@ class ArenaCreateForm extends CustomForm
     var_dump($args);
     $worlds = $args[0] ?? [];
     $types = $args[1] ?? [];
-    $kits = $args[2] ?? [];
+    $kits = $args[2] ?? ["no available"];
     parent::__construct("Arena Menu", [
       new Label("info", "This creates an arena based on the name"),
       new Input("name", "Please provide the name of the arena that you want to create:"),
@@ -62,7 +62,7 @@ class ArenaCreateForm extends CustomForm
           return;
         }
         
-        $name = trim(TextFormat::clean($response->getString("name")));
+        $name = TextFormat::clean($response->getString("name"));
         if (str_contains($name, " ")) {
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "The name cannot contain spaces");
           return;

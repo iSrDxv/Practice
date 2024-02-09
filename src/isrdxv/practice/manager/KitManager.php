@@ -47,7 +47,7 @@ final class KitManager
 			}
 			$kitsData[basename($file, ".json")] = json_decode(Filesystem::fileGetContents($this->defaultPath . $file), true, flags: JSON_THROW_ON_ERROR);
 		}
-	  $this->load($kitsData);
+		$this->load($kitsData);
 	}
 
 	private function load(array $kitsData): void
@@ -116,10 +116,10 @@ final class KitManager
 
 	function save(DefaultKit $kit): void
 	{
-		if(!file_exists($filePath = $this->defaultPath . "{$kit->getName()}.json")){
-			fclose(fopen($filePath, "w"));
+		if(!file_exists($filePath = $this->defaultPath . $kit->getName() . ".json")){
+			Filesystem::safeFilePutContents($filePath, json_encode([], JSON_PRETTY_PRINT | JSON_BIGINT_AS_STRING | JSON_THROW_ON_ERROR));
 		}
-		Filesystem::safeFilePutContents($filePath, json_encode($kit->extract(), JSON_PRETTY_PRINT | JSON_BIGINT_AS_STRING | JSON_THROW_ON_ERROR));
+		Filesystem::safeFilePutContents($filePath, json_encode($kit, JSON_PRETTY_PRINT | JSON_BIGINT_AS_STRING | JSON_THROW_ON_ERROR));
 	}
-	
+
 }
