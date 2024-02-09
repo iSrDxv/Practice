@@ -163,7 +163,7 @@ class PracticeListener implements Listener
         $event->setJoinMessage(TextFormat::BLUE . "[" . TextFormat::GOLD . "+" . TextFormat::BLUE . "] " . TextFormat::AQUA . $player->getName());
       break;
       case "Mod":
-        $event->setJoinMessage(TextFormat::DARK_PURPLE . "[" . TextFormat::GRAY . "+" . TextFormat::DARK_PURPLE . "] " . TextFormat::PURPLE . $player->getName());
+        $event->setJoinMessage(TextFormat::DARK_PURPLE . "[" . TextFormat::GRAY . "+" . TextFormat::DARK_PURPLE . "] " . TextFormat::LIGHT_PURPLE . $player->getName());
       break;
     }
   }
@@ -231,7 +231,7 @@ class PracticeListener implements Listener
   function onDrop(PlayerDropItemEvent $event): void
   {
     if (($session = SessionManager::getInstance()->get(($event->getPlayer()))) !== null) {
-      if ($session->isInLobby() && $event->getItem()->getNamedTag()->getTG("Practice") !== null) {
+      if ($session->isInLobby() && $event->getItem()->getNamedTag()->getTag("Practice") !== null) {
         $event->cancel();
       }
     }
@@ -244,13 +244,18 @@ class PracticeListener implements Listener
     $defaultWorld = Server::getInstance()->getWorldManager()->getDefaultWorld();
     if ($kicker instanceof Player && $damager instanceof Player) {
       if ($kicker->getWorld() === $defaultWorld && $damager->getWorld() === $defaultWorld) {
+        $event->cancel();
         if ($event->getCause() === EntityDamageByEntityEvent::CAUSE_VOID) {
           $event->cancel();
-          $entity->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
+          $damager->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
           return;
         }
         if ($event->getCause() === EntityDamageByEntityEvent::CAUSE_SUFFOCATION) {
-          $entity->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
+          $damager->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
+          return;
+        }
+        if ($event->getCause() === EntityDamageByEntityEvent::CAUSE_SUICIDE) {
+          $damager->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
           return;
         }
         if ($damager->getInventory()->getItemInHand()->getNamedTag()->getTag("Practice")?->getValue() === ItemManager::DUEL) {
@@ -258,7 +263,6 @@ class PracticeListener implements Listener
           $players = array_keys(SessionManager::getInstance()->all());
           $damager->sendForm(new DuelRequestForm($kicker, $kits, $players));
         }
-        $event->cancel();
       }
     }
   }
