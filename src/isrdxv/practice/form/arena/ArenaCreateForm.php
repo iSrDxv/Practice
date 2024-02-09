@@ -39,7 +39,7 @@ class ArenaCreateForm extends CustomForm
       new Dropdown("kit", "Please provide the kit of the arena:", $kits)
     ], function(Player $player, CustomFormResponse $response): void {
       var_dump($response);
-      if (isset($worlds, $types, $kits) && isset($worlds[$response->getInt("world")], $types[$response->getInt("type")], $kits[$response->getInt("kit")])) {
+      if (isset($worlds, $types, $kits)) {
         $world = Server::getInstance()->getWorldManager()->getWorldByName($worlds[$response->getInt("world")]);
         if (empty($world)) {
           $player->sendMessage(Practice::SERVER_PREFIX .TextFormat::RED . "There is no world called: " . $worlds[$response->getInt("world")]);
