@@ -36,6 +36,8 @@ use poggit\libasynql\{
 };
 
 use CortexPE\Commando\PacketHooker;
+use isrdxv\practice\handler\DuelHandler;
+use isrdxv\practice\handler\QueueHandler;
 
 class PracticeLoader extends PluginBase
 {
@@ -81,7 +83,9 @@ class PracticeLoader extends PluginBase
         PracticeListener::init();
         ItemManager::init();
         KitManager::getInstance()->init();
-        
+        new QueueHandler();
+        new DuelHandler();
+
         //SERVER
         $this->getServer()->getConfigGroup()->setConfigInt("max-players", Practice::SERVER_MAX_PLAYERS);
         $this->getServer()->getConfigGroup()->setConfigInt("view-distance", 16);

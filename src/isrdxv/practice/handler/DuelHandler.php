@@ -9,12 +9,16 @@ use isrdxv\practice\{
 };
 use isrdxv\practice\duel\UserDuel;
 use isrdxv\practice\duel\world\DuelWorld;
-use isrdxv\practice\manager\ArenaManager;
-use isrdxv\practice\manager\ItemManager;
-use isrdxv\practice\manager\KitManager;
-use isrdxv\practice\manager\SessionManager;
+use isrdxv\practice\manager\{
+  SessionManager,
+  ItemManager,
+  ArenaManager,
+  KitManager
+};
 use isrdxv\practice\session\misc\ScoreboardHandler;
+
 use pocketmine\player\Player;
+use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\SingletonTrait;
 use pocketmine\utils\TextFormat;
 
@@ -31,6 +35,11 @@ final class DuelHandler
     function __construct()
     {
         self::setInstance($this);
+        PracticeLoader::getInstance()->getScheduler()->scheduleRepeatingTask(new ClosureTask(function(): void {
+          foreach($this->duels as $duel) {
+            $duel->update();
+          }
+        }), 20);
     }
 
     function putInDuel(Player $player, Player $opponent, string $kit, bool $ranked): void
@@ -86,4 +95,10 @@ final class DuelHandler
       return count($this->duels);
     }
     
+    function destroy(): void
+    {
+      foreach($this->duels as $duel) {
+        $duel->stop(stopped: true);
+      }
+    }
 }

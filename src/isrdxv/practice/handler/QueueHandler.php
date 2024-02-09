@@ -25,6 +25,10 @@ final class QueueHandler
 {
   use SingletonTrait;
 
+  /**
+   * @var UserQueued[]
+   * @iSrDxv
+   */
   private array $queues = [];
   
   function __construct()
