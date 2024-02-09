@@ -116,15 +116,9 @@ final class DefaultKit implements Kit, JsonSerializable
     $items = [];
     $armor = [];
     foreach($this->inventory as $slot => $item) {
-      if ($item === VanillaItems::AIR()) {
-        continue;
-      }
       $items[] = Practice::encodeItem($item);
     }
     foreach($this->armor as $slot => $item) {
-      if ($item === VanillaItems::AIR()) {
-        continue;
-      }
       $armor[] = Practice::encodeItem($item);
     }
     return ["name" => $this->name, "inventory" => $items, "armor" => $armor, "data" => $this->dataInfo->export(), "kb" => $this->kbInfo->export(), "effects" => $this->effects->export()];
