@@ -62,7 +62,7 @@ class ArenaCreateForm extends CustomForm
           return;
         }
         
-        $name = trim(TextFormat::clean($responsw->getString("name")));
+        $name = trim(TextFormat::clean($response->getString("name")));
         if (str_contains($name, " ")) {
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "The name cannot contain spaces");
           return;

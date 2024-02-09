@@ -125,7 +125,21 @@ final class ArenaManager
   {
     return array_merge($this->duels, $this->ffa);
   }
-  
+
+  function unset($name): void
+  {
+    if (($ffa = $this->ffa[$name]) !== null) {
+      $ffa->destroy();
+      unset($ffa);
+      return;
+    }
+    if (($duel = $this->duels[$name]) !== null) {
+      $duel->destroy();
+      unset($duel);
+      return;
+    }
+  }
+
   function save(Arena $arena): void
 	{
 		if(!file_exists($filePath = $this->defaultPath . "{$arena->getName()}.json")){
@@ -133,5 +147,16 @@ final class ArenaManager
 		}
 		file_put_contents($filePath, json_encode($arena->extract()));
 	}
-	
+
+  function delete(string $name): bool
+  {
+    if (($arena = $this->get($name)) === null) {
+      return false;
+    }
+    if (!is_file($this->defaultPath . $arena->getName() . ".json")) {
+      return false;
+    }
+    $this->unset($arena->getName());
+    return true;
+  }
 }
