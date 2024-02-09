@@ -43,7 +43,7 @@ final class ArenaManager
       if (!is_file($file) || str_ends_with($file, ".json") === false) {
         continue;
       }
-      $arena = $this->load(basename($file, ".json"), json_decode(file_get_contents($this->defaultPath . $file), true));
+      $arena = $this->load(basename($file, ".json"), json_decode(file_get_contents($file), true));
       if ($arena instanceof FFArena) {
         $this->ffa[$arena->getName()] = $arena;
       }elseif ($arena instanceof DuelArena) {

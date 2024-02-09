@@ -42,7 +42,7 @@ final class KitManager
 		@mkdir($this->defaultPath = PracticeLoader::getInstance()->getDataFolder() . "kits" . DIRECTORY_SEPARATOR);
 		$kitsData = [];
 		foreach(glob($this->defaultPath . "*.json") as $file){
-			if(is_file($file) && str_ends_with($file, ".json") === false){
+			if(!is_file($file) or str_ends_with($file, ".json") === false){
 				continue;
 			}
 			$kitsData[basename($file, ".json")] = json_decode(Filesystem::fileGetContents($file), true, flags: JSON_THROW_ON_ERROR);
