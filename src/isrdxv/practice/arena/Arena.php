@@ -25,6 +25,4 @@ abstract class Arena
   abstract function getWorld(): ?World;
   
   abstract function getKit(): ?DefaultKit;
-  
-  abstract function extract(): array;
 }

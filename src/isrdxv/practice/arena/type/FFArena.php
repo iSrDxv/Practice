@@ -11,6 +11,7 @@ use isrdxv\practice\manager\{
   KitManager,
   SessionManager
 };
+use JsonSerializable;
 
 use pocketmine\Server;
 use pocketmine\world\Position;
@@ -18,7 +19,7 @@ use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use pocketmine\world\World;
 
-final class FFArena extends Arena
+final class FFArena extends Arena implements JsonSerializable
 {
   private string $name;
   
@@ -147,7 +148,7 @@ final class FFArena extends Arena
     return isset($this->spectators[$player instanceof Player ? $player->getName() : $player]);
   }
   
-  function extract(): array
+  function jsonSerialize(): mixed
   {
     $spawns = [];
     foreach($this->spawns as $num => $value) {

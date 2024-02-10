@@ -17,6 +17,7 @@ use isrdxv\practice\kit\DefaultKit;
 use pocketmine\Server;
 use pocketmine\world\World;
 use pocketmine\math\Vector3;
+use pocketmine\utils\Filesystem;
 use pocketmine\utils\SingletonTrait;
 
 use function glob;
@@ -43,7 +44,7 @@ final class ArenaManager
       if (!is_file($file) || str_ends_with($file, ".json") === false) {
         continue;
       }
-      $arena = $this->load(basename($file, ".json"), json_decode(file_get_contents($file), true));
+      $arena = $this->load(basename($file, ".json"), json_decode(Filesystem::fileGetContents($file), true, flags: JSON_THROW_ON_ERROR));
       if ($arena instanceof FFArena) {
         $this->ffa[$arena->getName()] = $arena;
       }elseif ($arena instanceof DuelArena) {
@@ -143,9 +144,9 @@ final class ArenaManager
   function save(Arena $arena): void
 	{
 		if(!file_exists($filePath = $this->defaultPath . "{$arena->getName()}.json")){
-			fclose(fopen($filePath, "w"));
+			Filesystem::safeFilePutContents($filePath, json_encode([], JSON_PRETTY_PRINT | JSON_BIGINT_AS_STRING | JSON_THROW_ON_ERROR));
 		}
-		file_put_contents($filePath, json_encode($arena->extract()));
+		Filesystem::safeFilePutContents($filePath, json_encode($arena, JSON_PRETTY_PRINT | JSON_BIGINT_AS_STRING | JSON_THROW_ON_ERROR));
 	}
 
   function delete(string $name): bool
