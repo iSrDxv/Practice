@@ -45,7 +45,7 @@ class ArenaCreateForm extends CustomForm
         return;
       }
       $kitName = (string)$kits[$response->getInt("kit")];
-     $kit = KitManager::getInstance()->get($kitName);
+      $kit = KitManager::getInstance()->get($kitName);
       if (empty($kit)) {
         $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . $kits[$response->getInt("kit")] . " does not exist");
         return;
