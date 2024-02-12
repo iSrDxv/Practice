@@ -83,8 +83,8 @@ class PracticeLoader extends PluginBase
         new TaskManager($this);
         PracticeListener::init();
         ItemManager::init();
-        ArenaManager::getInstance()->init();
         KitManager::getInstance()->init();
+        ArenaManager::getInstance()->init();
         new QueueHandler();
         new DuelHandler();
 

@@ -85,7 +85,7 @@ class ScoreboardHandler
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| Elo: " . TextFormat::WHITE . $session->getElo());
       $this->scoreboard?->setLine($line++, " ");
       //queue
-      $this->scoreboard?->setLine($line++, $this->line . TextFormat::GRAY);
+      $this->scoreboard?->setLine($line++, $this->line . TextFormat::RESET);
       $this->scoreboard?->setLine($line++, Practice::centerText(TextFormat::GRAY . " StromMC.ddns.net", 95, true));
     }), 20);
   }

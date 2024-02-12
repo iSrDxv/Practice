@@ -14,7 +14,7 @@ use pocketmine\utils\TextFormat;
 class ProfileMenuForm extends MenuForm
 {
   
-  function __cosntruct()
+  function __construct()
   {
     parent::__construct("Profile", "Your settings and configurations for your gameplay on the server are here", [
       new MenuOption("Game", new FormIcon("https://imgs.search.brave.com/zE_GHkhRlhtBYCaqMxKLw-POR87OyWfqyl4nlvAs_GQ/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudGhlbm91bnBy/b2plY3QuY29tL3Bu/Zy8yMjAzOTg3LTIw/MC5wbmc")),

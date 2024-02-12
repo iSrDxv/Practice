@@ -81,10 +81,11 @@ final class ArenaManager
           }
         break;
         case Arena::TYPE_DUEL:
-          
+          return null;
         break;
       }
     }
+    return null;
   }
   
   function create(string $name, string $type, World $world, DefaultKit $kit): bool
