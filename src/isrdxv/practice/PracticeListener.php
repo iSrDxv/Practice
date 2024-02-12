@@ -6,8 +6,10 @@ use isrdxv\practice\{
   Practice,
   PracticeLoader
 };
+use isrdxv\practice\arena\type\DuelArena;
 use isrdxv\practice\manager\{
-  KitManager,
+    ArenaManager,
+    KitManager,
   ItemManager,
   SessionManager
 };
@@ -16,7 +18,7 @@ use isrdxv\practice\form\{
   duel\DuelRequestForm,
   user\profile\ProfileMenuForm
 };
-
+use isrdxv\practice\form\ffa\FFAForm;
 use pocketmine\Server;
 use pocketmine\player\{
   Player,
@@ -197,6 +199,12 @@ class PracticeListener implements Listener
           case ItemManager::DUEL:
             if ($session->isInLobby()) {
               $player->sendForm(new DuelMenuForm(["name" => $player->getName()]));
+            }
+          break;
+          case ItemManager::FFA:
+            $ffa = array_keys(ArenaManager::getInstance()->getAllNoDuel());
+            if ($session->isInLobby()) {
+              $player->sendForm(new FFAForm($ffa));
             }
           break;
           case ItemManager::PROFILE:

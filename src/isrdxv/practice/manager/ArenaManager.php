@@ -131,6 +131,16 @@ final class ArenaManager
     return array_merge($this->duels, $this->ffa);
   }
 
+  function getAllNoDuel(): array
+  {
+    return $this->ffa;
+  }
+
+  function getAllDuel(): array
+  {
+    return $this->duels;
+  }
+
   function unset($name): void
   {
     if (($ffa = $this->ffa[$name]) !== null) {
