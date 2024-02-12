@@ -48,7 +48,7 @@ final class FFArena extends Arena implements JsonSerializable
   
   function getKit(): ?DefaultKit
   {
-    return KitManager::getInstance()->getKit($this->kit) ?? null;
+    return KitManager::getInstance()->get($this->kit) ?? null;
   }
   
   function setKit(DefaultKit $kit): void
