@@ -31,6 +31,9 @@ use pocketmine\data\bedrock\{
 };
 use pocketmine\data\SavedDataLoadingException;
 
+/**
+ * NOTE: Strageehh se la come :v
+ */
 class Practice
 {
     static bool $maintenance = false;
