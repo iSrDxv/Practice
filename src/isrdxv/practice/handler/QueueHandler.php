@@ -26,7 +26,7 @@ final class QueueHandler
   use SingletonTrait;
 
   /**
-   * @var UserQueued[]
+   * @var UserQueued[] $queue
    * @iSrDxv
    */
   private array $queues = [];
@@ -51,10 +51,12 @@ final class QueueHandler
     $this->remove($player->getName());
     $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GRAY . "You have joined the queue for " . Practice::SERVER_COLOR . ($ranked ? "Ranked" : "UnRanked") . " " . $kit);
     $this->queues[$name = $player->getName()] = new UserQueued($name, $kit, $ranked);
-    if (($opponent = $this->findOpponent($this->queues[$name]))) {
+    if (($opponent = $this->findOpponent($this->queues[$name])) !== null) {
       $this->remove($name);
       $this->remove($opponentName = $opponent->getName());
       DuelHandler::getInstance()->putInDuel($player, Server::getInstance()->getPlayerExact($opponentName), $kit, $ranked);
+    } else {
+      $this->remove($player->getName());
     }
   }
 
