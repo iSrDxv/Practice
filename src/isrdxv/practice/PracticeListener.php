@@ -6,7 +6,6 @@ use isrdxv\practice\{
   Practice,
   PracticeLoader
 };
-use isrdxv\practice\arena\type\DuelArena;
 use isrdxv\practice\manager\{
     ArenaManager,
     KitManager,
@@ -19,6 +18,8 @@ use isrdxv\practice\form\{
   user\profile\ProfileMenuForm
 };
 use isrdxv\practice\form\ffa\FFAForm;
+use isrdxv\practice\handler\QueueHandler;
+
 use pocketmine\Server;
 use pocketmine\player\{
   Player,
@@ -210,6 +211,14 @@ class PracticeListener implements Listener
           case ItemManager::PROFILE:
             if ($session->isInLobby()) {
               $player->sendForm(new ProfileMenuForm());
+            }
+          break;
+          //Queue
+          case ItemManager::LEAVE_QUEUE:
+            if ($session->isInLobby()) {
+              if ($session->getQueue() !== null) {
+                QueueHandler::getInstance()->remove($player->getName(), true);
+              }
             }
           break;
         }

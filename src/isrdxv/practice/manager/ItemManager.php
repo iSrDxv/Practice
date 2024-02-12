@@ -81,4 +81,19 @@ final class ItemManager
     }
   }
   
+  static function spawnLeaveItem(Player $player): void
+  {
+    $player->getArmorInventory()->clearAll();
+    $inventory = $player->getInventory();
+    $inventory->clearAll();
+    $items = array_keys(self::$lobby);
+    foreach($items as $localName) {
+      if ($localName === self::DUEL || $localName === self::FFA || $localName === self::PARTY || $localName === self::SPECTATE || $localName === self::SHOP || $localName === self::PROFILE) {
+        continue;
+      }
+      $item = self::$lobby[$localName];
+      $inventory->setItem($item->getSlot(), $item->getItem());
+    }
+  }
+  
 }

@@ -10,7 +10,10 @@ use isrdxv\practice\{
 use isrdxv\practice\session\Session;
 use isrdxv\practice\handler\DuelHandler;
 use isrdxv\practice\duel\queue\UserQueued;
-use isrdxv\practice\manager\SessionManager;
+use isrdxv\practice\manager\{
+  ItemManager,
+  SessionManager
+};
 use isrdxv\practice\utils\Time;
 
 use pocketmine\Server;
@@ -50,6 +53,7 @@ final class QueueHandler
   {
     $this->remove($player->getName());
     $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GRAY . "You have joined the queue for " . Practice::SERVER_COLOR . ($ranked ? "Ranked" : "UnRanked") . " " . $kit);
+    ItemManager::spawnLeaveItem($player);
     $this->queues[$name = $player->getName()] = new UserQueued($name, $kit, $ranked);
     if (($opponent = $this->findOpponent($this->queues[$name])) !== null) {
       $this->remove($name);
