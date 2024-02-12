@@ -81,4 +81,19 @@ final class QueueHandler
     }
   }
 
+  function getPlayersOfKit(string $kit, bool $ranked): int
+  {
+    $players = 0;
+    foreach($this->all() as $queue) {
+      if ($queue->getKit() === $kit && $queue->isRanked() === $ranked) {
+        $players += 1;
+      }
+    }
+    return $players;
+  }
+
+  function getQueueCount(): int
+  {
+    return count($this->queues);
+  }
 }

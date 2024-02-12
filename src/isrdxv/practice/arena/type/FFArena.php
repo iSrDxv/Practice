@@ -99,8 +99,9 @@ final class FFArena extends Arena implements JsonSerializable
   function addPlayer(Player $player): void
   {
     if (($world = $this->getWorld()) !== null && ($session = SessionManager::getInstance()->get($player)) !== null) {
-      $position = Position::fromObject($this->spawns[array_rand($this->spawns)], $world);
       $this->players[$player->getName()] = $player;
+      $position = Position::fromObject($this->spawns[array_rand($this->spawns)], $world);
+      $world->loadChunk($position->x, $position->z);
       $player->teleport($position);
       $this->getKit()?->giveTo($player);
     }

@@ -27,6 +27,8 @@ use muqsit\fakeplayer\network\FakePlayerNetworkSession;
 
 use DateTime;
 use DateTimeZone;
+use isrdxv\practice\duel\queue\UserQueued;
+use isrdxv\practice\duel\UserDuel;
 
 class Session
 {
@@ -68,6 +70,11 @@ class Session
     
     private int $address;
     
+    //System of Duel
+    private ?UserQueued $queue;
+
+    private ?UserDuel $duel;
+
     function __construct(string $name)
     {
         $this->name = $name;
@@ -100,6 +107,26 @@ class Session
       $player?->setFlying(false);
       $player->setAllowFlight(false);
       $player?->getEffects()->clear();
+    }
+
+    function setDuel(?UserDuel $duel = null): void
+    {
+      $this->duel = $duel;
+    }
+
+    function getDuel(): ?UserDuel
+    {
+      return $this->duel ?? null;
+    }
+
+    function setQueue(?UserQueued $queue): void
+    {
+      $this->queue = $queue;
+    }
+
+    function getQueue(): ?UserQueued
+    {
+      return $this->queue ?? null;
     }
 
     function init($database, string $rank): void

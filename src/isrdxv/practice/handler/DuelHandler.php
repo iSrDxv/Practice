@@ -84,7 +84,7 @@ final class DuelHandler
       $num = 0;
       foreach($this->duels as $duel) {
         if ($kit === $duel->getKit()?->getName() && $ranked === $duel->isRanked()) {
-          $num++;
+          $num += 1;
         }
       }
       return $num;

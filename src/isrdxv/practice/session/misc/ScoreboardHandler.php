@@ -6,6 +6,8 @@ use isrdxv\practice\{
   Practice,
   PracticeLoader
 };
+use isrdxv\practice\handler\DuelHandler;
+use isrdxv\practice\handler\QueueHandler;
 use isrdxv\practice\session\Session;
 use isrdxv\scoreboard\ScoreboardLib;
 use isrdxv\practice\manager\{
@@ -81,12 +83,13 @@ class ScoreboardHandler
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| Online: " . TextFormat::WHITE . count(SessionManager::getInstance()->all()));
       $this->scoreboard?->setLine($line++, "");
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| K: " . TextFormat::WHITE . $session->getKills() . Practice::SERVER_COLOR . "  D: " . TextFormat::WHITE . $session->getDeaths());
-      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| KDR: " . TextFormat::WHITE . ($session->getKills() === 0 && $session->getDeaths() === 0 ? (float)0.0 : ($session->getKills() / $session->getDeaths())) . Practice::SERVER_COLOR . "   Wins: " . TextFormat::WHITE . $session->getWins());
+      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| KDR: " . TextFormat::WHITE . ($session->getKills() === 0 && $session->getDeaths() === 0 ? "0.0" : ($session->getKills() / $session->getDeaths())) . Practice::SERVER_COLOR . "   Wins: " . TextFormat::WHITE . $session->getWins());
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| Elo: " . TextFormat::WHITE . $session->getElo());
       $this->scoreboard?->setLine($line++, " ");
-      //queue
+      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| Fights: " . TextFormat::WHITE . DuelHandler::getInstance()->getDuelsCount());
+      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "| Queued: " . TextFormat::WHITE . QueueHandler::getInstance()->getQueueCount());
       $this->scoreboard?->setLine($line++, $this->line . TextFormat::RESET);
-      $this->scoreboard?->setLine($line++, Practice::centerText(TextFormat::GRAY . " StromMC.ddns.net", 95, true));
+      $this->scoreboard?->setLine($line++, Practice::centerText(TextFormat::GRAY . " strommc.ddns.net", 95, true));
     }), 20);
   }
   

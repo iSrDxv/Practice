@@ -165,7 +165,7 @@ class PracticeListener implements Listener
         $event->setJoinMessage(TextFormat::BLUE . "[" . TextFormat::GOLD . "+" . TextFormat::BLUE . "] " . TextFormat::AQUA . $player->getName());
       break;
       case "Mod":
-        $event->setJoinMessage(TextFormat::DARK_PURPLE . "[" . TextFormat::GRAY . "+" . TextFormat::DARK_PURPLE . "] " . TextFormat::LIGHT_PURPLE . $player->getName());
+        $event->setJoinMessage(TextFormat::DARK_PURPLE . "[" . TextFormat::GRAY . "+" . TextFormat::LIGHT_PURPLE . "] " . TextFormat::LIGHT_PURPLE . $player->getName());
       break;
     }
   }

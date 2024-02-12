@@ -14,6 +14,7 @@ use isrdxv\practice\{
   Practice,
   PracticeLoader
 };
+use isrdxv\practice\arena\Arena;
 use pocketmine\utils\Filesystem;
 use pocketmine\utils\SingletonTrait;
 
@@ -38,7 +39,7 @@ final class KitManager
 	
 	private string $defaultPath;
 
-  function init(): void{
+    function init(): void{
 		@mkdir($this->defaultPath = PracticeLoader::getInstance()->getDataFolder() . "kits" . DIRECTORY_SEPARATOR);
 		$kitsData = [];
 		foreach(glob($this->defaultPath . "*.json") as $file){
@@ -71,9 +72,18 @@ final class KitManager
 		}
 	}
 
-  function all(): array
-  {
-		return $this->kits;
+    function all(string $type = Arena::TYPE_FFA): array
+	{
+		$data = [];
+		foreach($this->kits as $kit) {
+			if ($kit->getDataInfo()->type === Arena::TYPE_DUEL) {
+				$data[$kit->getName()] = $kit;
+			}
+			if ($kit->getDataInfo()->type === Arena::TYPE_FFA) {
+				$data[$kit->getName()] = $kit;
+			}
+		}
+		return $data;
 	}
 
 	function add(DefaultKit $kit): bool
