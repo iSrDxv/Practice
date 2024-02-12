@@ -1,6 +1,6 @@
 name: Practice
 api: 5.0.0
-version: 1.1.5+dev
+version: 0.0.0
 main: isrdxv\practice\PracticeLoader
 author: "iSrDxv"
 prefix: "Practice-StromMC"
