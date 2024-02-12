@@ -1,6 +1,6 @@
 <?php
 
-namespace isrdxv\practice;
+namespace isrdxv\practice\listener;
 
 use isrdxv\practice\{
   Practice,

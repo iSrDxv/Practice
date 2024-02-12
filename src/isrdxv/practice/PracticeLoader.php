@@ -2,10 +2,8 @@
 
 namespace isrdxv\practice;
 
-use isrdxv\practice\{
-    Practice,
-    PracticeListener
-};
+use isrdxv\practice\Practice;
+use isrdxv\practice\listener\PracticeListener;
 use isrdxv\practice\command\{
     HubCommand,
     BanCommand,
