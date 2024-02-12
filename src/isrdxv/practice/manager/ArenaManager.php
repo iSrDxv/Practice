@@ -44,6 +44,9 @@ final class ArenaManager
       if (!is_file($file) || str_ends_with($file, ".json") === false) {
         continue;
       }
+      /**
+       * NOTE: load the files of folder /arenas
+       */
       $arena = $this->load(basename($file, ".json"), json_decode(Filesystem::fileGetContents($file), true, flags: JSON_THROW_ON_ERROR));
       if ($arena instanceof FFArena) {
         $this->ffa[$arena->getName()] = $arena;

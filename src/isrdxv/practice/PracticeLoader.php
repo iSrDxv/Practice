@@ -18,6 +18,7 @@ use isrdxv\practice\command\{
 use isrdxv\practice\task\BroadcastTask;
 use isrdxv\practice\utils\Time;
 use isrdxv\practice\manager\{
+    ArenaManager,
     TaskManager,
     ItemManager,
     KitManager
@@ -82,6 +83,7 @@ class PracticeLoader extends PluginBase
         new TaskManager($this);
         PracticeListener::init();
         ItemManager::init();
+        ArenaManager::getInstance()->init();
         KitManager::getInstance()->init();
         new QueueHandler();
         new DuelHandler();
