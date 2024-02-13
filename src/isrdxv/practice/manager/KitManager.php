@@ -73,7 +73,7 @@ final class KitManager
 		}
 	}
 
-    function all(string $type = Arena::TYPE_FFA): array
+    function allOf(string $type = Arena::TYPE_FFA): array
 	{
 		$data = [];
 		foreach($this->kits as $kit) {

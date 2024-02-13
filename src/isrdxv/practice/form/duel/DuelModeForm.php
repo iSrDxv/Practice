@@ -14,6 +14,8 @@ use isrdxv\practice\arena\Arena;
 use isrdxv\practice\handler\QueueHandler;
 use isrdxv\practice\manager\KitManager;
 use isrdxv\practice\manager\SessionManager;
+use pocketmine\item\Armor;
+use pocketmine\network\mcpe\protocol\MobArmorEquipmentPacket;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
@@ -24,7 +26,7 @@ class DuelModeForm extends MenuForm
     {
         $options = [];
         $names = [];
-        $kits = KitManager::getInstance()->all(Arena::TYPE_DUEL);
+        $kits = KitManager::getInstance()->allOf(Arena::TYPE_DUEL);
         foreach($kits as $kit) {
             $names[] = strtolower($kit->getName());
             $options[] = new MenuOption(Practice::SERVER_COLOR . $kit->getName() . TextFormat::EOL . QueueHandler::getInstance()->getPlayersOfKit($kit->getName(), $ranked) . " Queuing..." . TextFormat::EOL . TextFormat::GRAY . "Click to Play!", new FormIcon($kit->getDataInfo()->icon, FormIcon::IMAGE_TYPE_PATH));
