@@ -27,10 +27,13 @@ use muqsit\fakeplayer\network\FakePlayerNetworkSession;
 
 use DateTime;
 use DateTimeZone;
+
 use isrdxv\practice\duel\queue\UserQueued;
 use isrdxv\practice\duel\UserDuel;
 use isrdxv\practice\kit\DefaultKit;
 use isrdxv\practice\manager\KitManager;
+
+use exodus\cache\CacheManager;
 
 class Session
 {
@@ -78,10 +81,13 @@ class Session
     private ?UserDuel $duel = null;
 
     private ?DefaultKit $kit;
-
+    
+    private CacheManager $cache;
+    
     function __construct(string $name)
     {
         $this->name = $name;
+        $this->cache = new CacheManager();
     }
 
     function getPlayer(): ?Player
@@ -145,7 +151,12 @@ class Session
     {
       return $this->kit ?? null;
     }
-
+    
+    function getCache(): CacheManager
+    {
+      return $this->cache;
+    }
+    
     function init($database, string $rank): void
     {
     	$player = $this->getPlayer();

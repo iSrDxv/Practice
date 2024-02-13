@@ -104,6 +104,7 @@ final class FFArena extends Arena implements JsonSerializable
       $world->loadChunk($position->x, $position->z);
       $player->teleport($position);
       $this->getKit()?->giveTo($player);
+      $session->getCache()->set("ffaArena", $this->getName());
       $session->setKit($this->getKit());
     }
   }
@@ -122,7 +123,7 @@ final class FFArena extends Arena implements JsonSerializable
     return $this->players ?? [];
   }
   
-  function isPlayer(Player|string $player): bool
+  function isHere(Player|string $player): bool
   {
     return isset($this->players[$player instanceof Player ? $player->getName() : $player]);
   }

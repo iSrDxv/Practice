@@ -70,7 +70,7 @@ class Party
     return $this->owner === $name;
   }
   
-  function isPlayer(Player|string $player): bool
+  function isMember(Player|string $player): bool
   {
     $value = $player instanceof Player ? $player->getName() : $player;
     return isset($this->players[array_search($value, $this->players, true)]);

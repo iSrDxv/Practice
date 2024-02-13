@@ -7,10 +7,15 @@ use isrdxv\practice\handler\DuelHandler;
 use isrdxv\practice\manager\ArenaManager;
 use isrdxv\practice\session\Session;
 use isrdxv\practice\manager\SessionManager;
+
 use pocketmine\event\inventory\CraftItemEvent;
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerExhaustEvent;
-use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\event\player\{
+  PlayerExhaustEvent,
+  PlayerQuitEvent,
+  PlayerDeathEvent
+};
+use pocketmine\event\player;
 
 class DuelListener implements Listener
 {
@@ -32,6 +37,15 @@ class DuelListener implements Listener
             }
         }
     }
+    /**
+      * PRIORITY: Only FFA Mode
+      */
+    function onDeath(PlayerDeathEvent $event): void
+    {
+      $player = $event->getPlayer();
+    }
+
+    //function (): void;
 
     function onExhaust(PlayerExhaustEvent $event): void
     {

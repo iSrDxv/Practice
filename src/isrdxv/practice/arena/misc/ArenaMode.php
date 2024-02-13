@@ -16,7 +16,6 @@ interface ArenaMode
   const FIST = "fist";
   
   const SUMO = "sumo";
-
   //ADVANCED
   const BRIDGE = "bridge";
 
