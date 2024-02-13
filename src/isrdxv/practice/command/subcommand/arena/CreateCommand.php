@@ -37,7 +37,7 @@ final class CreateCommand extends BaseSubCommand
     $types = ["Duel", "FFA", "Event", "Bot"];
     $kits = [];
 	  foreach(KitManager::getInstance()->getAll() as $kit){
-				$kits[] = $kit->getName();
+				$kits[] = strtolower($kit->getName());
 		}
     $sender->sendForm(new ArenaCreateForm($worlds, $types, $kits));
   }
