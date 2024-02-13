@@ -26,12 +26,8 @@ class BanCommand extends BaseCommand
   {
       parent::__construct($loader, "ban", Practice::SERVER_COLOR . "Punish a server user");
       $this->setAliases(["b"]);
+      $this->setPermission("practice.command.ban");
       $this->setUsage("/ban <player>");
-  }
-  
-  function getPermission()
-  {
-    return "practice.command.ban";
   }
   
   protected function prepare(): void

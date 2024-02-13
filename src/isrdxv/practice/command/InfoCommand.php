@@ -27,12 +27,8 @@ class InfoCommand extends BaseCommand
   {
       parent::__construct($loader, "info", Practice::SERVER_COLOR . "View information about a user");
       $this->setAliases(["player"]);
+      $this->setPermission("practice.command.info");
       $this->setUsage("/info <player>");
-  }
-  
-  function getPermission()
-  {
-    return "practice.command.info";
   }
   
   protected function prepare(): void

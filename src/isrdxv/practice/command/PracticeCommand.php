@@ -18,12 +18,8 @@ final class PracticeCommand extends BaseCommand
     {
         parent::__construct($loader, "practice", Practice::SERVER_COLOR . "COmando para los bots y otras mamadas");
         $this->setAliases(["claude"]);
+        $this->setPermission("practice.command");
         $this->setUsage("/claude <addqueue>");
-    }
-    
-    function getPermission()
-    {
-      return "practice.command";
     }
     
     protected function prepare(): void

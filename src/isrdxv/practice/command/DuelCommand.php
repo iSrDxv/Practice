@@ -23,13 +23,9 @@ class DuelCommand extends BaseCommand
   function __construct(PracticeLoader $loader)
   {
       parent::__construct($loader, "duel", Practice::SERVER_COLOR . "Send pvp request");
+      $this->setPermission("practice.command.duel");
       $this->setAliases(["d"/*, "1vs1"*/]);
       $this->setUsage("/duel <player>");
-  }
-  
-  function getPermission()
-  {
-    return "practice.command.duel";
   }
   
   protected function prepare(): void

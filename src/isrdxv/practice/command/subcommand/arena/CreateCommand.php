@@ -19,11 +19,7 @@ final class CreateCommand extends BaseSubCommand
   function __construct()
   {
     parent::__construct("create", "Create the sand that I highlighted the most", ["c"]);
-  }
-  
-  function getPermission(): ?string
-  {
-    return "practice.command.arena";
+    $this->setPermission("practice.command.arena");
   }
   
   protected function prepare(): void

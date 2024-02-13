@@ -18,11 +18,7 @@ final class AddQueueSC extends BaseSubCommand
     function __construct()
     {
         parent::__construct("addqueue", "Agregue a la queue un FakePlayer");
-    }
-    
-    function getPermission()
-    {
-      return "practice.command";
+        $this->setPermission("practice.command");
     }
 
     protected function prepare(): void

@@ -21,14 +21,10 @@ class KitCommand extends BaseCommand
   function __construct(PracticeLoader $loader)
   {
       parent::__construct($loader, "kit", Practice::SERVER_COLOR . "Commands for the kits");
+      $this->setPermission("practice.command.kit");
       //$this->setAliases(["a"]);
   }
   
-  function getPermission()
-  {
-    return "practice.command.kit";
-  }
-
   protected function prepare(): void
   {
     //these are its subcommands

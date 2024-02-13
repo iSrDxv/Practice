@@ -17,11 +17,7 @@ final class HelpCommand extends BaseSubCommand
   function __construct()
   {
     parent::__construct("help", "View arena commands", ["?"]);
-  }
-  
-  function getPermission(): ?string
-  {
-    return "practice.command.arena";
+    $this->setPermission("practice.command.arena");
   }
   
   protected function prepare(): void
