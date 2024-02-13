@@ -60,6 +60,9 @@ final class UserDuel
     
     private array $spectators = [];
 
+    /** 
+     * NOTE: ya tu sabes mamadas necesarias
+     */
     function __construct(string $id, DuelArena $arena, DuelWorld $world, Player $p1, Player $p2, DefaultKit $kit, bool $ranked)
     {       
         $this->id = $id;
@@ -72,6 +75,9 @@ final class UserDuel
         $this->session2 = SessionManager::getInstance()->get($p2);
         $this->kit = $kit;
         $this->ranked = $ranked;
+        /**
+         * TODO: #4 esto puede cambiar a futuro o ser eliminado
+         */
         $this->timeStart = 20;
         $this->timePlay = Time::minutesToTicks(5);
         $this->timeFinish = 10;
@@ -120,7 +126,7 @@ final class UserDuel
                     break;
                 }
                 $play--;
-        case self::PHASE_FINISHED:
+            case self::PHASE_FINISHED:
             $this->timeFinish--;
         }
     }
