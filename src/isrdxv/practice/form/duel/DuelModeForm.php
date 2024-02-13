@@ -26,7 +26,7 @@ class DuelModeForm extends MenuForm
         $names = [];
         $kits = KitManager::getInstance()->all(Arena::TYPE_DUEL);
         foreach($kits as $kit) {
-            $names[] = $kit->getName();
+            $names[] = strtolower($kit->getName());
             $options[] = new MenuOption(Practice::SERVER_COLOR . $kit->getName() . TextFormat::EOL . QueueHandler::getInstance()->getPlayersOfKit($kit->getName(), $ranked) . " Queuing..." . TextFormat::EOL . TextFormat::GRAY . "Click to Play!", new FormIcon($kit->getDataInfo()->icon, FormIcon::IMAGE_TYPE_PATH));
         }
         parent::__construct(Practice::SERVER_COLOR . ($ranked ? "Ranked" : "UnRanked") . " " . TextFormat::RESET . TextFormat::GRAY . "Duels", TextFormat::GRAY . "Choose the game mode you like the most to defeat your enemies", $options, function(Player $player, int $selectedOption) use($ranked, $names): void {

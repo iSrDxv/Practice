@@ -5,23 +5,23 @@ namespace isrdxv\practice\arena\misc;
 interface ArenaMode
 {
   //NORMALS
-  const NO_DEBUFF = "nodebuff";
+  const NO_DEBUFF = "NoDebuff";
   
-  const COMBO_FLY = "comboFly";
+  const COMBO_FLY = "ComboFly";
 
-  const GAPPLE = "gapple";
+  const GAPPLE = "Gapple";
 
-  const CLASSIC = "classic";
+  const CLASSIC = "Classic";
   
-  const FIST = "fist";
+  const FIST = "Fist";
   
-  const SUMO = "sumo";
+  const SUMO = "Sumo";
   //ADVANCED
-  const BRIDGE = "bridge";
+  const BRIDGE = "Bridge";
 
-  const SKYWARS = "skywars";
+  const SKYWARS = "SkyWars";
 
-  const BEDWARS = "bedwars";
+  const BEDWARS = "BedWars";
 
   //ARRAYS
   const MODES_NORMALS = [self::NO_DEBUFF, self::SUMO, self::FIST, self::GAPPLE, self::COMBO_FLY, self::CLASSIC, self::FIST];
