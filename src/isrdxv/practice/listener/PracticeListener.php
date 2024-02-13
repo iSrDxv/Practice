@@ -9,8 +9,8 @@ use isrdxv\practice\{
 use isrdxv\practice\manager\{
     ArenaManager,
     KitManager,
-  ItemManager,
-  SessionManager
+    ItemManager,
+    SessionManager
 };
 use isrdxv\practice\form\{
   duel\DuelMenuForm,

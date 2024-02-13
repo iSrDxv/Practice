@@ -40,7 +40,7 @@ class ScoreboardHandler
   {
     $this->player = $player;
     $this->type = null;
-    $this->line = TextFormat::DARK_GRAY . " --------------";
+    $this->line = "";
   }
   
   function getType(): ?string

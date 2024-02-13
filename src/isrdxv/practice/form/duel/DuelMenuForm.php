@@ -28,10 +28,10 @@ final class DuelMenuForm extends MenuForm
   function __construct(...$args)
   {
     parent::__construct("Duel Menu", "Welcome " . $args[0]["name"] . ", what game do you want to play today?", [
-      new MenuOption("Ranked Duel"),
-      new MenuOption("UnRanked Duel"),
-      new MenuOption("Duel Request"),
-      new MenuOption("Duel History")
+      new MenuOption("Ranked Duel", new FormIcon("textures/ui/filledStar", FormIcon::TYPE_IMAGE_PATH)),
+      new MenuOption("UnRanked Duel", new FormIcon("textures/ui/filledStarFocus", FormIcon::TYPE_IMAGE_PATH)),
+      new MenuOption("Duel Request", new FormIcon("textures/ui/Feedback", FormIcon::TYPE_IMAGE_PATH)),
+      new MenuOption("Duel History", new FormIcon("textures/ui/fire_resistance_effect", FormIcon::TYPE_IMAGE_PATH))
       ], function(Player $player, int $selectedOption): void {
         switch($selectedOption){
           case 0:
