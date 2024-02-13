@@ -87,6 +87,11 @@ final class KitManager
 		return $data;
 	}
 
+	function getAll(): array
+	{
+		return $this->kits;
+	}
+
 	function add(DefaultKit $kit): bool
 	{
 		if(isset($this->kits[$mainName = strtolower($kit->getMainName())])){
