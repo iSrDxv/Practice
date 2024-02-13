@@ -18,12 +18,15 @@ class MaintenanceCommand extends BaseCommand
   function __construct(PracticeLoader $loader)
   {
       parent::__construct($loader, "maintenance", Practice::SERVER_COLOR . "Enable or Disable the server under maintenance");
-      $this->setPermission("practice.command.maintenance");
   }
-
-  protected function prepare(): void
+  
+  function getPermission()
   {
+    return "practice.command.maintenance";
   }
+  
+  protected function prepare(): void
+  {}
   
   function onRun(CommandSender $sender, string $aliasUsed, array $args): void
   {
