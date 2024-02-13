@@ -100,7 +100,11 @@ class Practice
     		"▌" => 5,
     		"─" => 9
     ];
-    	
+
+    const MODES_NORMALS = ["Sumo", "NoDebuff", "Fist", "Gapple", "Combo", "Classic", "Spleef"];
+
+    const MODES_ADVANCED = ["TheBridge", "SkyWars", "BedWars"];
+
     static function setMaintenance(): void
     {
       self::$maintenance = PracticeLoader::getInstance()->getConfig()->getNested("maintenance");

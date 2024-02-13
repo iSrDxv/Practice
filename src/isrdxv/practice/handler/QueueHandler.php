@@ -60,7 +60,8 @@ final class QueueHandler
       $this->remove($opponentName = $opponent->getName());
       DuelHandler::getInstance()->putInDuel($player, Server::getInstance()->getPlayerExact($opponentName), $kit, $ranked);
     } else {
-      $this->remove($player->getName());
+      ItemManager::spawnLobbyItems($player);
+      $this->remove($player->getName(), true);
     }
   }
 
@@ -102,4 +103,5 @@ final class QueueHandler
   {
     return count($this->queues);
   }
+
 }

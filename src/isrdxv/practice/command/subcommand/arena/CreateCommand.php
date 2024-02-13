@@ -25,7 +25,7 @@ final class CreateCommand extends BaseSubCommand
   protected function prepare(): void
   {}
   
-  function onRun(CommandSender $sender, string $aliasUsed, array $args): void
+  function onRun(Player|CommandSender $sender, string $aliasUsed, array $args): void
   {
     if (!$sender instanceof Player && $this->testPermissionSilent($sender)) {
       return;
