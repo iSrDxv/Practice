@@ -45,7 +45,7 @@ class KitCreateForm extends CustomForm
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "Kit name contains spaces");
           return;
         }
-        if (!in_array($kit, ArenaMode::MODES_NORMALS, true) || !in_array($kit, ArenaMode::MODES_ADVANCED, true)) {
+        if (!in_array($kit, ArenaMode::MODES_NORMALS, true) && !in_array($kit, ArenaMode::MODES_ADVANCED, true)) {
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "Write a name that identifies the data that is loaded in it, examples: " . implode(",", ArenaMode::MODES_NORMALS) . " or " . implode(",", ArenaMode::MODES_ADVANCED));
           return;
         }
