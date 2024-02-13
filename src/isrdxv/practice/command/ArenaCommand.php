@@ -23,7 +23,6 @@ class ArenaCommand extends BaseCommand
   {
       parent::__construct($loader, "arena", Practice::SERVER_COLOR . "Command for the sands");
       $this->setPermission("practice.command.arena");
-      //$this->setAliases(["a"]);
   }
 
   protected function prepare(): void
