@@ -92,7 +92,7 @@ final class ArenaManager
   
   function create(string $name, string $type, World $world, DefaultKit $kit): bool
   {
-    if (!isset($this->duels[$name], $this->ffa[$name])) {
+    if (empty($this->duels[$name]) || empty($this->ffa[$name])) {
       if ($type === Arena::TYPE_FFA) {
         $arena = ($this->ffa[$name] = new FFArena($name, $kit, $world, [1 => $world->getSpawnLocation()]));
         $this->save($arena);

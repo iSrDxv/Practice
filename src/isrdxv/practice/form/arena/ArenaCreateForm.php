@@ -38,12 +38,12 @@ class ArenaCreateForm extends CustomForm
       new Dropdown("type", "Please provide the type of the arena:", $types),
       new Dropdown("kit", "Please provide the kit of the arena:", $kits)
     ], function(Player $player, CustomFormResponse $response) use($worlds, $types, $kits): void {
-      var_dump($response);
       $world = Server::getInstance()->getWorldManager()->getWorldByName($worlds[$response->getInt("world")]);
       if (empty($world)) {
         $player->sendMessage(Practice::SERVER_PREFIX .TextFormat::RED . "There is no world called: " . $worlds[$response->getInt("world")]);
         return;
       }
+
       $kitName = (string)$kits[$response->getInt("kit")];
       $kit = KitManager::getInstance()->get($kitName);
       if (empty($kit)) {
@@ -52,16 +52,13 @@ class ArenaCreateForm extends CustomForm
       }
         
       $type = $types[$response->getInt("type")];
-      if (!in_array($type, $types, true)) {
-        $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "There is no such type of arena");
-        return;
-      }
       if ($kit->getDataInfo()->type === $type && !$kit->getDataInfo()->enabled) {
         $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "Kit disabled!!");
         return;
       }
         
       $name = TextFormat::clean($response->getString("name"));
+      var_dump($name);
       if (str_contains($name, " ")) {
         $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "The name cannot contain spaces");
         return;
@@ -77,6 +74,7 @@ class ArenaCreateForm extends CustomForm
       } else {
         $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "The arena could not be created, we are very sorry :c");
       }
+      var_dump($response);
     });
   }
 }
