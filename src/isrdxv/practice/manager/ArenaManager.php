@@ -48,12 +48,13 @@ final class ArenaManager
        * NOTE: load the files of folder /arenas
        */
       $arena = $this->load(basename($file, ".json"), json_decode(Filesystem::fileGetContents($file), true, flags: JSON_THROW_ON_ERROR));
-      var_dump($arena);
       if ($arena instanceof FFArena) {
         $this->ffa[$arena->getName()] = $arena;
       }elseif ($arena instanceof DuelArena) {
         $this->duels[$arena->getName()] = $arena;
       }
+      var_dump($this->duels);
+      var_dump($this->ffa);
     }
   }
   

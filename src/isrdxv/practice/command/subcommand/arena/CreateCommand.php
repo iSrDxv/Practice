@@ -34,7 +34,7 @@ final class CreateCommand extends BaseSubCommand
     foreach(Server::getInstance()->getWorldManager()->getWorlds() as $world) {
       $worlds[] = $world->getDisplayName();
     }
-    $types = ["Duel", "FFA", "Event", "Bot"];
+    $types = ["Duel", "FFA"];
     $kits = [];
 	  foreach(KitManager::getInstance()->getAll() as $kit){
 				$kits[] = strtolower($kit->getName());
