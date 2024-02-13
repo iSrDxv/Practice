@@ -46,6 +46,7 @@ final class KitManager
 			if(!is_file($file) or str_ends_with($file, ".json") === false){
 				continue;
 			}
+			var_dump($file);
 			$kitsData[basename($file, ".json")] = json_decode(Filesystem::fileGetContents($file), true, flags: JSON_THROW_ON_ERROR);
 		}
 		$this->load($kitsData);
