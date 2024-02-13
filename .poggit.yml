@@ -15,7 +15,7 @@ projects:
       - src: ExodusDevs/TranslationAPI/Translation
         branch: master
         version: ^1.0.8
-      - src: ExodusDevs/Cache
+      - src: ExodusDevs/Cache/Cache
         version: ^1.0
       - src: poggit/libasynql/libasynql
         version: ^4.1.6
