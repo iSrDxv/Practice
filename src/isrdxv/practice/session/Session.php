@@ -29,10 +29,12 @@ use DateTime;
 use DateTimeZone;
 use isrdxv\practice\duel\queue\UserQueued;
 use isrdxv\practice\duel\UserDuel;
+use isrdxv\practice\kit\DefaultKit;
+use isrdxv\practice\manager\KitManager;
 
 class Session
 {
-	  private int $xuid;
+	  private string $xuid;
 	
     private string $name;
     
@@ -71,9 +73,11 @@ class Session
     private int $address;
     
     //System of Duel
-    private ?UserQueued $queue;
+    private ?UserQueued $queue = null;
 
-    private ?UserDuel $duel;
+    private ?UserDuel $duel = null;
+
+    private ?DefaultKit $kit;
 
     function __construct(string $name)
     {
@@ -127,6 +131,19 @@ class Session
     function getQueue(): ?UserQueued
     {
       return $this->queue ?? null;
+    }
+
+    function setKit(string|DefaultKit $kit): void
+    {
+      if (is_string($kit)) {
+        $kit = KitManager::getInstance()->get($kit);
+      }
+      $this->kit = $kit;
+    }
+
+    function getKit(): ?DefaultKit
+    {
+      return $this->kit ?? null;
     }
 
     function init($database, string $rank): void

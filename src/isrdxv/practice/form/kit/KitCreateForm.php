@@ -24,6 +24,7 @@ use dktapps\pmforms\element\{
   Input,
   Dropdown
 };
+use isrdxv\practice\arena\misc\ArenaMode;
 
 use function trim;
 use function str_contains;
@@ -44,6 +45,11 @@ class KitCreateForm extends CustomForm
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "Kit name contains spaces");
           return;
         }
+        if (!in_array($kit, ArenaMode::MODES_NORMALS, true) || !in_array($kit, ArenaMode::MODES_ADVANCED, true)) {
+          $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::RED . "Write a name that identifies the data that is loaded in it, examples: " . implode(",", ArenaMode::MODES_NORMALS) . " or " . implode(",", ArenaMode::MODES_ADVANCED));
+          return;
+        }
+        
         $defaultKit = new DefaultKit($kit, $player->getInventory()->getContents(), $player->getArmorInventory()->getContents(), new KitDataInfo(), new KnockbackInfo(), new EffectsData());
         if (KitManager::getInstance()->add($defaultKit)) {
           $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "The kit has been created successfully, enjoy.");

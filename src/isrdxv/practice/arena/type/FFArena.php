@@ -104,6 +104,7 @@ final class FFArena extends Arena implements JsonSerializable
       $world->loadChunk($position->x, $position->z);
       $player->teleport($position);
       $this->getKit()?->giveTo($player);
+      $session->setKit($this->getKit());
     }
   }
   
