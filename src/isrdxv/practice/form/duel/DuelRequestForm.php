@@ -49,10 +49,15 @@ final class DuelRequestForm extends CustomForm
         $buttons[]= new Label("kit_available", "No kits available");
       }
     }
-    parent::__construct("Duel Request", $buttons, function(Player $player, CustomFormResponse $response): void {
+    parent::__construct("Duel Request", $buttons, function(Player $player, CustomFormResponse $response) use($kits, $players, $to): void {
       if (($session = SessionManager::getInstance()->get($player)) !== null && $session->isInLobby()) {
-        if (isset($players) && isset($kits) && isset($to)) {
-          
+        if (isset($kits) && isset($to)) {
+          $kit = $kits[$response->getInt("kit")];
+          if ($to?->isOnline()) {
+            $player->sendMessage("test");
+          } else {
+            $player->sendMessage(Practice::SERVER_COLOR . TextFormat::RED . "Player is not online here.");
+          }
         }
       }
       $player->sendMessage(print_r($response, true));

@@ -17,9 +17,9 @@ class ProfileMenuForm extends MenuForm
   function __construct()
   {
     parent::__construct("Profile", "Your settings and configurations for your gameplay on the server are here", [
-      new MenuOption("Game", new FormIcon("textures/ui/controller_glyph_color", FormIcon::TYPE_IMAGE_PATH)),
-      new MenuOption("Settings", new FormIcon("textures/ui/automation_glyph_color", FormIcon::TYPE_IMAGE_PATH)),
-      new MenuOption(TextFormat::RED . "coming soon...", new FormIcon("textures/ui/Caution", FormIcon::TYPE_IMAGE_PATH))
+      new MenuOption("Game", new FormIcon("textures/ui/controller_glyph_color", FormIcon::IMAGE_TYPE_PATH)),
+      new MenuOption("Settings", new FormIcon("textures/ui/automation_glyph_color", FormIcon::IMAGE_TYPE_PATH)),
+      new MenuOption(TextFormat::RED . "coming soon...", new FormIcon("textures/ui/Caution", FormIcon::IMAGE_TYPE_PATH))
       ], function(Player $player, int $selectedOption): void {
         switch($selectedOption){
           case 0:
