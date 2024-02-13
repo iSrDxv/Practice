@@ -263,7 +263,6 @@ class PracticeListener implements Listener
       if ($kicker->getWorld() === $defaultWorld && $damager->getWorld() === $defaultWorld) {
         $event->cancel();
         if ($event->getCause() === EntityDamageByEntityEvent::CAUSE_VOID) {
-          $event->cancel();
           $damager->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
           return;
         }
