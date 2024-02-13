@@ -25,7 +25,7 @@ class DuelListener implements Listener
         if ($session !== null && ($kit = $session->getKit()) !== null) {
             if ($kit->getDataInfo()->type === Arena::TYPE_FFA) {
                 foreach(ArenaManager::getInstance()->getAllNoDuel() as $ffa) {
-                    if ($ffa->isPlayer($player)) {
+                    if ($ffa->isHere($player)) {
                         $ffa->removePlayer($player->getName());
                     }
                 }
