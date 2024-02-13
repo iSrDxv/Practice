@@ -53,9 +53,9 @@ final class ArenaManager
       }elseif ($arena instanceof DuelArena) {
         $this->duels[$arena->getName()] = $arena;
       }
-      var_dump($this->duels);
-      var_dump($this->ffa);
     }
+    var_dump($this->duels);
+    var_dump($this->ffa);
   }
   
   function load(string $name, array $data): ?Arena
