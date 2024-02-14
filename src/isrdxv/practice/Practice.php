@@ -44,9 +44,9 @@ class Practice
     
     const BYPASS = ["SrClauYT", "StyleMH"];
     
-    const SERVER_NAME = TextFormat::LIGHT_PURPLE . "StromMC";
+    const SERVER_NAME = TextFormat::AQUA . "StromMC";
     
-    const SERVER_COLOR = TextFormat::LIGHT_PURPLE;
+    const SERVER_COLOR = TextFormat::AQUA;
     
     const SERVER_MOTD = self::SERVER_NAME . ": " . TextFormat::BOLD . TextFormat::WHITE . "¡¡NEW RELEASE!!" . TextFormat::GRAY;
 
