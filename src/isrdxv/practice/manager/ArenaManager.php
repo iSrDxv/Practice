@@ -92,19 +92,17 @@ final class ArenaManager
   
   function create(string $name, string $type, World $world, DefaultKit $kit): bool
   {
-    if (empty($this->duels[$name]) || empty($this->ffa[$name])) {
-      if ($type === Arena::TYPE_FFA) {
-        $arena = ($this->ffa[$name] = new FFArena($name, $kit, $world, [1 => $world->getSpawnLocation()]));
-        $this->save($arena);
-        return true;
-      }
-      if ($type === Arena::TYPE_DUEL) {
-        $worldName = $world->getFolderName();
-        $spawn = $world->getSpawnLocation();
-        $arena = ($this->duels[$name] = new DuelArena($name, $kit, $worldName, $spawn, $spawn, 255));
-        $this->save($arena);
-        return true;
-      }
+    if ($type === Arena::TYPE_FFA) {
+      $arena = ($this->ffa[$name] = new FFArena($name, $kit, $world, [1 => $world->getSpawnLocation()]));
+      $this->save($arena);
+      return true;
+    }
+    if ($type === Arena::TYPE_DUEL) {
+     $worldName = $world->getFolderName();
+      $spawn = $world->getSpawnLocation();
+      $arena = ($this->duels[$name] = new DuelArena($name, $kit, $worldName, $spawn, $spawn, 255));
+      $this->save($arena);
+      return true;
     }
     return false;
   }
