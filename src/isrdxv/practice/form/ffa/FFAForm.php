@@ -27,7 +27,7 @@ class FFAForm extends MenuForm
                 $options[] = new MenuOption(Practice::SERVER_COLOR . $arena->getName() . TextFormat::EOL . Practice::SERVER_COLOR . "Players: " . count($arena->getPlayers()), new FormIcon($arena->getIcon(), FormIcon::IMAGE_TYPE_PATH));
             }
         }
-        parent::__construct("FFA Menu", "Choose the sand that you like or want the most", $options, function(Player $player, int $selectedOption) use($classes): void {
+        parent::__construct(TextFormat::AQUA . "FFA Menu", "Choose the sand that you like or want the most", $options, function(Player $player, int $selectedOption) use($classes): void {
             if (($arena = $classes[$selectedOption]) !== null) {
                 $arena->addPlayer($player);
             }
