@@ -76,7 +76,7 @@ class PracticeLoader extends PluginBase
         $this->deleteCommand(["pardon", "kick", "plugins", "version", "pardon-ip", "me", "ban", "ban-ip", "banlist"]);
         $this->addCommand([new MaintenanceCommand($this), new HubCommand($this), new BanCommand($this), new InfoCommand($this), new ArenaCommand($this), new DuelCommand($this), new KitCommand($this)]);
         $this->addDirectory(["arenas", "cosmetics", "capes", "kits", "default"]);
-        $this->saveFiles(["capes/*", "default"]);
+        $this->saveFiles(["capes/*", "default/*"]);
 
         //INITIALIZERS
         new TaskManager($this);
