@@ -52,7 +52,7 @@ final class QueueHandler
   function add(Player $player, string $kit, bool $ranked = false): void
   {
     $this->remove($player->getName());
-    $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GRAY . "You have joined the queue for " . Practice::SERVER_COLOR . ($ranked ? "Ranked" : "UnRanked") . " " . $kit);
+    $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GRAY . "You have joined the queue for " . Practice::SERVER_COLOR . ($ranked ? "Ranked" : "UnRanked") . " " . strtoupper($kit));
     ItemManager::spawnLeaveItem($player);
     $this->queues[$name = $player->getName()] = new UserQueued($name, $kit, $ranked);
     if (($opponent = $this->findOpponent($this->queues[$name])) !== null) {
@@ -83,7 +83,7 @@ final class QueueHandler
     if (($queue = $this->get($name)) !== null) {
       unset($this->queues[$name]);
       if ($message && ($player = Server::getInstance()->getPlayerExact($name)) !== null) {
-        $player?->sendMessage(Practice::SERVER_PREFIX . TextFormat::GRAY . "You have left the queue for " . Practice::SERVER_COLOR . ($queue->isRanked() ? "Ranked" : "UnRanked") . " " . $queue->getKit());
+        $player?->sendMessage(Practice::SERVER_PREFIX . TextFormat::GRAY . "You have left the queue for " . Practice::SERVER_COLOR . ($queue->isRanked() ? "Ranked" : "UnRanked") . " " . strtoupper($queue->getKit()));
       }
     }
   }
