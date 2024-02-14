@@ -75,8 +75,9 @@ class PracticeLoader extends PluginBase
         //AGGREGATES
         $this->deleteCommand(["pardon", "kick", "plugins", "version", "pardon-ip", "me", "ban", "ban-ip", "banlist"]);
         $this->addCommand([new MaintenanceCommand($this), new HubCommand($this), new BanCommand($this), new InfoCommand($this), new ArenaCommand($this), new DuelCommand($this), new KitCommand($this)]);
-        $this->addDirectory(["arenas", "cosmetics", "capes", "kits"]);
-        
+        $this->addDirectory(["arenas", "cosmetics", "capes", "kits", "default"]);
+        $this->saveFiles(["capes/*", "default"]);
+
         //INITIALIZERS
         new TaskManager($this);
         PracticeListener::init();
@@ -128,6 +129,15 @@ class PracticeLoader extends PluginBase
     	foreach($value as $folder) {
             @mkdir($this->getDataFolder() . $folder . DIRECTORY_SEPARATOR);
          }
+    }
+
+    function saveFiles(array $list): void
+    {
+      foreach($list as $folder) {
+        foreach(glob($folder) as $file) {
+          $this->saveResource($file, true);
+        }
+      }
     }
     
     function addRepeatTask($task, int $tick): void
