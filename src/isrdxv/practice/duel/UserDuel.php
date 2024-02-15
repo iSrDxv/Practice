@@ -98,6 +98,27 @@ final class UserDuel
     {
         return isset($this->spectators[spl_object_id($session)]);
     }
+
+    function getPlayer1(): Player
+    {
+        return $this->p1;
+    }
+
+    function getPlayer2(): Player
+    {
+        return $this->p2;
+    }
+
+    function getPlayingTime(): int
+    {
+        return Time::getTimeToHours($this->timePlay);
+    }
+
+    function isPlaying(): bool
+    {
+        return $this->phase === self::PHASE_PLAYING;
+    }
+
     function update(): void
     {
         switch($this->phase) {

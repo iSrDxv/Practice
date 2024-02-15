@@ -80,17 +80,73 @@ class ScoreboardHandler
       }
       $this->scoreboard?->spawn();
       $this->scoreboard?->setLine($line++, $this->line);
+      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " Welcome: ");
+      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " " . $session->getPlayer()?->getName());
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Online: " . TextFormat::WHITE . count(SessionManager::getInstance()->all()));
       $this->scoreboard?->setLine($line++, "");
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | K: " . TextFormat::WHITE . $session->getKills() . Practice::SERVER_COLOR . "  D: " . TextFormat::WHITE . $session->getDeaths());
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | KDR: " . TextFormat::WHITE . ($session->getKills() === 0 && $session->getDeaths() === 0 ? "0.0" : ($session->getKills() / $session->getDeaths())) . Practice::SERVER_COLOR . "   Wins: " . TextFormat::WHITE . $session->getWins());
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Elo: " . TextFormat::WHITE . $session->getElo());
       $this->scoreboard?->setLine($line++, " ");
-      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Fights: " . TextFormat::WHITE . DuelHandler::getInstance()->getDuelsCount());
-      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Queued: " . TextFormat::WHITE . QueueHandler::getInstance()->getQueueCount());
+      if (($queue = $session->getQueue()) !== null) {
+        $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " Queue: ");
+        $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Ranked: " . ($queue->isRanked() ? TextFormat::GREEN . "YES" : TextFormat::RED . "NO"));
+        $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Kit: " . $queue->getKit());
+      } else {
+        $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Fights: " . TextFormat::WHITE . DuelHandler::getInstance()->getDuelsCount());
+        $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Queued: " . TextFormat::WHITE . QueueHandler::getInstance()->getQueueCount());
+      }
       $this->scoreboard?->setLine($line++, $this->line . TextFormat::RESET);
       $this->scoreboard?->setLine($line++, Practice::centerText(TextFormat::GRAY . " strommc.ddns.net", 95, true));
     }), 20);
   }
-  
+
+  function setFFA(Session $session): void
+  {
+    if (($task = TaskManager::getInstance()->get($this->id)) !== null) {
+      TaskManager::getInstance()->delete($this->id);
+    }
+    $line = 0;
+    $this->type = self::TYPE_FFA;
+    $this->id = TaskManager::getInstance()->set(new ClosureTask(function() use($session, $line): void {
+      if (!$session->getPlayer()?->isOnline()) {
+        return;
+      }
+      $this->scoreboard?->spawn();
+      $this->scoreboard?->setLine($line++, $this->line);
+      $this->scoreboard?->setLine($line++, $this->line . TextFormat::RESET);
+      $this->scoreboard?->setLine($line++, Practice::centerText(TextFormat::GRAY . " strommc.ddns.net", 95, true));
+    }), 20);
+  }
+
+  function setDuel(Session $session): void
+  {
+    if (($task = TaskManager::getInstance()->get($this->id)) !== null) {
+      TaskManager::getInstance()->delete($this->id);
+    }
+    $line = 0;
+    $this->type = self::TYPE_DUEL;
+    $this->id = TaskManager::getInstance()->set(new ClosureTask(function() use($session, $line): void {
+      if (!$session->getPlayer()?->isOnline()) {
+        return;
+      }
+      $this->scoreboard?->spawn();
+      $this->scoreboard?->setLine($line++, $this->line);
+      if (($duel = $session->getDuel()) !== null) {
+        if ($duel->getPlayer1() === $duel->getPlayer2()) {
+          return;
+        }
+        $opponent = $duel->getPlayer2();
+        $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Fighting with: " . $opponent->getName());
+        $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Duration: " . $duel->getPlayingTime());
+        $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . "");
+        $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . TextFormat::BOLD . " | " . TextFormat::GREEN . "Your Ping: " . $duel->getPlayer1()->getNetworkSession()->getPing());
+        $$this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . TextFormat::BOLD . " | " . TextFormat::GOLD . "Their Ping: " . $opponent->getNetworkSession()->getPing());
+      } else {
+        $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | NO DUEL");
+      }
+      $this->scoreboard?->setLine($line++, $this->line . TextFormat::RESET);
+      $this->scoreboard?->setLine($line++, Practice::centerText(TextFormat::GRAY . " strommc.ddns.net", 95, true));
+    }), 20);
+  }
 }
