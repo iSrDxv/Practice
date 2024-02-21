@@ -57,7 +57,7 @@ class ScoreboardHandler
         TaskManager::getInstance()->delete($this->id);
         $this->id = "";
       }
-      $this->scoreboard = $this->scoreboard ?? ScoreboardLib::create($this->player, TextFormat::BOLD . Practice::SERVER_COLOR . "PRACTICE");
+      $this->scoreboard = $this->scoreboard ?? ScoreboardLib::create($this->player, TextFormat::BOLD . Practice::SERVER_COLOR . "PRACTICE" . TextFormat::GRAY . " (NA)");
       $this->type = null;
       switch($type){
         case self::TYPE_LOBBY:
