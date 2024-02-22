@@ -9,7 +9,6 @@ use isrdxv\practice\{
 use isrdxv\practice\handler\DuelHandler;
 use isrdxv\practice\handler\QueueHandler;
 use isrdxv\practice\session\Session;
-use isrdxv\scoreboard\ScoreboardLib;
 use isrdxv\practice\manager\{
   SessionManager,
   TaskManager
@@ -18,6 +17,8 @@ use isrdxv\practice\manager\{
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\TextFormat;
 use pocketmine\player\Player;
+
+use exodus\scoreboard\Scoreboard;
 
 use IvanCraft623\RankSystem\session\SessionManager as SessionRank;
 
@@ -36,7 +37,7 @@ class ScoreboardHandler
  
   private string $line;
   
-  private ?ScoreboardLib $scoreboard;
+  private ?Scoreboard $scoreboard;
   
   function __construct(Player $player)
   {
@@ -59,7 +60,7 @@ class ScoreboardHandler
         TaskManager::getInstance()->delete($this->id);
         $this->id = "";
       }
-      $this->scoreboard = $this->scoreboard ?? ScoreboardLib::create($this->player, TextFormat::BOLD . Practice::SERVER_COLOR . "PRACTICE" . TextFormat::GRAY . " (NA)");
+      $this->scoreboard = $this->scoreboard ?? Scoreboard::create($this->player, TextFormat::BOLD . Practice::SERVER_COLOR . "PRACTICE" . TextFormat::GRAY . " (NA)");
       $this->type = null;
       switch($type){
         case self::TYPE_LOBBY:
