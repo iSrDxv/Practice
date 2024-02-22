@@ -75,7 +75,7 @@ class PracticeListener implements Listener
     }
     $newTime = new \DateTime(timezone: new \DateTimeZone("America/Mexico_City"));
     if (PracticeLoader::getInstance()->getSeasonEnd()->format("Y-m-d H:i") === $newTime->format("Y-m-d H:i")) {
-      $event->setKickFlag(PlayerPreLoginEvent::KICK_FLAG_PLUGIN, Practice::SERVER_NAME . TextFormat::GOLD . " Network " . TextFormat::GRAY . "-" .  TextFormat::DARK_AQUA . " SEASON" . TextFormat::EOL . TextFormat::EOL . TextFormat::RESET . TextFormat::YELLOW . "The season is over, thanks for playing our server!!");
+      $event->setKickFlag(PlayerPreLoginEvent::KICK_FLAG_PLUGIN, Practice::SERVER_NAME . TextFormat::WHITE . " Network " . TextFormat::GRAY . "-" .  TextFormat::DARK_AQUA . " SEASON" . TextFormat::EOL . TextFormat::EOL . TextFormat::RESET . TextFormat::YELLOW . "The season is over, thanks for playing our server!!");
       return;
     }
     $info = $event->getPlayerInfo();
