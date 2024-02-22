@@ -51,9 +51,7 @@ final class QueueHandler
 
   function add(Player $player, string $kit, bool $ranked = false): void
   {
-    if ($this->get($name = $player->getName()) !== null) {
-      $this->remove($player->getName());
-    }
+    $name = $player->getName();
     $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GRAY . "You have joined the queue for " . Practice::SERVER_COLOR . ($ranked ? "Ranked" : "UnRanked") . " " . strtoupper($kit));
     ItemManager::spawnLeaveItem($player);
 

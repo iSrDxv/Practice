@@ -129,7 +129,7 @@ class Session
       return $this->duel ?? null;
     }
 
-    function setQueue(?UserQueued $queue): void
+    function setQueue(?UserQueued $queue = null): void
     {
       $this->queue = $queue;
     }
