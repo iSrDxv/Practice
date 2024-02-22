@@ -45,6 +45,10 @@ class PracticeLoader extends PluginBase
 
     private $database;
     
+    private \DateTime $seasonStart;
+
+    private \DateTime $seasonEnd;
+
     function onLoad(): void
     {
         self::setInstance($this);
@@ -89,6 +93,8 @@ class PracticeLoader extends PluginBase
         new DuelHandler();
 
         //SERVER
+        $this->seasonStart = date_create_from_format("Y-m-d H:i", (string)$this->getConfig()->get("season-start"), new \DateTimeZone("America/Mexico_City"));
+        $this->seasonEnd = date_create_from_format("Y-m-d H:i", (string)$this->getConfig()->get("season-end"), new \DateTimeZone("America/Mexico_City"));
         $this->getServer()->getConfigGroup()->setConfigInt("max-players", Practice::SERVER_MAX_PLAYERS);
         $this->getServer()->getConfigGroup()->setConfigInt("view-distance", 16);
         $this->getServer()->getConfigGroup()->setConfigInt("difficulty", World::DIFFICULTY_PEACEFUL);
@@ -119,6 +125,16 @@ class PracticeLoader extends PluginBase
     function getDatabase(): DataConnector
     {
         return $this->database;
+    }
+
+    function getSeasonStart(): \DateTime
+    {
+      return $this->seasonStart;
+    }
+
+    function getSeasonEnd(): \DateTime
+    {
+      return $this->seasonEnd;
     }
     
     function addCommand(array $value): void

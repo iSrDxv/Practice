@@ -73,6 +73,11 @@ class PracticeListener implements Listener
       $event->setKickFlag(PlayerPreLoginEvent::KICK_FLAG_PLUGIN, TextFormat::BOLD . TextFormat::RED . "Network Maintenance" . TextFormat::EOL . TextFormat::EOL . TextFormat::RESET . TextFormat::GRAY . "Server is currently in maintenance, for" . TextFormat::EOL . "more information join " . Practice::SERVER_COLOR . "discord.gg/strommc");
       return;
     }
+    $newTime = new \DateTime(timezone: new \DateTimeZone("America/Mexico_City"));
+    if (PracticeLoader::getInstance()->getSeasonEnd()->format("Y-m-d H:i") === $newTime->format("Y-m-d H:i")) {
+      $event->setKickFlag(PlayerPreLoginEvent::KICK_FLAG_PLUGIN, Practice::SERVER_NAME . TextFormat::GOLD . " Network " . TextFormat::GRAY . "-" .  TextFormat::DARK_AQUA . " SEASON" . TextFormat::EOL . TextFormat::EOL . TextFormat::RESET . TextFormat::YELLOW . "The season is over, thanks for playing our server!!");
+      return;
+    }
     $info = $event->getPlayerInfo();
     if (!$info instanceof XboxLivePlayerInfo || $info->getUuid()->getBytes() === "") {
       $event->setKickFlag(PlayerPreLoginEvent::KICK_FLAG_PLUGIN, TextFormat::BOLD . TextFormat::RED . "You must login in Xbox Live before playing");
@@ -112,6 +117,13 @@ class PracticeListener implements Listener
   {
     $player = $event->getPlayer();
     $player->sendMessage(TextFormat::GRAY . "NOW Loading your data & cosmetics...");
+    $seasonInfo = [
+      Practice::SERVER_COLOR . TextFormat::BOLD . "Practice " . TextFormat::RESET . "- " . TextFormat::WHITE . "Season " . Practice::SERVER_COLOR . Practice::SEASON,
+      TextFormat::DARK_GRAY . " " . TextFormat::EOL,
+      TextFormat::GRAY . TextFormat::BOLD . "» Season started on " . TextFormat::AQUA . date("F/m Y", PracticeLoader::getInstance()->getSeasonStart()->getTimestamp()),
+      TextFormat::GRAY . TextFormat::BOLD . "» Season ends on " . TextFormat::RED . date("F/m Y", PracticeLoader::getInstance()->getSeasonEnd()->getTimestamp()),
+      TextFormat::WHITE . " " . TextFormat::EOL
+    ];
     $information = [
       TextFormat::GRAY . "Welcome " . TextFormat::GRAY . $player->getName() . " to " . Practice::SERVER_COLOR . "StromMC!" . TextFormat::EOL,
       TextFormat::WHITE . " " . TextFormat::EOL,

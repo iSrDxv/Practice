@@ -44,6 +44,8 @@ class Practice
     
     const BYPASS = ["SrClauYT", "StyleMH"];
     
+    const SEASON = "I";
+
     const SERVER_NAME = TextFormat::AQUA . "StromMC";
     
     const SERVER_COLOR = TextFormat::AQUA;
