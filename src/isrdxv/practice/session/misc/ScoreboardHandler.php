@@ -19,6 +19,8 @@ use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\TextFormat;
 use pocketmine\player\Player;
 
+use IvanCraft623\RankSystem\session\SessionManager as SessionRank;
+
 class ScoreboardHandler
 {
   const TYPE_LOBBY = "lobby";
@@ -80,8 +82,7 @@ class ScoreboardHandler
       }
       $this->scoreboard?->spawn();
       $this->scoreboard?->setLine($line++, $this->line);
-      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " Welcome: ");
-      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " " . $session->getPlayer()?->getName());
+      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Rank: " . (SessionRank::getInstance()->get($session?->getPlayer()))?->getHighestRank());
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Online: " . TextFormat::WHITE . count(SessionManager::getInstance()->all()));
       $this->scoreboard?->setLine($line++, "");
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | K: " . TextFormat::WHITE . $session->getKills() . Practice::SERVER_COLOR . "  D: " . TextFormat::WHITE . $session->getDeaths());
