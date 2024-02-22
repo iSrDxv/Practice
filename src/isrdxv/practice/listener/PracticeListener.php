@@ -217,6 +217,8 @@ class PracticeListener implements Listener
           case ItemManager::LEAVE_QUEUE:
             if ($session->isInLobby()) {
               if ($session->getQueue() !== null) {
+                $player->setGamemode(GameMode::ADVENTURE());
+                ItemManager::spawnLobbyItems($player);
                 QueueHandler::getInstance()->remove($player->getName(), true);
               }
             }
