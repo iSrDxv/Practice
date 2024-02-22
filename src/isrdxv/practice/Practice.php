@@ -53,10 +53,18 @@ class Practice
     const SERVER_MAX_PLAYERS = 1; //100
 
     const SERVER_PREFIX = self::SERVER_NAME . TextFormat::BOLD . TextFormat::GRAY . " » " . TextFormat::RESET;
-    
+
+    const DISCORD_LINK = "https://discord.gg";
+
+    const STAFF_SOPPORT = [
+      TextFormat::BOLD . TextFormat::RED . " Staff Sopport ",
+      TextFormat::GRAY . "",
+      TextFormat::AQUA . self::DISCORD_LINK
+    ];
+
     const BROADCAST_LIST = [
-         TextFormat::RESET . TextFormat::GRAY . "Don't forget to enter our store to see the benefits: " . self::SERVER_COLOR . "strommc.tebex.io",
-         TextFormat::RESET . TextFormat::GREEN . "Don't forget to enjoy our server, and vote to get a rank for 1 month: link"
+      self::STAFF_SOPPORT,
+      TextFormat::RESET . TextFormat::GREEN . "Don't forget to enjoy our server, and vote to get a rank for 1 month: link"
     ];
     
     const NO_QUEUE_BE = [

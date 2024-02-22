@@ -113,10 +113,10 @@ class PracticeListener implements Listener
     $player = $event->getPlayer();
     $player->sendMessage(TextFormat::GRAY . "NOW Loading your data & cosmetics...");
     $information = [
-      TextFormat::GRAY . "Welcome to " . Practice::SERVER_COLOR . "StromMC" . TextFormat::EOL,
+      TextFormat::GRAY . "Welcome " . TextFormat::GRAY . $player->getName() . " to " . Practice::SERVER_COLOR . "StromMC!" . TextFormat::EOL,
       TextFormat::WHITE . " " . TextFormat::EOL,
-      TextFormat::GRAY . "Discord: " . TextFormat::WHITE . "discord.gg/strommc" . TextFormat::EOL,
-      TextFormat::DARK_RED . "Store: " . TextFormat::WHITE . "strommc.tebex.io" . TextFormat::EOL,
+      TextFormat::DARK_AQUA . "Discord: " . TextFormat::WHITE . Practice::DISCORD_LINK . TextFormat::EOL,
+      TextFormat::GREEN . "Store: " . TextFormat::WHITE . "strommc.tebex.io" . TextFormat::EOL,
       TextFormat::WHITE . " " . TextFormat::EOL
     ];
     $player->sendMessage(implode("\n", $information));
