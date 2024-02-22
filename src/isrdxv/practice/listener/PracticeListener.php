@@ -263,15 +263,15 @@ class PracticeListener implements Listener
       if ($kicker->getWorld() === $defaultWorld && $damager->getWorld() === $defaultWorld) {
         $event->cancel();
         if ($event->getCause() === EntityDamageByEntityEvent::CAUSE_VOID) {
-          $damager->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
+          $kicker->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
           return;
         }
         if ($event->getCause() === EntityDamageByEntityEvent::CAUSE_SUFFOCATION) {
-          $damager->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
+          $kicker->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
           return;
         }
         if ($event->getCause() === EntityDamageByEntityEvent::CAUSE_SUICIDE) {
-          $damager->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
+          $kicker->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
           return;
         }
         if ($damager->getInventory()->getItemInHand()->getNamedTag()->getTag("Practice")?->getValue() === ItemManager::DUEL) {

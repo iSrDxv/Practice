@@ -61,6 +61,7 @@ class Practice
       TextFormat::GRAY . "Hacker or Toxic User? notify staff using /report or /helpop for help",
       TextFormat::AQUA . self::DISCORD_LINK
     ];
+
     const VOTE_ANNOUNCEMENT = [
       TextFormat::BOLD . TextFormat::GOLD . " Vote System",
       TextFormat::RESET . TextFormat::GREEN . "Don't forget to enjoy our server, and vote to get a rank for 1 month: link"
