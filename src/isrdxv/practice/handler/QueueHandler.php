@@ -57,6 +57,7 @@ final class QueueHandler
 
     $queue = new UserQueued($name, $kit, $ranked);
     $this->queues[$name] = $queue;
+    var_dump($this->queues[$name]);
     (SessionManager::getInstance()->get($player))->setQueue($queue);
     if (($opponent = $this->findOpponent($this->queues[$name])) !== null) {
       $this->remove($name);
