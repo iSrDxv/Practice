@@ -19,7 +19,8 @@ use isrdxv\practice\manager\{
     ArenaManager,
     TaskManager,
     ItemManager,
-    KitManager
+    KitManager,
+    SessionManager
 };
 
 use pocketmine\plugin\PluginBase;
@@ -120,6 +121,9 @@ class PracticeLoader extends PluginBase
           $this->database->waitAll();
           $this->database->close();
           $this->getLogger()->warning("[Database] has been closed");
+        }
+        foreach(SessionManager::getInstance()->all() as $session) {
+          unset($session);
         }
     }
 
