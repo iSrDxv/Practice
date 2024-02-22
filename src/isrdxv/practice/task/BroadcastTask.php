@@ -16,7 +16,7 @@ class BroadcastTask extends Task
 		$message = implode("\n", Practice::BROADCAST_LIST[$key]);
 		var_dump($message);
 		foreach(SessionManager::getInstance()->all() as $session) {
-			$session->getPlayer()?->sendMessage(Practice::SERVER_PREFIX . $message);
+			$session->getPlayer()?->sendMessage($message);
 		}
 		$key++;
 	}
