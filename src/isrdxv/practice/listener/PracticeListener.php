@@ -275,7 +275,7 @@ class PracticeListener implements Listener
           return;
         }
         if ($damager->getInventory()->getItemInHand()->getNamedTag()->getTag("Practice")?->getValue() === ItemManager::DUEL) {
-          $kits = array_keys(KitManager::getInstance()->all());
+          $kits = array_keys(KitManager::getInstance()->getAll());
           $players = array_keys(SessionManager::getInstance()->all());
           $damager->sendForm(new DuelRequestForm($kicker, $kits, $players));
         }
