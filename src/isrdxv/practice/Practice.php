@@ -58,13 +58,17 @@ class Practice
 
     const STAFF_SOPPORT = [
       TextFormat::BOLD . TextFormat::RED . " Staff Sopport ",
-      TextFormat::GRAY . "",
+      TextFormat::GRAY . "Hacker or Toxic User? notify staff using /report or /helpop for help",
       TextFormat::AQUA . self::DISCORD_LINK
+    ];
+    const VOTE_ANNOUNCEMENT = [
+      TextFormat::BOLD . TextFormat::GOLD . " Vote System"
+      TextFormat::RESET . TextFormat::GREEN . "Don't forget to enjoy our server, and vote to get a rank for 1 month: link"
     ];
 
     const BROADCAST_LIST = [
       self::STAFF_SOPPORT,
-      TextFormat::RESET . TextFormat::GREEN . "Don't forget to enjoy our server, and vote to get a rank for 1 month: link"
+      self::VOTE_ANNOUNCEMENT
     ];
     
     const NO_QUEUE_BE = [

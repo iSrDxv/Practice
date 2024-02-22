@@ -13,8 +13,9 @@ class BroadcastTask extends Task
 	function onRun(): void
 	{
 		$message = Practice::SERVER_PREFIX . Practice::BROADCAST_LIST[array_rand(Practice::BROADCAST_LIST)];
-		foreach(SessionManager::getInstance()->all() as $session) {
+		var_dump($message);
+		/*foreach(SessionManager::getInstance()->all() as $session) {
 			$session->getPlayer()?->sendMessage($message);
-		}
+		}*/
 	}
 }
