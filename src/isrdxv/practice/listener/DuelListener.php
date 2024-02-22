@@ -13,7 +13,8 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\{
   PlayerExhaustEvent,
   PlayerQuitEvent,
-  PlayerDeathEvent
+  PlayerDeathEvent,
+    PlayerRespawnEvent
 };
 use pocketmine\event\player;
 
@@ -40,7 +41,7 @@ class DuelListener implements Listener
     /**
       * PRIORITY: Only FFA Mode
       */
-    function onDeath(PlayerDeathEvent $event): void
+    function onDeath(PlayerRespawnEvent $event): void
     {
         $player = $event->getPlayer();
         $session = SessionManager::getInstance()->get($player);
