@@ -42,7 +42,19 @@ class DuelListener implements Listener
       */
     function onDeath(PlayerDeathEvent $event): void
     {
-      $player = $event->getPlayer();
+        $player = $event->getPlayer();
+        $session = SessionManager::getInstance()->get($player);
+        if ($session !== null && ($kit = $session->getKit()) !== null) {
+            if ($kit->getDataInfo()->type === Arena::TYPE_FFA) {
+                foreach(ArenaManager::getInstance()->getAllNoduel() as $ffa) {
+                    if ($ffa->isHere($player)) {
+                        if ($ffa->removePlayer($player->getName())) {
+                            $ffa->addPlayer($player);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     //function (): void;

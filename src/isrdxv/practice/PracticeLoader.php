@@ -37,6 +37,7 @@ use poggit\libasynql\{
 use CortexPE\Commando\PacketHooker;
 use isrdxv\practice\handler\DuelHandler;
 use isrdxv\practice\handler\QueueHandler;
+use isrdxv\practice\listener\DuelListener;
 
 class PracticeLoader extends PluginBase
 {
@@ -99,7 +100,8 @@ class PracticeLoader extends PluginBase
         
         //EVENTS
         $this->getServer()->getPluginManager()->registerEvents(new PracticeListener(), $this);
-        
+        $this->getServer()->getPluginManager()->registerEvents(new DuelListener(), $this);
+
         //ENABLED
         $this->getLogger()->info(TextFormat::GREEN . "has been activated successfully!!");
     }
