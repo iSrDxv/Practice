@@ -12,10 +12,12 @@ class BroadcastTask extends Task
 {
 	function onRun(): void
 	{
-		$message = /*Practice::SERVER_PREFIX .*/ Practice::BROADCAST_LIST;
+		$key = 0;
+		$message = implode("\n", Practice::BROADCAST_LIST[$key]);
 		var_dump($message);
-		/*foreach(SessionManager::getInstance()->all() as $session) {
-			$session->getPlayer()?->sendMessage($message);
-		}*/
+		foreach(SessionManager::getInstance()->all() as $session) {
+			$session->getPlayer()?->sendMessage(Practice::SERVER_PREFIX . $message);
+		}
+		$key++;
 	}
 }
