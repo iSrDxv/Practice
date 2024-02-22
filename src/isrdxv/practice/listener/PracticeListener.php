@@ -122,7 +122,7 @@ class PracticeListener implements Listener
     $player->sendMessage(implode("\n", $information));
     if (!SessionManager::getInstance()->set($player)) {
       $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GOLD . "Loading your session...");
-      sleep(1500);
+      sleep(2500);
       $player->kick(TextFormat::RED . "The session was not created correctly, re-enter the server.");
       return;
     }
