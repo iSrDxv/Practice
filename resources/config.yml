@@ -1,7 +1,7 @@
 # Season System
-# Format Time: Y-m-d H:i
-season-start: "2024-02-21 01:22"
-season-end: "2024-03-21 01:22"
+# Format Time: Y-m-d H:i:s
+season-start: "2024-02-21 01:22:59"
+season-end: "2024-02-22 14:22:59"
 
 # Set maintenance mode
 maintenance: false
