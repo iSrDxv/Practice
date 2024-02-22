@@ -171,7 +171,7 @@ class Session
       }
     	$database->executeInsert("practice.insert.data", ["xuid" => $xuid, "name" => $player->getName(), "custom_name" => "null", "rank" => $rank, "language" => "en_US", "coin" => 200, "elo" => 1000, "firstplayed" => $time->format("Y-m-d H:i"), "lastplayed" => $time->format("Y-m-d H:i"), "kills" => 0, "wins" => 0, "deaths" => 0, "address" => $address, "device" => $this->clientData->getDevice(), "control" => $this->clientData->getTouch()]);
         $database->executeInsert("practice.insert.settings", ["xuid" => $xuid, "scoreboard" => true, "queue" => true, "cps" => false, "auto_join" => false]);
-        $database->executeImplRaw([0 => "SELECT * FROM data_user,settings WHERE data_user.xuid = $xuid AND settings.xuid = $xuid"], [0 => []], [0 => SqlThread::MODE_SELECT], function(array $rows) use($session, $player, $xuid): void {
+        $database->executeImplRaw([0 => "SELECT * FROM user,settings WHERE user.xuid = $xuid AND settings.xuid = $xuid"], [0 => []], [0 => SqlThread::MODE_SELECT], function(array $rows) use($session, $player, $xuid): void {
         	if ($player instanceof Player) {
         	  var_dump("init");
         	  var_dump($rows[0]->getRows());
@@ -322,7 +322,7 @@ class Session
       $elo = $this->elo;
       $firstPlayed = $this->firstPlayed;
     	$database = PracticeLoader::getInstance()->getDatabase();
-    	$database->executeImplRaw([0 => "UPDATE data_user SET name='$name', custom_name='$customName', rank='$rank', language='$language', coin='$coin', elo='$elo', firstplayed='$firstPlayed', lastplayed='$lastPlayed', kills='$this->kills', wins='$this->wins', deaths='$this->deaths', address='$address', device='$device', control='$control' WHERE xuid = '$xuid'"], [0 => []], [0 => SqlThread::MODE_CHANGE], function(array $rows): void {}, null);
+    	$database->executeImplRaw([0 => "UPDATE user SET name='$name', custom_name='$customName', rank='$rank', language='$language', coin='$coin', elo='$elo', firstplayed='$firstPlayed', lastplayed='$lastPlayed', kills='$this->kills', wins='$this->wins', deaths='$this->deaths', address='$address', device='$device', control='$control' WHERE xuid = '$xuid'"], [0 => []], [0 => SqlThread::MODE_CHANGE], function(array $rows): void {}, null);
     	var_dump($this->settings);
     	$scoreboard = (int)$this->getSetting("scoreboard");
     	$queue = (int)$this->getSetting("queue");

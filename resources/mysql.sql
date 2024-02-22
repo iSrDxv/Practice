@@ -2,7 +2,7 @@
 -- #{ practice
 
 -- # { init.user
-CREATE TABLE IF NOT EXISTS data_user(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY KEY, name VARCHAR(30), custom_name VARCHAR(30) NULL, rank TEXT, language TEXT, coin INT, elo INT, firstplayed TEXT, lastplayed TEXT, kills INT, wins INT, deaths INT, address TEXT, device TEXT, control TEXT);
+CREATE TABLE IF NOT EXISTS user(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY KEY, name VARCHAR(30), custom_name VARCHAR(30) NULL, rank TEXT, language TEXT, coin INT, elo INT, firstplayed TEXT, lastplayed TEXT, kills INT, wins INT, deaths INT, address TEXT, device TEXT, control TEXT);
 -- # }
 
 -- # { init.settings
