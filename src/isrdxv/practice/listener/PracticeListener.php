@@ -124,6 +124,7 @@ class PracticeListener implements Listener
       TextFormat::GRAY . TextFormat::BOLD . "» Season ends on " . TextFormat::RED . date("F/m Y", PracticeLoader::getInstance()->getSeasonEnd()->getTimestamp()),
       TextFormat::WHITE . " " . TextFormat::EOL
     ];
+    $player->sendMessage(implode("\n", $seasonInfo));
     $information = [
       TextFormat::GRAY . "Welcome " . TextFormat::GRAY . $player->getName() . " to " . Practice::SERVER_COLOR . "StromMC!" . TextFormat::EOL,
       TextFormat::WHITE . " " . TextFormat::EOL,
@@ -231,6 +232,7 @@ class PracticeListener implements Listener
               if ($session->getQueue() !== null) {
                 $player->setGamemode(GameMode::ADVENTURE());
                 ItemManager::spawnLobbyItems($player);
+                $session->setQueue();
                 QueueHandler::getInstance()->remove($player->getName(), true);
               }
             }
