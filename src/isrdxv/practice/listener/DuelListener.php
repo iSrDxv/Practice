@@ -7,7 +7,7 @@ use isrdxv\practice\handler\DuelHandler;
 use isrdxv\practice\manager\ArenaManager;
 use isrdxv\practice\session\Session;
 use isrdxv\practice\manager\SessionManager;
-
+use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\inventory\CraftItemEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\{
@@ -47,7 +47,7 @@ class DuelListener implements Listener
         $session = SessionManager::getInstance()->get($player);
         if ($session !== null && ($kit = $session->getKit()) !== null) {
             if ($kit->getDataInfo()->type === Arena::TYPE_FFA) {
-                foreach(ArenaManager::getInstance()->getAllNoduel() as $ffa) {
+                foreach(ArenaManager::getInstance()->getAllNoDuel() as $ffa) {
                     if ($ffa->isHere($player)) {
                         if ($ffa->removePlayer($player->getName())) {
                             $ffa->addPlayer($player);
@@ -58,7 +58,11 @@ class DuelListener implements Listener
         }
     }
 
-    //function (): void;
+    function onEntity(EntityDamageByEntityEvent $event): void
+    {
+        $entity = $event->getEntity();
+        $damager = $event->getDamager();
+    }
 
     function onExhaust(PlayerExhaustEvent $event): void
     {
