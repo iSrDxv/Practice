@@ -52,7 +52,7 @@ final class DuelRequestForm extends CustomForm
     parent::__construct("Duel Request", $buttons, function(Player $player, CustomFormResponse $response) use($kits, $players, $to): void {
       if (($session = SessionManager::getInstance()->get($player)) !== null && $session->isInLobby()) {
         if (isset($kits) && isset($to)) {
-          if ($response->getString("kit_available") !== null) {
+          if ($kits === []) {
             return;
           }
           $kit = $kits[$response->getInt("kit")];
