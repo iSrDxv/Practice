@@ -36,3 +36,6 @@ permissions:
   practice.command.kit:
     default: op
     description: Command for the Kits
+  practice.command.report:
+    default: true
+    description: Report any server problems or unwanted users
