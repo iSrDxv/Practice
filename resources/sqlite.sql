@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS staff_stats(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY 
 -- #     :address string
 -- #     :device string
 -- #     :control string
-INSERT INTO data_user(xuid, name, custom_name, rank, language, coin, elo, firstplayed, lastplayed, kills, wins, deaths, address, device, control) VALUES (:xuid, :name, :custom_name, :rank, :language, :coin, :elo, :firstplayed, :lastplayed, :kills, :wins, :deaths, :address, :device, :control) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name;
+INSERT INTO user(xuid, name, custom_name, rank, language, coin, elo, firstplayed, lastplayed, kills, wins, deaths, address, device, control) VALUES (:xuid, :name, :custom_name, :rank, :language, :coin, :elo, :firstplayed, :lastplayed, :kills, :wins, :deaths, :address, :device, :control) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name;
 -- #   }
 -- #   { settings
 -- #     :xuid string
@@ -64,13 +64,13 @@ INSERT INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid 
 
 -- # { leaderboard
 -- #   { kills
-SELECT * FROM data_user ORDER BY kills DESC LIMIT 10;
+SELECT * FROM user ORDER BY kills DESC LIMIT 10;
 -- #   }
 -- #   { deaths
-SELECT * FROM data_user ORDER BY deaths DESC LIMIT 10;
+SELECT * FROM user ORDER BY deaths DESC LIMIT 10;
 -- #   }
 -- #   { wins
-SELECT * FROM data_user ORDER BY wins DESC LIMIT 10;
+SELECT * FROM user ORDER BY wins DESC LIMIT 10;
 -- #   }
 -- # }
 
