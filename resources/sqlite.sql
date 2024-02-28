@@ -1,23 +1,23 @@
 -- #! sqlite
 -- #{ practice
 
--- #{ init.user
-CREATE TABLE IF NOT EXISTS data_user(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY KEY, name VARCHAR(30), custom_name VARCHAR(30) NULL, rank TEXT, language TEXT, coin INT, elo INT, firstplayed TEXT, lastplayed TEXT, kills INT, wins INT, deaths INT, address TEXT, device TEXT, control TEXT);
--- #}
+-- # { init.user
+CREATE TABLE IF NOT EXISTS user(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY KEY, name VARCHAR(30), custom_name VARCHAR(30) NULL, rank TEXT, language TEXT, coin INT, elo INT, firstplayed TEXT, lastplayed TEXT, kills INT, wins INT, deaths INT, address TEXT, device TEXT, control TEXT);
+-- # }
 
--- #{ init.settings
+-- # { init.settings
 CREATE TABLE IF NOT EXISTS settings(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY KEY, scoreboard BOOLEAN, queue BOOLEAN, cps BOOLEAN, auto_join BOOLEAN);
--- #}
+-- # }
 
--- #{ init.ban
+-- # { init.ban
 CREATE TABLE IF NOT EXISTS bans(name VARCHAR(30) NOT NULL UNIQUE PRIMARY KEY, reason VARCHAR(20), duration TEXT, staff_name VARCHAR(30));
--- #}
+-- # }
 
--- #{ init.staff
+-- # { init.staff
 CREATE TABLE IF NOT EXISTS staff_stats(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY KEY, name VARCHAR(30), bans INT, kicks INT, mutes INT, reports INT);
--- #}
+-- # }
 
--- #{ insert
+-- # { insert
 -- #   { data
 -- #     :xuid string
 -- #     :name string
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS staff_stats(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY 
 -- #     :address string
 -- #     :device string
 -- #     :control string
-REPLACE INTO data_user(xuid, name, custom_name, rank, language, coin, elo, firstplayed, lastplayed, kills, wins, deaths, address, device, control) VALUES (:xuid, :name, :custom_name, :rank, :language, :coin, :elo, :firstplayed, :lastplayed, :kills, :wins, :deaths, :address, :device, :control);
+INSERT INTO data_user(xuid, name, custom_name, rank, language, coin, elo, firstplayed, lastplayed, kills, wins, deaths, address, device, control) VALUES (:xuid, :name, :custom_name, :rank, :language, :coin, :elo, :firstplayed, :lastplayed, :kills, :wins, :deaths, :address, :device, :control) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name;
 -- #   }
 -- #   { settings
 -- #     :xuid string
@@ -42,14 +42,14 @@ REPLACE INTO data_user(xuid, name, custom_name, rank, language, coin, elo, first
 -- #     :queue bool
 -- #     :cps bool
 -- #     :auto_join bool
-REPLACE INTO settings(xuid, scoreboard, queue, cps, auto_join) VALUES (:xuid, :scoreboard, :queue, :cps, :auto_join);
+INSERT INTO settings(xuid, scoreboard, queue, cps, auto_join) VALUES (:xuid, :scoreboard, :queue, :cps, :auto_join) ON DUPLICATE KEY UPDATE xuid=:xuid;
 -- #   }
 -- #   { staff.ban
 -- #     :name string
 -- #     :reason string
 -- #     :duration string
 -- #     :staff_name string
-REPLACE INTO bans(name, reason, duration, staff_name) VALUES (:name, :reason, :duration, :staff_name);
+INSERT INTO bans(name, reason, duration, staff_name) VALUES (:name, :reason, :duration, :staff_name) ON DUPLICATE KEY UPDATE name=:name;
 -- #   }
 -- #   { staff.stats
 -- #     :xuid string
@@ -58,11 +58,11 @@ REPLACE INTO bans(name, reason, duration, staff_name) VALUES (:name, :reason, :d
 -- #     :kicks int
 -- #     :mutes int
 -- #     :reports int
-REPLACE INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid :name, :bans, :kicks, :mutes, :reports);
+INSERT INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid :name, :bans, :kicks, :mutes, :reports) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name, bans=:bans, kicks=:kicks, mutes=:mutes, reports=:reports;
 -- #   }
--- #}
+-- # }
 
--- #{ leaderboard
+-- # { leaderboard
 -- #   { kills
 SELECT * FROM data_user ORDER BY kills DESC LIMIT 10;
 -- #   }
@@ -72,6 +72,6 @@ SELECT * FROM data_user ORDER BY deaths DESC LIMIT 10;
 -- #   { wins
 SELECT * FROM data_user ORDER BY wins DESC LIMIT 10;
 -- #   }
--- #}
+-- # }
 
 -- # }
