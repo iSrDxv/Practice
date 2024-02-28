@@ -267,9 +267,9 @@ class Session
     	return $this->clientData;
     }
     
-    function getScoreboardHandler(): ScoreboardHandler
+    function getScoreboardHandler(): ?ScoreboardHandler
     {
-      return $this->scoreboardHandler;
+      return $this->scoreboardHandler ?? null;
     }
     
     function getStaffData(): ?StaffData
