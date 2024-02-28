@@ -1,4 +1,4 @@
--- #! mysql
+-- #!mysql
 -- #{ practice
 
 -- # { init.user
