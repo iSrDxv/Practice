@@ -119,10 +119,10 @@ class PracticeListener implements Listener
     $player->sendMessage(TextFormat::GRAY . "NOW Loading your data & cosmetics...");
     $seasonInfo = [
       Practice::SERVER_COLOR . TextFormat::BOLD . "Practice " . TextFormat::RESET . "- " . TextFormat::WHITE . "Season " . Practice::SERVER_COLOR . Practice::SEASON,
-      TextFormat::DARK_GRAY . " " . TextFormat::EOL,
+      TextFormat::DARK_GRAY . " " . TextFormat::EOL,
       TextFormat::GRAY . TextFormat::BOLD . "» Season started on " . TextFormat::AQUA . date("F/m Y", PracticeLoader::getInstance()->getSeasonStart()->getTimestamp()),
       TextFormat::GRAY . TextFormat::BOLD . "» Season ends on " . TextFormat::RED . date("F/m Y", PracticeLoader::getInstance()->getSeasonEnd()->getTimestamp()),
-      TextFormat::WHITE . " " . TextFormat::EOL
+      TextFormat::WHITE . " " . TextFormat::EOL
     ];
     $player->sendMessage(implode("\n", $seasonInfo));
     $information = [
@@ -148,7 +148,7 @@ class PracticeListener implements Listener
         return;
     }
     $xuid = $player->getXuid() !== null ? $player->getXuid() : null;
-    $database->executeImplRaw([0 => "SELECT * FROM data_user,settings WHERE data_user.xuid = $xuid AND settings.xuid = $xuid"], [0 => []], [0 => SqlThread::MODE_SELECT], function(array $rows) use($player, $session, $xuid): void {
+    $database->executeImplRaw([0 => "SELECT * FROM user,settings WHERE user.xuid = $xuid AND settings.xuid = $xuid"], [0 => []], [0 => SqlThread::MODE_SELECT], function(array $rows) use($player, $session, $xuid): void {
     	if (isset($rows[0], $rows[0]->getRows()[0]) && $xuid !== null) {
     	   $session->load($rows[0]->getRows()[0]);
         } else {
