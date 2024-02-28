@@ -108,7 +108,7 @@ class PracticeLoader extends PluginBase
         $this->getServer()->getConfigGroup()->save();
         
         //TASKS
-        $this->addRepeatTask(new BroadcastTask(), Time::minutesToTicks(8));
+        $this->addRepeatTask(new BroadcastTask(), Time::minutesToTicks(10));
         
         //EVENTS
         $this->getServer()->getPluginManager()->registerEvents(new PracticeListener(), $this);
