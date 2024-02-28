@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS staff_stats(xuid VARCHAR(23) NOT NULL UNIQUE PRIMARY 
 -- #     :address string
 -- #     :device string
 -- #     :control string
-INSERT INTO user(xuid, name, custom_name, rank, language, coin, elo, firstplayed, lastplayed, kills, wins, deaths, address, device, control) VALUES (:xuid, :name, :custom_name, :rank, :language, :coin, :elo, :firstplayed, :lastplayed, :kills, :wins, :deaths, :address, :device, :control) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name;
+INSERT INTO user(xuid, name, custom_name, rank, language, coin, elo, firstplayed, lastplayed, kills, wins, deaths, address, device, control) VALUES (:xuid, :name, :custom_name, :rank, :language, :coin, :elo, :firstplayed, :lastplayed, :kills, :wins, :deaths, :address, :device, :control) ON DUPLICATE KEY UPDATE xuid=VALUES(xuid);
 -- #   }
 -- #   { settings
 -- #     :xuid string
@@ -42,14 +42,14 @@ INSERT INTO user(xuid, name, custom_name, rank, language, coin, elo, firstplayed
 -- #     :queue bool
 -- #     :cps bool
 -- #     :auto_join bool
-INSERT INTO settings(xuid, scoreboard, queue, cps, auto_join) VALUES (:xuid, :scoreboard, :queue, :cps, :auto_join) ON DUPLICATE KEY UPDATE xuid=:xuid;
+INSERT INTO settings(xuid, scoreboard, queue, cps, auto_join) VALUES (:xuid, :scoreboard, :queue, :cps, :auto_join) ON DUPLICATE KEY UPDATE xuid=VALUES(xuid);
 -- #   }
 -- #   { staff.ban
 -- #     :name string
 -- #     :reason string
 -- #     :duration string
 -- #     :staff_name string
-INSERT INTO bans(name, reason, duration, staff_name) VALUES (:name, :reason, :duration, :staff_name) ON DUPLICATE KEY UPDATE name=:name;
+INSERT INTO bans(name, reason, duration, staff_name) VALUES (:name, :reason, :duration, :staff_name) ON DUPLICATE KEY UPDATE name=VALUES(name);
 -- #   }
 -- #   { staff.stats
 -- #     :xuid string
@@ -58,7 +58,7 @@ INSERT INTO bans(name, reason, duration, staff_name) VALUES (:name, :reason, :du
 -- #     :kicks int
 -- #     :mutes int
 -- #     :reports int
-INSERT INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid :name, :bans, :kicks, :mutes, :reports) ON DUPLICATE KEY UPDATE xuid=:xuid, name=:name, bans=:bans, kicks=:kicks, mutes=:mutes, reports=:reports;
+INSERT INTO staff_stats(xuid, name,  bans, kicks, mutes, reports) VALUES (:xuid :name, :bans, :kicks, :mutes, :reports) ON DUPLICATE KEY UPDATE xuid=VALUES(xuid), name=VALUES(name), bans=VALUES(bans), kicks=VALUES(kicks), mutes=VALUES(mutes), reports=VALUES(reports);
 -- #   }
 -- # }
 
