@@ -187,9 +187,12 @@ class PracticeListener implements Listener
   function onRespawn(PlayerRespawnEvent $event): void
   {
     $player = $event->getPlayer();
-    $event->setRespawnPosition(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
-    $player->setGamemode(GameMode::ADVENTURE());
-    ItemManager::spawnLobbyItems($player);
+    $session = SessionManager::getInstance()->get($player);
+    if ($session->isInLobby()) {
+      $event->setRespawnPosition(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
+      $player->setGamemode(GameMode::ADVENTURE());
+      ItemManager::spawnLobbyItems($player);
+    }
   }
   
   function onQuit(PlayerQuitEvent $event): void
@@ -200,7 +203,6 @@ class PracticeListener implements Listener
       $session->getScoreboardHandler()->setScoreboard(null);
     }
     $session->save();
-    
     SessionManager::getInstance()->delete($player);
     
     $event->setQuitMessage(TextFormat::colorize("&0[&c-&0] &c" . $player->getName()));

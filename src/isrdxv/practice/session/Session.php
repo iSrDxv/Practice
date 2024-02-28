@@ -102,7 +102,7 @@ class Session
 
     function isInLobby(): bool
     {
-        return $this->getPlayer()?->getWorld() === Server::getInstance()->getWorldManager()->getDefaultWorld();
+      return $this->getPlayer()?->getWorld() === Server::getInstance()->getWorldManager()->getDefaultWorld();
     }
     
     function clear(): void
@@ -115,7 +115,7 @@ class Session
       $player?->setGamemode(GameMode::ADVENTURE());
       $player?->setHealth($player->getMaxHealth());
       $player?->setFlying(false);
-      $player->setAllowFlight(false);
+      $player?->setAllowFlight(false);
       $player?->getEffects()->clear();
     }
 
