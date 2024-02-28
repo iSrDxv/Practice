@@ -219,7 +219,7 @@ class Session
       $defaultWorld->loadChunk($defaultWorld->getSpawnLocation()->getX(), $defaultWorld->getSpawnLocation()->getZ());
       $player->teleport($defaultWorld->getSpawnLocation());
       $this->scoreboardHandler = new ScoreboardHandler($player);
-      $this->scoreboardHandler->setScoreboard(ScoreboardHandler::TYPE_LOBBY);
+      $this->scoreboardHandler?->setScoreboard(ScoreboardHandler::TYPE_LOBBY);
       $player->setGamemode(GameMode::ADVENTURE());
       $player->sendMessage(Practice::SERVER_PREFIX . TextFormat::GREEN . "Your account details uploaded correctly!!");
       $player->setScoreTag(TextFormat::WHITE . $device . TextFormat::DARK_GRAY . " | " . Practice::SERVER_COLOR . $control);

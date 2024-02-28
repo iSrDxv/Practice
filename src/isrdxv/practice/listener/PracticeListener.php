@@ -108,7 +108,7 @@ class PracticeListener implements Listener
       $event->clearKickFlag(PlayerPreLoginEvent::KICK_FLAG_SERVER_FULL);
     }
     $serverPro = new Config(Server::getInstance()->getDataPath() . "server.properties", Config::PROPERTIES);
-    $players = $serverPro->getNested("max-players");
+    $players = $serverPro->getNested("max-players") + 1;
     $serverPro->setNested("max-players", $players);
     $serverPro->save();
   }
