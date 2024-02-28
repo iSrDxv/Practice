@@ -100,7 +100,9 @@ class PracticeLoader extends PluginBase
         $this->seasonStart = DateTime::createFromFormat("Y-m-d", $this->getConfig()->get("season-start"), new DateTimeZone("America/Mexico_City"));
         $this->seasonEnd = DateTime::createFromFormat("Y-m-d", $this->getConfig()->get("season-end"), new DateTimeZone("America/Mexico_City"));
         var_dump(DateTime::getLastErrors());
-        
+        var_dump($this->seasonStart);
+        var_dump($this->seasonEnd);
+
         $this->getServer()->getConfigGroup()->setConfigInt("max-players", Practice::SERVER_MAX_PLAYERS);
         $this->getServer()->getConfigGroup()->setConfigInt("view-distance", 16);
         $this->getServer()->getConfigGroup()->setConfigInt("difficulty", World::DIFFICULTY_PEACEFUL);
