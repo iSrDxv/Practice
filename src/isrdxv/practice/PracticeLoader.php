@@ -97,8 +97,8 @@ class PracticeLoader extends PluginBase
         new DuelHandler();
 
         //SERVER
-        $this->seasonStart = DateTime::createFromFormat("Y-m-d H:i:s", (string)$this->getConfig()->get("season-start"), new DateTimeZone("America/Mexico_City"));
-        $this->seasonEnd = DateTime::createFromFormat("Y-m-d H:i:s", (string)$this->getConfig()->get("season-end"), new DateTimeZone("America/Mexico_City"));
+        $this->seasonStart = DateTime::createFromFormat("Y-m-d H:i:s", $this->getConfig()->get("season-start"), new DateTimeZone("America/Mexico_City"));
+        $this->seasonEnd = DateTime::createFromFormat("Y-m-d H:i:s", $this->getConfig()->get("season-end"), new DateTimeZone("America/Mexico_City"));
         var_dump(DateTime::getLastErrors());
         
         $this->getServer()->getConfigGroup()->setConfigInt("max-players", Practice::SERVER_MAX_PLAYERS);
