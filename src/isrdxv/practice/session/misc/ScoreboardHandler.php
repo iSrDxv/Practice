@@ -83,7 +83,7 @@ class ScoreboardHandler
       }
       $this->scoreboard?->spawn();
       $this->scoreboard?->setLine($line++, $this->line);
-      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Rank: " . (SessionRank::getInstance()->get($session?->getPlayer()))?->getHighestRank()->getName());
+      $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Rank: " . TextFormat::WHITE . (SessionRank::getInstance()->get($session?->getPlayer()))?->getHighestRank()->getName());
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | Online: " . TextFormat::WHITE . count(SessionManager::getInstance()->all()));
       $this->scoreboard?->setLine($line++, "");
       $this->scoreboard?->setLine($line++, Practice::SERVER_COLOR . " | K: " . TextFormat::WHITE . $session->getKills() . Practice::SERVER_COLOR . "  D: " . TextFormat::WHITE . $session->getDeaths());
