@@ -88,7 +88,7 @@ class StaffData
     */
   function save($database, string $xuid, string $name): void
   {
-    $database->executeInsert("practice.staff.stats", ["xuid" => $xuid, "name" => $name, "bans" => $this->bans, "kicks" => $this->kicks, "mutes" => $this->mutes, "reports" => $this->reports]);
+    $database->executeInsert("practice.insert.staff.stats", ["xuid" => $xuid, "name" => $name, "bans" => $this->bans, "kicks" => $this->kicks, "mutes" => $this->mutes, "reports" => $this->reports]);
   }
   
 }
