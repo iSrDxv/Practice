@@ -49,9 +49,9 @@ class PracticeLoader extends PluginBase
 
     private $database;
     
-    private \DateTime $seasonStart;
+    private DateTime $seasonStart;
 
-    private \DateTime $seasonEnd;
+    private DateTime $seasonEnd;
 
     function onLoad(): void
     {
