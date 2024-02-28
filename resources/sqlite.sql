@@ -1,4 +1,4 @@
--- #! sqlite
+-- #!sqlite
 -- #{ practice
 
 -- # { init.user
