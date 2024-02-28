@@ -11,7 +11,7 @@ use isrdxv\practice\command\{
     ArenaCommand,
     DuelCommand,
     KitCommand,
-  	MaintenanceCommand
+    MaintenanceCommand
 };
 use isrdxv\practice\task\BroadcastTask;
 use isrdxv\practice\utils\Time;
@@ -39,6 +39,9 @@ use CortexPE\Commando\PacketHooker;
 use isrdxv\practice\handler\DuelHandler;
 use isrdxv\practice\handler\QueueHandler;
 use isrdxv\practice\listener\DuelListener;
+
+use DateTime;
+use DateTimeZone;
 
 class PracticeLoader extends PluginBase
 {
@@ -94,8 +97,8 @@ class PracticeLoader extends PluginBase
         new DuelHandler();
 
         //SERVER
-        $this->seasonStart = \DateTime::createFromFormat("Y-m-d H:i:s", (string)$this->getConfig()->get("season-start"), new \DateTimeZone("America/Mexico_City"));
-        $this->seasonEnd = \DateTime::createFromFormat("Y-m-d H:i:s", (string)$this->getConfig()->get("season-end"), new \DateTimeZone("America/Mexico_City"));
+        $this->seasonStart = DateTime::createFromFormat("Y-m-d H:i:s", (string)$this->getConfig()->get("season-start"), new DateTimeZone("America/Mexico_City"));
+        $this->seasonEnd = DateTime::createFromFormat("Y-m-d H:i:s", (string)$this->getConfig()->get("season-end"), new DateTimeZone("America/Mexico_City"));
 
         $this->getServer()->getConfigGroup()->setConfigInt("max-players", Practice::SERVER_MAX_PLAYERS);
         $this->getServer()->getConfigGroup()->setConfigInt("view-distance", 16);
