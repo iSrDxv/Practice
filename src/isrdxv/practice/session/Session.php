@@ -57,7 +57,7 @@ class Session
     
     private ClientDataInfo $clientData;
     
-    private ScoreboardHandler $scoreboardHandler;
+    private ?ScoreboardHandler $scoreboardHandler;
     
     private ?StaffData $staffData;
     

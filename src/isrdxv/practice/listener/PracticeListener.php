@@ -196,7 +196,9 @@ class PracticeListener implements Listener
   {
     $player = $event->getPlayer();
     $session = SessionManager::getInstance()->get($player);
-    $session->getScoreboardHandler()->setScoreboard(null);
+    if ($session->getScoreboardHandler() !== null) {
+      $session->getScoreboardHandler()->setScoreboard(null);
+    }
     $session->save();
     
     SessionManager::getInstance()->delete($player);
