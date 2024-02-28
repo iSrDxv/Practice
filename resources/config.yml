@@ -1,7 +1,7 @@
 # Season System
 # Format Time: Y-m-d H:i:s
-season-start: "2024-02-21 01:22:59"
-season-end: "2024-02-22 14:22:59"
+season-start: "2024-02-21 18:22:06"
+season-end: "2024-02-22 20:22:06"
 
 # Set maintenance mode
 maintenance: false
@@ -18,7 +18,7 @@ database:
     file: sqlite.db
   # Edit these settings only if you choose "mysql".
   mysql:
-    host: 192.168.2.2
+    host: localhost
     # Avoid using the "root" user for security reasons.
     username: root
     password: root
