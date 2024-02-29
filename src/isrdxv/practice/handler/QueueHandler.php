@@ -58,8 +58,9 @@ final class QueueHandler
     $queue = new UserQueued($name, $kit, $ranked);
     $this->queues[$name] = $queue;
     var_dump($this->queues[$name]);
-    (SessionManager::getInstance()->get($player))->setQueue($queue);
-    if (($opponent = $this->findOpponent($this->queues[$name])) !== null) {
+    $session = SessionManager::getInstance()->get($player);
+    $session->setQueue($queue);
+    if (($opponent = $this->findOpponent($this->queues[$name])) !== null && $queue != $opponent) {
       $this->remove($name);
       $this->remove($opponentName = $opponent->getName());
       DuelHandler::getInstance()->putInDuel($player, Server::getInstance()->getPlayerExact($opponentName), $kit, $ranked);
