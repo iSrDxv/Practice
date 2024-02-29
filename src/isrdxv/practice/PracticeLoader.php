@@ -128,8 +128,7 @@ class PracticeLoader extends PluginBase
           $this->database->close();
           $this->getLogger()->warning("[Database] has been closed");
         }
-        foreach(SessionManager::getInstance()->all() as $session) {
-          unset($session);
+        SessionManager::getInstance()->all() = [];
         }
     }
 
