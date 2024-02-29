@@ -79,8 +79,7 @@ final class KitManager
 		foreach($this->kits as $kit) {
 			if ($kit->getDataInfo()->type === Arena::TYPE_DUEL) {
 				$data[strtolower($kit->getName())] = $kit;
-			}
-			if ($kit->getDataInfo()->type === Arena::TYPE_FFA) {
+			}elseif ($kit->getDataInfo()->type === Arena::TYPE_FFA) {
 				$data[strtolower($kit->getName())] = $kit;
 			}
 		}
