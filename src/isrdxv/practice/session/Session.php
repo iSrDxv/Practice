@@ -159,7 +159,7 @@ class Session
     
     function init($database, string $rank): void
     {
-    	$player = $this->getPlayer();
+      $player = $this->getPlayer();
       $xuid = $player->getXuid();
       var_dump($xuid);
       $session = $this;
@@ -167,7 +167,7 @@ class Session
       $address = $player->getNetworkSession()->getIp() ?? "127.0.0.1";
       $this->clientData = new ClientDataInfo($this->getPlayer()?->getPlayerInfo()->getExtraData());
       if (in_array($rank, Practice::ADMINISTRATIVE_RANKS, true)) {
-        $database->executeInsert("practice.insert.staff.stats", ["xuid" => $xuid, "name" => (string)$player->getName(), "bans" => 0, "kicks" => 0, "mutes" => 0, "reports" => 0]);
+        $database->executeInsert("practice.insert.staff.stats", ["xuid" => $xuid, "name" => $player->getName(), "bans" => 0, "kicks" => 0, "mutes" => 0, "reports" => 0]);
       }
     	$database->executeInsert("practice.insert.data", ["xuid" => $xuid, "name" => $player->getName(), "custom_name" => "null", "rank" => $rank, "language" => "en_US", "coin" => 200, "elo" => 1000, "firstplayed" => $time->format("Y-m-d H:i"), "lastplayed" => $time->format("Y-m-d H:i"), "kills" => 0, "wins" => 0, "deaths" => 0, "address" => $address, "device" => $this->clientData->getDevice(), "control" => $this->clientData->getTouch()]);
         $database->executeInsert("practice.insert.settings", ["xuid" => $xuid, "scoreboard" => true, "queue" => true, "cps" => false, "auto_join" => false]);
