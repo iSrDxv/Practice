@@ -11,7 +11,7 @@ projects:
       - src: ExodusDevs/WorldBackupLib/WorldBackupLib
         version: ^2.0.0
       - src: ExodusDevs/Scoreboard/Scoreboard
-        version: ^1.0.0
+        version: ^1.0.1
       - src: ExodusDevs/TranslationAPI/Translation
         branch: master
         version: ^1.0.8
